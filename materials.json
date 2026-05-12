@@ -1,0 +1,216 @@
+[
+  {
+    "id": "basic",
+    "label": "Basic Materials",
+    "nav": "基本教材",
+    "items": [
+      {
+        "title": "5/12",
+        "badge": "new",
+        "description": "存在領域・接線と中点の教材。",
+        "links": [
+          {
+            "label": "存在領域 問題",
+            "href": "./pdf/sonzai_ryouiki_problem.pdf"
+          },
+          {
+            "label": "存在領域 解答",
+            "href": "./pdf/sonzai_ryouiki_answer.pdf"
+          },
+          {
+            "label": "接線・中点・面積",
+            "href": "./pdf/tangent_midpoint_area.pdf"
+          },
+          {
+            "label": "接線・中点",
+            "href": "./pdf/tangent_mid.pdf"
+          }
+        ]
+      },
+      {
+        "title": "4/10",
+        "badge": "basic",
+        "description": "基本プリント一式。",
+        "links": [
+          {
+            "label": "sinPDF",
+            "href": "./pdf/sin.pdf"
+          },
+          {
+            "label": "132PDF",
+            "href": "./pdf/132.pdf"
+          },
+          {
+            "label": "146PDF",
+            "href": "./pdf/146.pdf"
+          }
+        ]
+      },
+      {
+        "title": "単語帳",
+        "badge": "words",
+        "description": "単語帳と練習帳。",
+        "links": [
+          {
+            "label": "単語帳PDF",
+            "href": "./pdf/minimal_phrases.pdf"
+          },
+          {
+            "label": "練習帳PDF",
+            "href": "./pdf/phrases_table.pdf"
+          }
+        ]
+      },
+      {
+        "title": "成績表",
+        "badge": "record",
+        "description": "成績確認用PDF。",
+        "links": [
+          {
+            "label": "成績表PDF",
+            "href": "./pdf/hyou.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock",
+    "label": "Mock Exams",
+    "nav": "模試",
+    "items": [
+      {
+        "title": "模試",
+        "badge": "mock",
+        "description": "模試教材。",
+        "links": [
+          {
+            "label": "模試PDF",
+            "href": "./pdf/mosi_2.pdf"
+          }
+        ]
+      },
+      {
+        "title": "模試",
+        "badge": "mock",
+        "description": "追加の模試教材。",
+        "links": [
+          {
+            "label": "模試PDF",
+            "href": "./pdf/mosi_3.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "check",
+    "label": "Check Sheets",
+    "nav": "確認教材",
+    "items": [
+      {
+        "title": "組み分け",
+        "badge": "check",
+        "description": "組み分け確認プリント。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/combination_check.pdf"
+          }
+        ]
+      },
+      {
+        "title": "正四面体",
+        "badge": "geometry",
+        "description": "空間図形チェック。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/tetra_check.pdf"
+          }
+        ]
+      },
+      {
+        "title": "最大最小",
+        "badge": "function",
+        "description": "最大最小の確認問題。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/minmax_check.pdf"
+          }
+        ]
+      },
+      {
+        "title": "数列",
+        "badge": "sequence",
+        "description": "数列・漸化式のチェック。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/recurrence_check.pdf"
+          }
+        ]
+      },
+      {
+        "title": "対数",
+        "badge": "quiz",
+        "description": "対数のクイズ教材。",
+        "links": [
+          {
+            "label": "クイズPDF",
+            "href": "./pdf/log_quiz.pdf"
+          }
+        ]
+      },
+      {
+        "title": "微分",
+        "badge": "calculus",
+        "description": "微分計算のチェック。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/differentiation_check.pdf"
+          }
+        ]
+      },
+      {
+        "title": "接線",
+        "badge": "tangent",
+        "description": "接線問題と計算練習。",
+        "links": [
+          {
+            "label": "チェックPDF",
+            "href": "./pdf/tangent_line_check.pdf"
+          },
+          {
+            "label": "計算PDF",
+            "href": "./pdf/6tan_calc.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "advanced",
+    "label": "Advanced",
+    "nav": "発展",
+    "items": [
+      {
+        "title": "発展",
+        "badge": "advanced",
+        "description": "発展問題セット。",
+        "links": [
+          {
+            "label": "6tanPDF",
+            "href": "./pdf/6tan.pdf"
+          },
+          {
+            "label": "6tan2PDF",
+            "href": "./pdf/6tan2.pdf"
+          }
+        ]
+      }
+    ]
+  }
+]
