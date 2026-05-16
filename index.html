@@ -229,6 +229,10 @@ h1{
   text-transform:uppercase;
 }
 
+.stat .ok{
+  color:var(--green);
+}
+
 .nav{
   display:flex;
   flex-wrap:wrap;
@@ -402,6 +406,31 @@ h1{
   font-size:13px;
 }
 
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:9px;
+  font-family:
+    "Helvetica Neue",
+    Arial,
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:21px;
+  padding:2px 8px;
+  border:1px solid rgba(118,209,255,.20);
+  background:rgba(118,209,255,.075);
+  color:#caefff;
+  font-size:10px;
+  letter-spacing:.05em;
+}
+
 .badge{
   display:inline-flex;
   align-items:center;
@@ -456,6 +485,25 @@ h1{
   border-color:rgba(118,209,255,.70);
   background:rgba(118,209,255,.12);
   color:#fff2ca;
+}
+
+.links a[aria-disabled="true"]{
+  border-color:rgba(255,255,255,.12);
+  background:rgba(255,255,255,.035);
+  color:var(--faint);
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+.link-status{
+  margin-left:7px;
+  color:var(--green);
+  font-size:10px;
+  letter-spacing:.08em;
+}
+
+.links a[aria-disabled="true"] .link-status{
+  color:var(--faint);
 }
 
 .empty{
@@ -588,9 +636,9 @@ h1{
       </p>
 
       <div class="stats" aria-label="保管庫の概要">
-        <div class="stat"><strong id="stat-sections">0</strong><span>Sections</span></div>
-        <div class="stat"><strong id="stat-items">0</strong><span>Materials</span></div>
-        <div class="stat"><strong id="stat-links">0</strong><span>PDF Links</span></div>
+        <div class="stat"><strong id="stat-sections">0</strong><span>カテゴリ</span></div>
+        <div class="stat"><strong id="stat-items">0</strong><span>教材</span></div>
+        <div class="stat"><strong id="stat-links">0</strong><span>PDF</span></div>
       </div>
 
       <div class="meta">
@@ -603,7 +651,7 @@ h1{
 
   <div class="tools" role="search">
     <input class="search" id="search" type="search" placeholder="教材名・説明・カテゴリを検索" autocomplete="off">
-    <div class="result-count" id="result-count">Loading archive</div>
+    <div class="result-count" id="result-count">読み込み中</div>
   </div>
 
   <main id="archive"></main>
@@ -616,7 +664,7 @@ h1{
 
 </div>
 
-<script type="application/json" id="materials-fallback">[{"id":"basic","label":"Basic Materials","nav":"基本教材","items":[{"title":"5/12","badge":"new","description":"存在領域・接線と中点の教材。","links":[{"label":"存在領域 問題","href":"./pdf/sonzai_ryouiki_problem.pdf"},{"label":"存在領域 解答","href":"./pdf/sonzai_ryouiki_answer.pdf"},{"label":"接線・中点・面積","href":"./pdf/tangent_midpoint_area.pdf"},{"label":"接線・中点","href":"./pdf/tangent_mid.pdf"}]},{"title":"4/10","badge":"basic","description":"基本プリント一式。","links":[{"label":"sinPDF","href":"./pdf/sin.pdf"},{"label":"allPDF","href":"./pdf/all.pdf"},{"label":"rikkei_allPDF","href":"./pdf/rikkei_all.pdf"}]},{"title":"単語帳","badge":"words","description":"単語帳と練習帳。","links":[{"label":"単語帳PDF","href":"./pdf/minimal_phrases.pdf"},{"label":"練習帳PDF","href":"./pdf/phrases_table.pdf"}]},{"title":"成績表","badge":"record","description":"成績確認用PDF。","links":[{"label":"成績表PDF","href":"./pdf/hyou.pdf"}]}]},{"id":"mock","label":"Mock Exams","nav":"模試","items":[{"title":"模試","badge":"mock","description":"模試教材。","links":[{"label":"模試PDF","href":"./pdf/mosi_2.pdf"}]},{"title":"模試","badge":"mock","description":"追加の模試教材。","links":[{"label":"模試PDF","href":"./pdf/mosi_3.pdf"}]}]},{"id":"check","label":"Check Sheets","nav":"確認教材","items":[{"title":"組み分け","badge":"check","description":"組み分け確認プリント。","links":[{"label":"チェックPDF","href":"./pdf/combination_check.pdf"}]},{"title":"正四面体","badge":"geometry","description":"空間図形チェック。","links":[{"label":"チェックPDF","href":"./pdf/tetra_check.pdf"}]},{"title":"最大最小","badge":"function","description":"最大最小の確認問題。","links":[{"label":"チェックPDF","href":"./pdf/minmax_check.pdf"}]},{"title":"数列","badge":"sequence","description":"数列・漸化式のチェック。","links":[{"label":"チェックPDF","href":"./pdf/recurrence_check.pdf"}]},{"title":"対数","badge":"quiz","description":"対数のクイズ教材。","links":[{"label":"クイズPDF","href":"./pdf/log_quiz.pdf"}]},{"title":"微分","badge":"calculus","description":"微分計算のチェック。","links":[{"label":"チェックPDF","href":"./pdf/differentiation_check.pdf"}]},{"title":"接線","badge":"tangent","description":"接線問題と計算練習。","links":[{"label":"チェックPDF","href":"./pdf/tangent_line_check.pdf"},{"label":"計算PDF","href":"./pdf/6tan_calc.pdf"}]}]},{"id":"advanced","label":"Advanced","nav":"発展","items":[{"title":"発展","badge":"advanced","description":"発展問題セット。","links":[{"label":"6tanPDF","href":"./pdf/6tan.pdf"},{"label":"6tan2PDF","href":"./pdf/6tan2.pdf"}]}]}]</script>
+<script type="application/json" id="materials-fallback">[{"id":"basic","label":"基本教材","nav":"基本","items":[{"title":"存在領域・接線","badge":"5/12","description":"存在領域と3次関数の接線，中点，面積をまとめた教材。","tags":["存在領域","接線","中点","面積"],"links":[{"label":"存在領域 問題","href":"./pdf/sonzai_ryouiki_problem.pdf","available":true},{"label":"存在領域 解答","href":"./pdf/sonzai_ryouiki_answer.pdf","available":true},{"label":"接線・中点 生徒用","href":"./pdf/cubic_tangent_midpoint_student.pdf","available":true},{"label":"接線・中点・面積 解答","href":"./pdf/cubic_tangent_midpoint_area_answer.pdf","available":true},{"label":"接線チェック","href":"./pdf/tangent_line_check.pdf","available":true}]},{"title":"三角関数・文理別まとめ","badge":"4/10","description":"三角関数，素数列，文系・理系まとめ。","tags":["三角関数","素数列","文系まとめ","理系まとめ"],"links":[{"label":"三角関数・素数列チェック","href":"./pdf/trigonometry_prime_sequence_check.pdf","available":true},{"label":"文系まとめ","href":"./pdf/all.pdf","available":true},{"label":"理系まとめ","href":"./pdf/rikkei_all.pdf","available":true}]},{"title":"基本事項レビュー","badge":"復習","description":"絶対値，反復試行，平行移動，方程式の用語を確認する教材。","tags":["復習","絶対値","反復試行","平行移動"],"links":[{"label":"基本事項レビュー","href":"./pdf/basic_review_2025_11.pdf","available":true}]},{"title":"成績・テンプレート","badge":"管理","description":"成績表と教材作成用の最小サンプル。","tags":["成績","テンプレート"],"links":[{"label":"成績表","href":"./pdf/hyou.pdf","available":true},{"label":"教材テンプレートサンプル","href":"./pdf/worksheet_preset_sample.pdf","available":true}]}]},{"id":"english","label":"英語語彙","nav":"英語","items":[{"title":"英語フレーズ","badge":"表現","description":"日本語から英語表現を書く練習版と，答え入り版。","tags":["英語","フレーズ","練習","解答"],"links":[{"label":"英語フレーズ 練習","href":"./pdf/english_phrases_write.pdf","available":true},{"label":"英語フレーズ 解答","href":"./pdf/english_phrases_answer.pdf","available":true}]},{"title":"ジャンル語彙","badge":"語彙","description":"ジャンル別語彙の練習版，答え入り版，元PDF。","tags":["英語","語彙","ジャンル","練習"],"links":[{"label":"ジャンル語彙 練習","href":"./pdf/genre_vocabulary_write.pdf","available":true},{"label":"ジャンル語彙 解答","href":"./pdf/genre_vocabulary_answer.pdf","available":true},{"label":"ジャンル語彙 元PDF","href":"./pdf/genre_vocabulary_source.pdf","available":true}]}]},{"id":"check","label":"確認プリント","nav":"確認","items":[{"title":"計算・関数チェック","badge":"確認","description":"組み分け，微分・数列，対数，最大最小，漸化式の確認教材。","tags":["場合の数","微分","数列","対数","最大最小"],"links":[{"label":"組み分けチェック","href":"./pdf/combinations_check.pdf","available":true},{"label":"微分・数列チェック","href":"./pdf/differentiation_sequences_check.pdf","available":true},{"label":"対数法則クイズ","href":"./pdf/logarithm_laws_quiz.pdf","available":true},{"label":"最大・最小チェック","href":"./pdf/max_min_check.pdf","available":true},{"label":"数列チェック","href":"./pdf/recurrence_check.pdf","available":true}]},{"title":"図形チェック","badge":"幾何","description":"円と台形，正四面体，三角関数の確認教材。","tags":["図形","円","台形","正四面体","三角関数"],"links":[{"label":"円と台形の対称性","href":"./pdf/circle_trapezoid_geometry.pdf","available":true},{"label":"正四面体チェック","href":"./pdf/regular_tetrahedron_check.pdf","available":true},{"label":"三角関数・素数列チェック","href":"./pdf/trigonometry_prime_sequence_check.pdf","available":true}]}]},{"id":"mock","label":"模試","nav":"模試","items":[{"title":"2025年11月 A","badge":"模試","description":"2025年11月Aセットの問題と解答。","tags":["模試","2025-11","A"],"links":[{"label":"問題","href":"./pdf/mock_exam_2025_11_a_questions.pdf","available":true},{"label":"解答","href":"./pdf/mock_exam_2025_11_a_answers.pdf","available":true}]},{"title":"2025年11月 B","badge":"模試","description":"2025年11月Bセットの問題と解答。","tags":["模試","2025-11","B"],"links":[{"label":"問題","href":"./pdf/mock_exam_2025_11_b_questions.pdf","available":true},{"label":"解答","href":"./pdf/mock_exam_2025_11_b_answers.pdf","available":true}]},{"title":"2026年1月 B","badge":"模試","description":"2026年1月Bセットの解答付き構成。","tags":["模試","2026-01","B","解答"],"links":[{"label":"問題＋解答","href":"./pdf/mock_exam_2026_01_b_worked.pdf","available":true},{"label":"解答のみ","href":"./pdf/mock_exam_2026_01_b_answers.pdf","available":true}]}]},{"id":"advanced","label":"発展教材","nav":"発展","items":[{"title":"共通接線・6tan","badge":"接線","description":"三次関数の共通接線と6tan関連の発展教材。","tags":["共通接線","3次関数","6tan","発展"],"links":[{"label":"共通接線から正七角形へ","href":"./pdf/common_tangents_heptagon.pdf","available":true},{"label":"三次関数の共通接線 計算","href":"./pdf/cubic_common_tangent_calculation.pdf","available":true},{"label":"6tan","href":"./pdf/6tan.pdf","available":true},{"label":"6tan 2","href":"./pdf/6tan2.pdf","available":true},{"label":"6tan 計算","href":"./pdf/6tan_calc.pdf","available":true}]},{"title":"不等式・正射影","badge":"発展","description":"コーシー・シュワルツと正射影の流れを確認する教材。","tags":["コーシー","正射影","不等式","ベクトル"],"links":[{"label":"コーシー・シュワルツと正射影","href":"./pdf/cauchy_schwarz_projection_check.pdf","available":true}]}]},{"id":"special","label":"特殊関数","nav":"特殊関数","items":[{"title":"ガンマ関数と階乗","badge":"Gamma","description":"階乗からガンマ関数へ進む教材。","tags":["ガンマ関数","階乗","特殊関数"],"links":[{"label":"白黒 生徒用","href":"./pdf/01-gamma-factorial-mono-student.pdf","available":true},{"label":"白黒 講師用","href":"./pdf/01-gamma-factorial-mono-teacher.pdf","available":true},{"label":"カラー 生徒用","href":"./pdf/01-gamma-factorial-color-student.pdf","available":true},{"label":"カラー 講師用","href":"./pdf/01-gamma-factorial-color-teacher.pdf","available":true}]},{"title":"ガンマ関数の有名値","badge":"Gamma","description":"有名値と半整数の計算を確認する教材。","tags":["ガンマ関数","有名値","半整数"],"links":[{"label":"白黒 生徒用","href":"./pdf/02-gamma-famous-values-mono-student.pdf","available":true},{"label":"白黒 講師用","href":"./pdf/02-gamma-famous-values-mono-teacher.pdf","available":true},{"label":"カラー 生徒用","href":"./pdf/02-gamma-famous-values-color-student.pdf","available":true},{"label":"カラー 講師用","href":"./pdf/02-gamma-famous-values-color-teacher.pdf","available":true}]},{"title":"ベータ関数と組合せ","badge":"Beta","description":"ベータ関数，積分，階乗，組合せをつなぐ教材。","tags":["ベータ関数","組合せ","積分"],"links":[{"label":"白黒 生徒用","href":"./pdf/03-beta-combination-mono-student.pdf","available":true},{"label":"白黒 講師用","href":"./pdf/03-beta-combination-mono-teacher.pdf","available":true},{"label":"カラー 生徒用","href":"./pdf/03-beta-combination-color-student.pdf","available":true},{"label":"カラー 講師用","href":"./pdf/03-beta-combination-color-teacher.pdf","available":true}]}]},{"id":"recovered","label":"復元教材","nav":"復元","items":[{"title":"積分・計算練習","badge":"復元","description":"PDFから起こした積分と計算ミス対策の教材。","tags":["復元","積分","計算練習"],"links":[{"label":"発展積分プリント","href":"./pdf/advanced_integral_practice.pdf","available":true},{"label":"不定積分プリント","href":"./pdf/indefinite_integral_practice.pdf","available":true},{"label":"計算ミス対策","href":"./pdf/calculation_mistake_practice.pdf","available":true}]},{"title":"復元・接線教材","badge":"復元","description":"復元した3次関数の接線，中点，面積の教材。","tags":["復元","接線","中点","面積"],"links":[{"label":"復元 接線・中点・面積","href":"./pdf/recovered_cubic_tangent_midpoint_area.pdf","available":true}]}]}]</script>
 <script>
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
   "&": "&amp;",
@@ -628,8 +676,20 @@ const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
 
 const createLink = (link) => {
   const a = document.createElement("a");
-  a.href = link.href;
-  a.textContent = link.label;
+  const available = link.available !== false;
+  a.href = available ? link.href : "#";
+  a.append(document.createTextNode(link.label));
+
+  const status = document.createElement("span");
+  status.className = "link-status";
+  status.textContent = available ? "OK" : "MISSING";
+  a.appendChild(status);
+
+  if (!available) {
+    a.setAttribute("aria-disabled", "true");
+    a.title = "PDFファイルが未配置です";
+  }
+
   return a;
 };
 
@@ -673,6 +733,7 @@ const renderArchive = (sections) => {
         item.title,
         item.description,
         item.badge,
+        ...(item.tags || []),
         ...(item.links || []).map((link) => `${link.label} ${link.href}`)
       ].join(" ").toLowerCase();
 
@@ -701,6 +762,18 @@ const renderArchive = (sections) => {
       desc.textContent = item.description || "";
 
       main.append(title, desc);
+
+      if (item.tags?.length) {
+        const tags = document.createElement("div");
+        tags.className = "tags";
+        item.tags.forEach((tagLabel) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = tagLabel;
+          tags.appendChild(tag);
+        });
+        main.appendChild(tags);
+      }
 
       const links = document.createElement("div");
       links.className = "links";
@@ -737,8 +810,8 @@ const renderArchive = (sections) => {
     });
 
     resultCount.textContent = query
-      ? `${visibleCount} / ${itemCount} materials`
-      : `${itemCount} materials ready`;
+      ? `${visibleCount} / ${itemCount} 件`
+      : `${itemCount} 件の教材`;
     empty.style.display = visibleCount ? "none" : "block";
   };
 
