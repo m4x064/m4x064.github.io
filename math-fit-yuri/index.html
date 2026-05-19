@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Math Fit | UFOゆーりの数式ステーション</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-panel" aria-labelledby="app-title">
+        <header class="app-header">
+          <div>
+            <p class="eyebrow">Yuri Orbit School</p>
+            <h1 id="app-title" class="brand-title">
+              <span class="brand-yuri">YURI</span>
+              <span class="brand-main">Math Flight</span>
+            </h1>
+            <p class="header-subtitle">UFOゆーりの数式ステーション</p>
+          </div>
+          <div class="level-badge" aria-live="polite">
+            <span>Orbit Lv</span>
+            <strong id="levelText">1</strong>
+          </div>
+          <div class="bgm-control" aria-label="BGMコントロール">
+            <button id="bgmToggleButton" class="bgm-toggle-button" type="button">BGM OFF</button>
+            <select id="bgmSelect" class="bgm-select" aria-label="BGMを選ぶ"></select>
+            <label class="bgm-volume-control" for="bgmVolumeSlider">
+              <span>Vol</span>
+              <input id="bgmVolumeSlider" type="range" min="0" max="100" step="1" value="22">
+              <output id="bgmVolumeText" for="bgmVolumeSlider">22%</output>
+            </label>
+          </div>
+          <div id="titleRewardDisplay" class="title-reward-display" aria-hidden="true"></div>
+        </header>
+
+        <div class="station-strip">
+          <div class="station-copy">
+            <span>YURI COMMS</span>
+            <strong id="pilotMessage">今日の計算航路を選んでね。ゆーりが横で見てるよ。</strong>
+          </div>
+          <div class="crew-art" aria-hidden="true">
+            <img id="yuriAvatar" class="yuri-avatar" src="../assets/yuri/extra/actions/01_wave.png" alt="">
+            <img class="pet-avatar" src="../assets/yuri/extra/pets/03_happy.png" alt="">
+          </div>
+        </div>
+
+        <section id="startScreen" class="screen is-active">
+          <div class="intro-copy">
+            <h2>今日のミッションを選ぶ</h2>
+            <p>
+              UFOゆーりと一緒に、計算航路をひとつずつ進みます。
+              診断ミッションでは分数・割合・文字式の入口までを短く確認できます。
+            </p>
+          </div>
+          <div id="resumeCard" class="resume-card" hidden>
+            <div>
+              <span>Saved Orbit</span>
+              <strong id="resumeTitle">途中のミッションがあります</strong>
+              <p id="resumeDetail"></p>
+            </div>
+            <div class="resume-actions">
+              <button id="startResumeButton" class="primary-button" type="button">つづきから</button>
+              <button id="clearSaveButton" class="secondary-button" type="button">保存を消す</button>
+            </div>
+          </div>
+          <div class="growth-panel">
+            <div class="growth-hero">
+              <img id="growthIcon" src="../assets/yuri/extra/items/15_friendship_heart.png" alt="">
+              <div>
+                <span>YURI GROWTH</span>
+                <strong id="growthLevelText">YURI Lv 1</strong>
+                <p id="totalCorrectText">累計正解 0</p>
+              </div>
+            </div>
+            <div class="growth-meter" aria-hidden="true">
+              <span id="growthProgressBar"></span>
+            </div>
+            <p id="nextRewardText" class="next-reward-text">最初のごほうびまであと少し。</p>
+            <ul id="rewardList" class="reward-list"></ul>
+          </div>
+          <div id="missionButtonStack" class="button-stack" aria-label="今日のミッション">
+            <button id="operationGuideButton" class="secondary-button" type="button">四則演算ナビ</button>
+          </div>
+          <div class="save-data-actions" aria-label="保存データ">
+            <button id="exportSaveButton" class="secondary-button save-data-button" type="button">保存データを書き出す</button>
+            <button id="importSaveButton" class="secondary-button save-data-button" type="button">保存データを読み込む</button>
+            <input id="importSaveInput" type="file" accept="application/json,.json" hidden>
+          </div>
+        </section>
+
+        <section id="quizScreen" class="screen" aria-live="polite">
+          <div class="stats-grid" aria-label="進行状況">
+            <div>
+              <span>問題</span>
+              <strong id="progressText">1 / 10</strong>
+            </div>
+            <div>
+              <span>正解数</span>
+              <strong id="scoreText">0</strong>
+            </div>
+            <div>
+              <span>連続</span>
+              <strong id="streakText">0</strong>
+            </div>
+            <div>
+              <span>時間</span>
+              <strong id="timerText">0秒</strong>
+            </div>
+          </div>
+
+          <div class="question-card">
+            <p id="operationText" class="operation-label">たし算</p>
+            <p id="questionText" class="question-text">8 + 4</p>
+          </div>
+
+          <form id="answerForm" class="answer-form">
+            <div class="answer-label-row">
+              <label for="answerInput">答え</label>
+              <p id="feedbackText" class="feedback" aria-live="assertive"></p>
+            </div>
+            <div class="answer-row">
+              <div class="answer-display-wrap">
+                <input
+                  id="answerInput"
+                  name="answer"
+                  type="text"
+                  inputmode="text"
+                  autocomplete="off"
+                  placeholder="?"
+                  spellcheck="false"
+                  required
+                >
+                <div id="answerPrettyDisplay" class="answer-pretty-display is-placeholder" aria-hidden="true">?</div>
+              </div>
+              <button class="primary-button" type="submit">答える</button>
+            </div>
+            <p id="answerNotationHelp" class="answer-notation-help">p=π, r=√(, \=√を閉じる</p>
+            <div id="numberPad" class="number-pad" aria-label="タッチ入力">
+              <button class="key-button" type="button" data-key="7" data-key-type="digit">7</button>
+              <button class="key-button" type="button" data-key="8" data-key-type="digit">8</button>
+              <button class="key-button" type="button" data-key="9" data-key-type="digit">9</button>
+              <button class="key-button key-button-divide" type="button" data-key="/" data-key-type="symbol">/</button>
+              <button class="key-button" type="button" data-key="4" data-key-type="digit">4</button>
+              <button class="key-button" type="button" data-key="5" data-key-type="digit">5</button>
+              <button class="key-button" type="button" data-key="6" data-key-type="digit">6</button>
+              <button class="key-button key-button-plus" type="button" data-key="+" data-key-type="symbol">+</button>
+              <button class="key-button" type="button" data-key="1" data-key-type="digit">1</button>
+              <button class="key-button" type="button" data-key="2" data-key-type="digit">2</button>
+              <button class="key-button" type="button" data-key="3" data-key-type="digit">3</button>
+              <button class="key-button key-button-minus" type="button" data-key="-" data-key-type="symbol">−</button>
+              <button id="clearAnswerButton" class="key-button" type="button" data-key-type="action">C</button>
+              <button id="backspaceButton" class="key-button" type="button" data-key-type="action">⌫</button>
+              <button class="key-button" type="button" data-key="." data-key-type="symbol">.</button>
+              <button class="key-button key-button-zero" type="button" data-key="0" data-key-type="digit">0</button>
+              <button class="key-button key-button-pi" type="button" data-key="π" data-raw-key="p" data-key-type="symbol">π</button>
+              <button class="key-button key-button-e" type="button" data-key="e" data-key-type="symbol">e</button>
+              <button class="key-button key-button-x" type="button" data-key="x" data-key-type="symbol">x</button>
+              <button class="key-button key-button-y" type="button" data-key="y" data-key-type="symbol">y</button>
+              <button class="key-button key-button-root" type="button" data-key="√" data-raw-key="r" data-key-type="symbol">√</button>
+              <button class="key-button key-button-root-close" type="button" data-key="&#92;" data-raw-key="&#92;" data-key-type="symbol" aria-label="ルートを閉じる">\</button>
+              <button class="key-button key-button-submit" type="button" data-action="submit" data-key-type="action">答える</button>
+            </div>
+          </form>
+
+          <div class="quiz-actions">
+            <button id="stopButton" class="secondary-button" type="button">ストップ</button>
+          </div>
+        </section>
+
+        <section id="pauseScreen" class="screen" aria-live="polite">
+          <div class="intro-copy">
+            <p class="eyebrow">Orbit Hold</p>
+            <h2>ステーションで待機中</h2>
+            <p>計算航路を一時停止しています。続きから再開するか、タイトルに戻れます。</p>
+          </div>
+          <div class="button-stack">
+            <button id="resumeButton" class="primary-button" type="button">航路に戻る</button>
+            <button id="backToTitleButton" class="secondary-button" type="button">タイトルに戻る</button>
+          </div>
+        </section>
+
+        <section id="guideScreen" class="screen">
+          <div class="intro-copy">
+            <p class="eyebrow">Navigation Log</p>
+            <h2>四則演算ナビ</h2>
+            <p>たし算・ひき算・かけ算・わり算は、数を動かすための基本エンジンです。</p>
+          </div>
+
+          <div class="guide-list">
+            <div class="diagnosis-block">
+              <h3>たし算</h3>
+              <p>数を合わせて、全部でいくつになるかを求めます。例: 3 + 4 = 7</p>
+            </div>
+
+            <div class="diagnosis-block">
+              <h3>ひき算</h3>
+              <p>ある数から一部を取りのぞいて、残りを求めます。例: 8 - 5 = 3</p>
+            </div>
+
+            <div class="diagnosis-block">
+              <h3>かけ算</h3>
+              <p>同じ数を何回か足す計算を短く書いたものです。例: 3 × 4 = 12</p>
+            </div>
+
+            <div class="diagnosis-block">
+              <h3>わり算</h3>
+              <p>同じ大きさに分けたとき、1つ分や何組できるかを求めます。例: 12 ÷ 3 = 4</p>
+            </div>
+          </div>
+
+          <button id="guideBackButton" class="secondary-button" type="button">タイトルに戻る</button>
+        </section>
+
+        <section id="resultScreen" class="screen">
+          <div class="result-hero">
+            <div>
+              <p class="eyebrow">Mission Report</p>
+              <h2 id="resultTitle">診断結果</h2>
+              <p id="resultSummary"></p>
+            </div>
+            <img class="result-yuri" src="../assets/yuri/extra/actions/16_victory_pose.png" alt="">
+          </div>
+
+          <div class="result-grid">
+            <div>
+              <span>正答率</span>
+              <strong id="accuracyText">0%</strong>
+            </div>
+            <div>
+              <span>到達レベル</span>
+              <strong id="finalLevelText">1</strong>
+            </div>
+            <div>
+              <span>平均時間</span>
+              <strong id="averageTimeText">0秒</strong>
+            </div>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>現在地</h3>
+            <p id="currentPositionText"></p>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>強いところ</h3>
+            <p id="strengthText"></p>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>あやしいところ</h3>
+            <p id="watchText"></p>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>次に登る一段</h3>
+            <p id="nextStepText"></p>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>ゆーり成長ログ</h3>
+            <p id="resultRewardText"></p>
+          </div>
+
+          <div class="diagnosis-block">
+            <h3>分野別チェック</h3>
+            <ul id="skillList" class="skill-list"></ul>
+          </div>
+
+          <div class="result-actions">
+            <button id="restartButton" class="primary-button" type="button">もう一度プレイ</button>
+            <button id="resultBackToTitleButton" class="secondary-button" type="button">タイトルに戻る</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="src/storage/progressStorage.js"></script>
+    <script src="src/data/stages.js"></script>
+    <script src="src/data/problems.js"></script>
+    <script src="src/data/rewards.js"></script>
+    <script src="src/logic/inputNotation.js"></script>
+    <script src="src/logic/diagnosis.js"></script>
+    <script src="src/logic/resultMessages.js"></script>
+    <script src="src/logic/rewardMessages.js"></script>
+    <script src="src/logic/soundEffects.js"></script>
+    <script src="src/logic/bgmPlayer.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

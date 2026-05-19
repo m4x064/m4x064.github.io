@@ -1,0 +1,74 @@
+{
+  "name": "ufo_yuri_extra_assets",
+  "sheets": {
+    "actions": {
+      "sheet": "ufo_yuri_action_sheet.png",
+      "chromaSource": "ufo_yuri_action_sheet_chroma.png",
+      "framesDirectory": "actions",
+      "grid": { "columns": 4, "rows": 4 },
+      "frames": [
+        "actions/01_wave.png",
+        "actions/02_happy_bounce.png",
+        "actions/03_sleepy.png",
+        "actions/04_shy_blush.png",
+        "actions/05_surprised.png",
+        "actions/06_talk.png",
+        "actions/07_repair.png",
+        "actions/08_snack_time.png",
+        "actions/09_charging.png",
+        "actions/10_low_energy.png",
+        "actions/11_landing_hover.png",
+        "actions/12_takeoff_hover.png",
+        "actions/13_sparkle_pose.png",
+        "actions/14_pet_cuddle.png",
+        "actions/15_dizzy_spin.png",
+        "actions/16_victory_pose.png"
+      ]
+    },
+    "pets": {
+      "sheet": "pet_companion_sheet.png",
+      "chromaSource": "pet_companion_sheet_chroma.png",
+      "framesDirectory": "pets",
+      "grid": { "columns": 4, "rows": 4 },
+      "frames": [
+        "pets/01_idle.png",
+        "pets/02_blink.png",
+        "pets/03_happy.png",
+        "pets/04_sleepy.png",
+        "pets/05_surprised.png",
+        "pets/06_paw_wave.png",
+        "pets/07_star_snack.png",
+        "pets/08_heart_carry.png",
+        "pets/09_jump.png",
+        "pets/10_sit.png",
+        "pets/11_roll.png",
+        "pets/12_shy_hide.png",
+        "pets/13_bow_wiggle.png",
+        "pets/14_dizzy.png",
+        "pets/15_cheer.png",
+        "pets/16_tiny_nap.png"
+      ]
+    },
+    "items": {
+      "sheet": "item_icon_sheet.png",
+      "chromaSource": "item_icon_sheet_chroma.png",
+      "framesDirectory": "items",
+      "grid": { "columns": 6, "rows": 4 }
+    },
+    "effects": {
+      "sheet": "vfx_sheet.png",
+      "chromaSource": "vfx_sheet_chroma.png",
+      "framesDirectory": "effects",
+      "grid": { "columns": 6, "rows": 4 }
+    }
+  },
+  "backgrounds": [
+    "backgrounds/space_cockpit_stage.png"
+  ],
+  "notes": [
+    "Transparent PNG sheets were generated from chroma-key sources.",
+    "Use actions for Yuri state changes and pets for companion loops.",
+    "Use items and effects as inventory, reward, status, and feedback sprites.",
+    "The background image is not transparent and is intended as a static game stage."
+  ]
+}
