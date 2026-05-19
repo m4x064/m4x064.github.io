@@ -5,6 +5,29 @@
     "nav": "基本",
     "items": [
       {
+        "title": "絶対値と不等式の基礎",
+        "badge": "NEW",
+        "description": "三角不等式，逆三角不等式，3実数版，積を含む不等式を扱う基礎プリント。",
+        "tags": [
+          "絶対値",
+          "不等式",
+          "三角不等式",
+          "積の不等式"
+        ],
+        "links": [
+          {
+            "label": "生徒用",
+            "href": "./pdf/absolute-value-inequalities-mono-student.pdf",
+            "available": true
+          },
+          {
+            "label": "講師用",
+            "href": "./pdf/absolute-value-inequalities-mono-teacher.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
         "title": "存在領域・接線",
         "badge": "5/12",
         "description": "存在領域と3次関数の接線，中点，面積をまとめた教材。",
