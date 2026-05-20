@@ -24,12 +24,54 @@
 
     for (let a = 0; a <= 9; a += 1) {
       for (let b = 0; b <= 9; b += 1) {
-        addStageOneQuestion(pool, "addition", a, b, a + b, "+");
-        addStageOneQuestion(pool, "subtraction", a, b, a - b, "-");
-        addStageOneQuestion(pool, "multiplication", a, b, a * b, "×");
+        addStageOneQuestion(pool, "addition", a, b, a + b, "+", stageNames.stageOne);
+        addStageOneQuestion(pool, "subtraction", a, b, a - b, "-", stageNames.stageOne);
+        addStageOneQuestion(pool, "multiplication", a, b, a * b, "×", stageNames.stageOne);
 
         if (b !== 0 && a % b === 0) {
-          addStageOneQuestion(pool, "division", a, b, a / b, "÷");
+          addStageOneQuestion(pool, "division", a, b, a / b, "÷", stageNames.stageOne);
+        }
+      }
+    }
+
+    return pool;
+  }
+
+  function createStageOneAdditionQuestionPool() {
+    return createStageOneOperationQuestionPool("addition", "+", stageNames.stageOneAddition);
+  }
+
+  function createStageOneSubtractionQuestionPool() {
+    return createStageOneOperationQuestionPool("subtraction", "-", stageNames.stageOneSubtraction);
+  }
+
+  function createStageOneMultiplicationQuestionPool() {
+    return createStageOneOperationQuestionPool("multiplication", "×", stageNames.stageOneMultiplication);
+  }
+
+  function createStageOneDivisionQuestionPool() {
+    return createStageOneOperationQuestionPool("division", "÷", stageNames.stageOneDivision);
+  }
+
+  function createStageOneOperationQuestionPool(operation, symbol, stage) {
+    const pool = [];
+
+    for (let a = 0; a <= 9; a += 1) {
+      for (let b = 0; b <= 9; b += 1) {
+        if (operation === "addition") {
+          addStageOneQuestion(pool, operation, a, b, a + b, symbol, stage);
+        }
+
+        if (operation === "subtraction") {
+          addStageOneQuestion(pool, operation, a, b, a - b, symbol, stage);
+        }
+
+        if (operation === "multiplication") {
+          addStageOneQuestion(pool, operation, a, b, a * b, symbol, stage);
+        }
+
+        if (operation === "division" && b !== 0 && a % b === 0) {
+          addStageOneQuestion(pool, operation, a, b, a / b, symbol, stage);
         }
       }
     }
@@ -241,12 +283,12 @@
     });
   }
 
-  function addStageOneQuestion(pool, operation, a, b, answer, symbol) {
+  function addStageOneQuestion(pool, operation, a, b, answer, symbol, stage) {
     if (!Number.isInteger(answer) || answer < 0 || answer > 9) {
       return;
     }
 
-    addDeckQuestion(pool, operation, a, b, answer, symbol, stageNames.stageOne);
+    addDeckQuestion(pool, operation, a, b, answer, symbol, stage || stageNames.stageOne);
   }
 
   function addDeckQuestion(pool, operation, a, b, answer, symbol, stage) {
@@ -315,6 +357,10 @@
 
   window.MathFitProblems = {
     createStageOneQuestionPool,
+    createStageOneAdditionQuestionPool,
+    createStageOneSubtractionQuestionPool,
+    createStageOneMultiplicationQuestionPool,
+    createStageOneDivisionQuestionPool,
     createCarryQuestionPool,
     createTwoDigitOneDigitQuestionPool,
     createTwoDigitTwoDigitQuestionPool,

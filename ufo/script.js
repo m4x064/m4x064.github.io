@@ -5,6 +5,10 @@ const stageNameConfig = stageModule.stageNames || {};
 const stageConfigs = stageModule.stageConfigs || {};
 const storageApi = window.MathFitStorage || {};
 const storageKeys = storageApi.keys || {};
+const STAGE_ONE_ADDITION_NAME = stageNameConfig.stageOneAddition || "Stage 1-1";
+const STAGE_ONE_SUBTRACTION_NAME = stageNameConfig.stageOneSubtraction || "Stage 1-2";
+const STAGE_ONE_MULTIPLICATION_NAME = stageNameConfig.stageOneMultiplication || "Stage 1-3";
+const STAGE_ONE_DIVISION_NAME = stageNameConfig.stageOneDivision || "Stage 1-4";
 const STAGE_ONE_NAME = stageNameConfig.stageOne || "Stage 1";
 const CARRY_STAGE_NAME = stageNameConfig.carry || "Stage 2";
 const TWO_DIGIT_ONE_DIGIT_STAGE_NAME = stageNameConfig.twoDigitOneDigit || "Stage 3";
@@ -28,7 +32,10 @@ const operationLabels = {
 const baseSkills = Object.keys(operationLabels);
 const missionNames = stageModule.getMissionNames?.() || {
   adaptive: "10問診断ミッション",
-  stageOne: "Stage 1 一桁スター航路",
+  stageOneAddition: "Stage 1-1 一桁たし算航路",
+  stageOneSubtraction: "Stage 1-2 一桁ひき算航路",
+  stageOneMultiplication: "Stage 1-3 一桁かけ算航路",
+  stageOneDivision: "Stage 1-4 一桁わり算航路",
   carry: "Stage 2 繰り上がりジャンプ航路",
   twoDigitOneDigit: "Stage 3 二桁スリム航路",
   twoDigitTwoDigit: "Stage 4 二桁ペア航路",
@@ -36,10 +43,13 @@ const missionNames = stageModule.getMissionNames?.() || {
   twoDigitTwin: "Stage 6 二桁ツイン航路",
   threeDigitJump: "Stage 7 三桁ジャンプ航路",
   power: "Stage 8 同じ数かけ算航路",
-  review: "Test 1 Stage 1-5 復習診断",
+  review: "Test 1 Stage 1-1〜5 復習診断",
 };
 const stageProgressModes = stageModule.getProgressModes?.() || [
-  "stageOne",
+  "stageOneAddition",
+  "stageOneSubtraction",
+  "stageOneMultiplication",
+  "stageOneDivision",
   "carry",
   "twoDigitOneDigit",
   "twoDigitTwoDigit",
@@ -1008,6 +1018,48 @@ function createStageOneQuestionPool() {
   return pool;
 }
 
+function createStageOneAdditionQuestionPool() {
+  return createStageOneOperationQuestionPool("addition", "+", STAGE_ONE_ADDITION_NAME);
+}
+
+function createStageOneSubtractionQuestionPool() {
+  return createStageOneOperationQuestionPool("subtraction", "-", STAGE_ONE_SUBTRACTION_NAME);
+}
+
+function createStageOneMultiplicationQuestionPool() {
+  return createStageOneOperationQuestionPool("multiplication", "×", STAGE_ONE_MULTIPLICATION_NAME);
+}
+
+function createStageOneDivisionQuestionPool() {
+  return createStageOneOperationQuestionPool("division", "÷", STAGE_ONE_DIVISION_NAME);
+}
+
+function createStageOneOperationQuestionPool(operation, symbol, stage) {
+  const pool = [];
+
+  for (let a = 0; a <= 9; a += 1) {
+    for (let b = 0; b <= 9; b += 1) {
+      if (operation === "addition") {
+        addStageOneQuestion(pool, operation, a, b, a + b, symbol, stage);
+      }
+
+      if (operation === "subtraction") {
+        addStageOneQuestion(pool, operation, a, b, a - b, symbol, stage);
+      }
+
+      if (operation === "multiplication") {
+        addStageOneQuestion(pool, operation, a, b, a * b, symbol, stage);
+      }
+
+      if (operation === "division" && b !== 0 && a % b === 0) {
+        addStageOneQuestion(pool, operation, a, b, a / b, symbol, stage);
+      }
+    }
+  }
+
+  return pool;
+}
+
 function createCarryQuestionPool() {
   if (window.MathFitProblems?.createCarryQuestionPool) {
     return window.MathFitProblems.createCarryQuestionPool();
@@ -1237,7 +1289,7 @@ function addPowerQuestion(pool, base, factorCount) {
   });
 }
 
-function addStageOneQuestion(pool, operation, a, b, answer, symbol) {
+function addStageOneQuestion(pool, operation, a, b, answer, symbol, stage = STAGE_ONE_NAME) {
   if (!Number.isInteger(answer) || answer < 0 || answer > 9) {
     return;
   }
@@ -1246,7 +1298,7 @@ function addStageOneQuestion(pool, operation, a, b, answer, symbol) {
     operation,
     answer,
     text: `${a} ${symbol} ${b}`,
-    stage: STAGE_ONE_NAME,
+    stage,
   });
 }
 
@@ -1342,6 +1394,10 @@ function createQuestionPoolForStage(config) {
 
   const fallbackFactories = {
     stageOne: createStageOneQuestionPool,
+    stageOneAddition: createStageOneAdditionQuestionPool,
+    stageOneSubtraction: createStageOneSubtractionQuestionPool,
+    stageOneMultiplication: createStageOneMultiplicationQuestionPool,
+    stageOneDivision: createStageOneDivisionQuestionPool,
     carry: createCarryQuestionPool,
     twoDigitOneDigit: createTwoDigitOneDigitQuestionPool,
     twoDigitTwoDigit: createTwoDigitTwoDigitQuestionPool,
@@ -1387,7 +1443,10 @@ function usesQuestionDeck(mode = state.mode) {
 
 function createReviewQuestionDeck(mode = "review") {
   const sourceModes = getStageConfig(mode)?.reviewSourceModes || [
-    "stageOne",
+    "stageOneAddition",
+    "stageOneSubtraction",
+    "stageOneMultiplication",
+    "stageOneDivision",
     "carry",
     "twoDigitOneDigit",
     "twoDigitTwoDigit",
