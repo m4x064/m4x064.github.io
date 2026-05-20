@@ -63,6 +63,7 @@ const questionPoolsByMode = {};
 const TAP_MOVE_LIMIT = 12;
 const touchInputQuery = window.matchMedia("(hover: none) and (pointer: coarse)");
 const SESSION_STORAGE_KEY = storageKeys.session || "mathfit-yuri-session-v1";
+const SESSIONS_STORAGE_KEY = storageKeys.sessions || "mathfit-yuri-sessions-v2";
 const PROFILE_STORAGE_KEY = storageKeys.profile || "mathfit-yuri-profile-v1";
 const BGM_STORAGE_KEY = storageKeys.bgm || "mathfit-yuri-bgm-v1";
 const STAGE_PROGRESS_STORAGE_KEY = storageKeys.stageProgress || "mathfit-yuri-stage-progress-v1";
@@ -221,7 +222,7 @@ if (typeof touchInputQuery.addEventListener === "function") {
 getPlayableStageConfigs().forEach((config) => {
   const button = getStageButton(config.mode);
   if (button) {
-    button.addEventListener("click", () => startGame(config.mode));
+    button.addEventListener("click", () => startOrResumeStage(config.mode));
   }
 });
 elements.operationGuideButton.addEventListener("click", showOperationGuide);
@@ -487,6 +488,60 @@ function showStorageError() {
   setPilotMessage("保存容量が足りないみたい。進行保存は未確認だよ。", "surprised");
 }
 
+function normalizeSavedSessions(value) {
+  if (!value) {
+    return {};
+  }
+  const sessions = value.sessions && typeof value.sessions === "object" ? value.sessions : value;
+  return Object.entries(sessions || {}).reduce((normalized, [mode, session]) => {
+    if (session?.currentQuestion && missionNames[session.mode || mode]) {
+      normalized[session.mode || mode] = {
+        ...session,
+        mode: session.mode || mode,
+      };
+    }
+    return normalized;
+  }, {});
+}
+
+function loadSavedSessions() {
+  let sessions = {};
+  if (storageApi.loadSessions) {
+    try {
+      sessions = normalizeSavedSessions(storageApi.loadSessions());
+    } catch {
+      sessions = {};
+    }
+  } else {
+    sessions = normalizeSavedSessions(readJson(SESSIONS_STORAGE_KEY));
+  }
+  if (Object.keys(sessions).length === 0) {
+    const legacySession = storageApi.loadSession?.() || readJson(SESSION_STORAGE_KEY);
+    if (legacySession?.currentQuestion) {
+      sessions[legacySession.mode] = legacySession;
+    }
+  }
+  return sessions;
+}
+
+function saveSavedSessions(sessions) {
+  try {
+    if (storageApi.saveSessions) {
+      storageApi.saveSessions(sessions);
+    } else {
+      writeJson(SESSIONS_STORAGE_KEY, { version: 2, savedAt: Date.now(), sessions });
+    }
+  } catch {
+    showStorageError();
+  }
+}
+
+function getLatestSavedSession(sessions = loadSavedSessions()) {
+  return Object.values(sessions)
+    .filter((session) => session?.currentQuestion && missionNames[session.mode])
+    .sort((a, b) => Number(b.savedAt || 0) - Number(a.savedAt || 0))[0] || null;
+}
+
 function createEmptyStageProgress() {
   return stageProgressModes.reduce((progress, mode) => {
     progress[mode] = {
@@ -581,6 +636,8 @@ function saveStageProgressSnapshot({ completed = false, questionTotal = getQuest
 }
 
 function renderStageProgress() {
+  const savedSessions = loadSavedSessions();
+
   stageProgressTargets.forEach(({ mode, button }) => {
     if (!button) {
       return;
@@ -595,7 +652,14 @@ function renderStageProgress() {
     button.classList.add("stage-progress-button");
     button.style.setProperty("--stage-progress", `${percent}%`);
     button.dataset.progressLabel = percent > 0 ? `${percent}%` : "0%";
-    button.title = `${missionNames[mode]}: 進捗 ${progress.bestAnswered || 0}/${questionTotal}問、最高正解 ${progress.bestScore || 0}問`;
+    const savedSession = savedSessions[mode];
+    if (savedSession) {
+      const visibleQuestion = Math.min(savedSession.questionIndex || 1, questionTotal);
+      button.dataset.progressLabel = "続き";
+      button.title = `${missionNames[mode]}: ${visibleQuestion}/${questionTotal}問目から続き、最高正解 ${progress.bestScore || 0}問`;
+    } else {
+      button.title = `${missionNames[mode]}: 進捗 ${progress.bestAnswered || 0}/${questionTotal}問、最高正解 ${progress.bestScore || 0}問`;
+    }
   });
 }
 
@@ -605,7 +669,8 @@ function exportSaveData() {
     exportedAt: new Date().toISOString(),
     profile,
     stageProgress,
-    savedSession: storageApi.loadSession?.() || readJson(SESSION_STORAGE_KEY),
+    savedSessions: loadSavedSessions(),
+    savedSession: loadSavedSession(),
     bgmState: bgmPlayer.getExportState(),
   };
   const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
@@ -652,12 +717,12 @@ function importSaveData(event) {
         saveStageProgress();
       }
 
-      if (imported.savedSession) {
-        if (storageApi.saveSession) {
-          storageApi.saveSession(imported.savedSession);
-        } else {
-          writeJson(SESSION_STORAGE_KEY, imported.savedSession);
+      if (imported.savedSessions || imported.savedSession) {
+        const importedSessions = normalizeSavedSessions(imported.savedSessions || {});
+        if (imported.savedSession?.currentQuestion) {
+          importedSessions[imported.savedSession.mode] = imported.savedSession;
         }
+        saveSavedSessions(importedSessions);
       }
 
       if (imported.bgmState) {
@@ -699,7 +764,7 @@ function normalizeSavedSkills(savedSkills = {}) {
 
 function startGame(mode = "adaptive") {
   clearPendingNextQuestion();
-  clearSavedSession();
+  clearSavedSession(mode);
   state.mode = mode;
   state.level = 1;
   state.score = 0;
@@ -728,6 +793,15 @@ function startGame(mode = "adaptive") {
   showScreen("quiz");
   updateStats();
   nextQuestion();
+}
+
+function startOrResumeStage(mode) {
+  const savedSession = loadSavedSession(mode);
+  if (savedSession) {
+    resumeSavedSession(mode);
+    return;
+  }
+  startGame(mode);
 }
 
 function showScreen(name) {
@@ -771,20 +845,19 @@ function saveSession() {
     questionElapsed: state.currentQuestion && !state.awaitingNextQuestion ? getElapsedSeconds() : 0,
     savedAt: Date.now(),
   };
-  if (storageApi.saveSession) {
-    try {
-      storageApi.saveSession(sessionData);
-    } catch {
-      showStorageError();
-    }
-  } else {
-    writeJson(SESSION_STORAGE_KEY, sessionData);
-  }
+  const sessions = loadSavedSessions();
+  sessions[state.mode] = sessionData;
+  saveSavedSessions(sessions);
   renderResumeCard();
+  renderStageProgress();
 }
 
-function loadSavedSession() {
-  const savedSession = storageApi.loadSession?.() || readJson(SESSION_STORAGE_KEY);
+function loadSavedSession(mode) {
+  const sessions = loadSavedSessions();
+  let savedSession = mode ? sessions[mode] : getLatestSavedSession(sessions);
+  if (!savedSession && !mode) {
+    savedSession = storageApi.loadSession?.() || readJson(SESSION_STORAGE_KEY);
+  }
   if (!savedSession?.currentQuestion || !missionNames[savedSession.mode]) {
     return null;
   }
@@ -792,12 +865,17 @@ function loadSavedSession() {
   return savedSession;
 }
 
-function clearSavedSession() {
+function clearSavedSession(mode) {
   try {
     if (storageApi.removeSession) {
-      storageApi.removeSession();
+      storageApi.removeSession(mode);
+    } else if (mode) {
+      const sessions = loadSavedSessions();
+      delete sessions[mode];
+      saveSavedSessions(sessions);
     } else if (storageApi.removeJson) {
       storageApi.removeJson(SESSION_STORAGE_KEY);
+      storageApi.removeJson(SESSIONS_STORAGE_KEY);
     } else {
       return;
     }
@@ -805,15 +883,18 @@ function clearSavedSession() {
     return;
   }
   renderResumeCard();
+  renderStageProgress();
 }
 
 function clearSavedSessionFromStart() {
   clearSavedSession();
-  setPilotMessage("保存していた航路を消したよ。新しいミッションを選べるよ。", "wave");
+  setPilotMessage("保存していた航路を全部消したよ。新しいミッションを選べるよ。", "wave");
 }
 
 function renderResumeCard() {
-  const savedSession = loadSavedSession();
+  const sessions = loadSavedSessions();
+  const savedSession = getLatestSavedSession(sessions);
+  const sessionCount = Object.keys(sessions).length;
   elements.resumeCard.hidden = !savedSession;
 
   if (!savedSession) {
@@ -823,11 +904,12 @@ function renderResumeCard() {
   const questionTotal = getQuestionTotalForMode(savedSession.mode);
   const visibleQuestion = Math.min(savedSession.questionIndex || 1, questionTotal);
   elements.resumeTitle.textContent = `${missionNames[savedSession.mode]}を保存中`;
-  elements.resumeDetail.textContent = `${visibleQuestion} / ${questionTotal}問目、正解 ${savedSession.score || 0}、連続 ${savedSession.streak || 0}`;
+  const countText = sessionCount > 1 ? `、保存中 ${sessionCount}ステージ` : "";
+  elements.resumeDetail.textContent = `${visibleQuestion} / ${questionTotal}問目、正解 ${savedSession.score || 0}、連続 ${savedSession.streak || 0}${countText}`;
 }
 
-function resumeSavedSession() {
-  const savedSession = loadSavedSession();
+function resumeSavedSession(mode) {
+  const savedSession = loadSavedSession(mode);
   if (!savedSession) {
     renderResumeCard();
     setPilotMessage("保存された航路は見つからなかったよ。新しく始めよう。", "surprised");
@@ -2293,7 +2375,7 @@ function getElapsedSeconds() {
 
 function showResults() {
   clearInterval(state.timerId);
-  clearSavedSession();
+  clearSavedSession(state.mode);
   showScreen("result");
 
   const questionTotal = getQuestionTotal();

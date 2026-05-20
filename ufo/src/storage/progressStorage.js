@@ -3,6 +3,7 @@
 
   const keys = {
     session: "mathfit-yuri-session-v1",
+    sessions: "mathfit-yuri-sessions-v2",
     profile: "mathfit-yuri-profile-v1",
     bgm: "mathfit-yuri-bgm-v1",
     stageProgress: "mathfit-yuri-stage-progress-v1",
@@ -25,16 +26,62 @@
     localStorage.removeItem(key);
   }
 
-  function loadSession() {
-    return loadJson(keys.session);
+  function normalizeSessions(value) {
+    if (!value) {
+      return {};
+    }
+    if (value.sessions && typeof value.sessions === "object") {
+      return value.sessions;
+    }
+    return typeof value === "object" ? value : {};
+  }
+
+  function loadSessions() {
+    return normalizeSessions(loadJson(keys.sessions));
+  }
+
+  function saveSessions(sessions) {
+    saveJson(keys.sessions, {
+      version: 2,
+      savedAt: Date.now(),
+      sessions: sessions || {},
+    });
+  }
+
+  function getLatestSession(sessions) {
+    return Object.values(sessions || {})
+      .filter((session) => session?.currentQuestion)
+      .sort((a, b) => Number(b.savedAt || 0) - Number(a.savedAt || 0))[0] || null;
+  }
+
+  function loadSession(mode) {
+    const sessions = loadSessions();
+    const session = mode ? sessions[mode] : getLatestSession(sessions);
+    if (session) {
+      return session;
+    }
+    return mode ? null : loadJson(keys.session);
   }
 
   function saveSession(session) {
-    saveJson(keys.session, session);
+    const mode = session?.mode;
+    if (!mode) {
+      return;
+    }
+    const sessions = loadSessions();
+    sessions[mode] = session;
+    saveSessions(sessions);
   }
 
-  function removeSession() {
-    removeJson(keys.session);
+  function removeSession(mode) {
+    if (!mode) {
+      removeJson(keys.session);
+      removeJson(keys.sessions);
+      return;
+    }
+    const sessions = loadSessions();
+    delete sessions[mode];
+    saveSessions(sessions);
   }
 
   function loadProfile() {
@@ -58,6 +105,7 @@
       profile: loadProfile(),
       stageProgress: loadStageProgress(),
       savedSession: loadSession(),
+      savedSessions: loadSessions(),
       bgmState: loadJson(keys.bgm),
     };
   }
@@ -71,6 +119,9 @@
     }
     if (Object.prototype.hasOwnProperty.call(progress, "savedSession")) {
       saveSession(progress.savedSession);
+    }
+    if (Object.prototype.hasOwnProperty.call(progress, "savedSessions")) {
+      saveSessions(progress.savedSessions);
     }
     if (Object.prototype.hasOwnProperty.call(progress, "bgmState")) {
       saveJson(keys.bgm, progress.bgmState);
@@ -89,6 +140,8 @@
     loadJson,
     saveJson,
     removeJson,
+    loadSessions,
+    saveSessions,
     loadSession,
     saveSession,
     removeSession,
