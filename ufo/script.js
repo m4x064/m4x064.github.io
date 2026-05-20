@@ -651,11 +651,12 @@ function renderStageProgress() {
 
     button.classList.add("stage-progress-button");
     button.style.setProperty("--stage-progress", `${percent}%`);
-    button.dataset.progressLabel = percent > 0 ? `${percent}%` : "0%";
+    const percentLabel = percent > 0 ? `${percent}%` : "0%";
+    button.dataset.progressLabel = percentLabel;
     const savedSession = savedSessions[mode];
     if (savedSession) {
       const visibleQuestion = Math.min(savedSession.questionIndex || 1, questionTotal);
-      button.dataset.progressLabel = "続き";
+      button.dataset.progressLabel = percentLabel;
       button.title = `${missionNames[mode]}: ${visibleQuestion}/${questionTotal}問目から続き、最高正解 ${progress.bestScore || 0}問`;
     } else {
       button.title = `${missionNames[mode]}: 進捗 ${progress.bestAnswered || 0}/${questionTotal}問、最高正解 ${progress.bestScore || 0}問`;
