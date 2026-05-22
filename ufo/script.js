@@ -20,8 +20,13 @@ const TWO_DIGIT_MIX_ADDITION_STAGE_NAME = stageNameConfig.twoDigitMixAddition ||
 const TWO_DIGIT_MIX_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitMixSubtraction || "Stage 3-3";
 const TWO_DIGIT_MIX_MULTIPLICATION_STAGE_NAME = stageNameConfig.twoDigitMixMultiplication || "Stage 4-2";
 const TWO_DIGIT_MIX_DIVISION_STAGE_NAME = stageNameConfig.twoDigitMixDivision || "Stage 4-3";
-const TWO_DIGIT_TWIN_STAGE_NAME = stageNameConfig.twoDigitTwin || "Stage 6";
-const THREE_DIGIT_JUMP_STAGE_NAME = stageNameConfig.threeDigitJump || "Stage 7";
+const TWO_DIGIT_TWIN_STAGE_NAME = stageNameConfig.twoDigitTwin || "Stage 5";
+const TWO_DIGIT_TWIN_ADDITION_STAGE_NAME = stageNameConfig.twoDigitTwinAddition || "Stage 5-1";
+const TWO_DIGIT_TWIN_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitTwinSubtraction || "Stage 5-2";
+const THREE_DIGIT_JUMP_STAGE_NAME = stageNameConfig.threeDigitJump || "Stage 6";
+const THREE_DIGIT_JUMP_SUBTRACTION_STAGE_NAME = stageNameConfig.threeDigitJumpSubtraction || "Stage 6-1";
+const THREE_DIGIT_JUMP_MULTIPLICATION_STAGE_NAME = stageNameConfig.threeDigitJumpMultiplication || "Stage 6-2";
+const THREE_DIGIT_JUMP_DIVISION_STAGE_NAME = stageNameConfig.threeDigitJumpDivision || "Stage 6-3";
 const POWER_STAGE_NAME = stageNameConfig.power || "Stage 8";
 const REVIEW_STAGE_NAME = stageNameConfig.review || "Test 1";
 
@@ -49,8 +54,11 @@ const missionNames = stageModule.getMissionNames?.() || {
   twoDigitTwoDigitDivision: "Stage 4-1 二桁どうしわり算航路",
   twoDigitMixMultiplication: "Stage 4-2 二桁ミックスかけ算航路",
   twoDigitMixDivision: "Stage 4-3 二桁ミックスわり算航路",
-  twoDigitTwin: "Stage 6 二桁ツイン航路",
-  threeDigitJump: "Stage 7 三桁ジャンプ航路",
+  twoDigitTwinAddition: "Stage 5-1 二桁どうし繰り上げたし算航路",
+  twoDigitTwinSubtraction: "Stage 5-2 二桁どうし繰り下げひき算航路",
+  threeDigitJumpSubtraction: "Stage 6-1 三桁くり下げひき算航路",
+  threeDigitJumpMultiplication: "Stage 6-2 三桁ジャンプかけ算航路",
+  threeDigitJumpDivision: "Stage 6-3 三桁ジャンプわり算航路",
   power: "Stage 8 同じ数かけ算航路",
   review: "Test 1 Stage 1〜5 復習診断",
 };
@@ -66,8 +74,11 @@ const stageProgressModes = stageModule.getProgressModes?.() || [
   "twoDigitTwoDigitDivision",
   "twoDigitMixMultiplication",
   "twoDigitMixDivision",
-  "twoDigitTwin",
-  "threeDigitJump",
+  "twoDigitTwinAddition",
+  "twoDigitTwinSubtraction",
+  "threeDigitJumpSubtraction",
+  "threeDigitJumpMultiplication",
+  "threeDigitJumpDivision",
   "power",
   "review",
 ];
@@ -1469,16 +1480,42 @@ function createTwoDigitTwinQuestionPool() {
     return window.MathFitProblems.createTwoDigitTwinQuestionPool();
   }
 
+  return [
+    ...createTwoDigitTwinAdditionQuestionPool(),
+    ...createTwoDigitTwinSubtractionQuestionPool(),
+  ];
+}
+
+function createTwoDigitTwinAdditionQuestionPool(stage = TWO_DIGIT_TWIN_ADDITION_STAGE_NAME) {
+  if (window.MathFitProblems?.createTwoDigitTwinAdditionQuestionPool) {
+    return window.MathFitProblems.createTwoDigitTwinAdditionQuestionPool(stage);
+  }
+
+  return createTwoDigitTwinOperationQuestionPool("addition", stage);
+}
+
+function createTwoDigitTwinSubtractionQuestionPool(stage = TWO_DIGIT_TWIN_SUBTRACTION_STAGE_NAME) {
+  if (window.MathFitProblems?.createTwoDigitTwinSubtractionQuestionPool) {
+    return window.MathFitProblems.createTwoDigitTwinSubtractionQuestionPool(stage);
+  }
+
+  return createTwoDigitTwinOperationQuestionPool("subtraction", stage);
+}
+
+function createTwoDigitTwinOperationQuestionPool(operation, stage = TWO_DIGIT_TWIN_STAGE_NAME) {
   const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 10; b <= 99; b += 1) {
-      addTwoDigitTwinQuestion(pool, "addition", a, b, a + b, "+");
-      addTwoDigitTwinQuestion(pool, "subtraction", a, b, a - b, "-");
-      addTwoDigitTwinQuestion(pool, "multiplication", a, b, a * b, "×");
+      if (isRoundTen(b) || (operation === "addition" && isRoundTen(a))) {
+        continue;
+      }
 
-      if (a % b === 0) {
-        addTwoDigitTwinQuestion(pool, "division", a, b, a / b, "÷");
+      if (operation === "addition" && a >= b && (a % 10) + (b % 10) >= 10) {
+        addTwoDigitTwinQuestion(pool, "addition", a, b, a + b, "+", stage);
+      }
+      if (operation === "subtraction" && a % 10 < b % 10) {
+        addTwoDigitTwinQuestion(pool, "subtraction", a, b, a - b, "-", stage);
       }
     }
   }
@@ -1486,12 +1523,12 @@ function createTwoDigitTwinQuestionPool() {
   return pool;
 }
 
-function addTwoDigitTwinQuestion(pool, operation, a, b, answer, symbol) {
+function addTwoDigitTwinQuestion(pool, operation, a, b, answer, symbol, stage = TWO_DIGIT_TWIN_STAGE_NAME) {
   if (!Number.isInteger(answer) || answer < 10 || answer > 99) {
     return;
   }
 
-  addDeckQuestion(pool, operation, a, b, answer, symbol, TWO_DIGIT_TWIN_STAGE_NAME);
+  addDeckQuestion(pool, operation, a, b, answer, symbol, stage);
 }
 
 function createThreeDigitJumpQuestionPool() {
@@ -1499,34 +1536,61 @@ function createThreeDigitJumpQuestionPool() {
     return window.MathFitProblems.createThreeDigitJumpQuestionPool();
   }
 
-  const pool = [];
+  return [
+    ...createThreeDigitJumpSubtractionQuestionPool(),
+    ...createThreeDigitJumpMultiplicationQuestionPool(),
+    ...createThreeDigitJumpDivisionQuestionPool(),
+  ];
+}
 
-  for (let a = 10; a <= 99; a += 1) {
-    for (let b = 10; b <= 99; b += 1) {
-      const answer = a + b;
-      if (answer >= 100 && answer <= 999) {
-        addDeckQuestion(pool, "addition", a, b, answer, "+", THREE_DIGIT_JUMP_STAGE_NAME);
-      }
-    }
+function createThreeDigitJumpSubtractionQuestionPool(stage = THREE_DIGIT_JUMP_SUBTRACTION_STAGE_NAME) {
+  if (window.MathFitProblems?.createThreeDigitJumpSubtractionQuestionPool) {
+    return window.MathFitProblems.createThreeDigitJumpSubtractionQuestionPool(stage);
   }
+
+  const pool = [];
 
   for (let a = 100; a <= 999; a += 1) {
     for (let b = 10; b <= 99; b += 1) {
+      if (b % 10 === 0 || a % 10 >= b % 10) {
+        continue;
+      }
+
       const answer = a - b;
       if (answer >= 10 && answer <= 99) {
-        addDeckQuestion(pool, "subtraction", a, b, answer, "-", THREE_DIGIT_JUMP_STAGE_NAME);
+        addDeckQuestion(pool, "subtraction", a, b, answer, "-", stage);
       }
     }
   }
+
+  return pool;
+}
+
+function createThreeDigitJumpMultiplicationQuestionPool(stage = THREE_DIGIT_JUMP_MULTIPLICATION_STAGE_NAME) {
+  if (window.MathFitProblems?.createThreeDigitJumpMultiplicationQuestionPool) {
+    return window.MathFitProblems.createThreeDigitJumpMultiplicationQuestionPool(stage);
+  }
+
+  const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 1; b <= 9; b += 1) {
       const answer = a * b;
       if (answer >= 100 && answer <= 999) {
-        addDeckQuestion(pool, "multiplication", a, b, answer, "×", THREE_DIGIT_JUMP_STAGE_NAME);
+        addDeckQuestion(pool, "multiplication", a, b, answer, "×", stage);
       }
     }
   }
+
+  return pool;
+}
+
+function createThreeDigitJumpDivisionQuestionPool(stage = THREE_DIGIT_JUMP_DIVISION_STAGE_NAME) {
+  if (window.MathFitProblems?.createThreeDigitJumpDivisionQuestionPool) {
+    return window.MathFitProblems.createThreeDigitJumpDivisionQuestionPool(stage);
+  }
+
+  const pool = [];
 
   for (let a = 100; a <= 999; a += 1) {
     for (let b = 1; b <= 9; b += 1) {
@@ -1536,7 +1600,7 @@ function createThreeDigitJumpQuestionPool() {
 
       const answer = a / b;
       if (answer >= 10 && answer <= 99) {
-        addDeckQuestion(pool, "division", a, b, answer, "÷", THREE_DIGIT_JUMP_STAGE_NAME);
+        addDeckQuestion(pool, "division", a, b, answer, "÷", stage);
       }
     }
   }
@@ -1699,7 +1763,12 @@ function createQuestionPoolForStage(config) {
     twoDigitMixMultiplication: createTwoDigitMixMultiplicationQuestionPool,
     twoDigitMixDivision: createTwoDigitMixDivisionQuestionPool,
     twoDigitTwin: createTwoDigitTwinQuestionPool,
+    twoDigitTwinAddition: createTwoDigitTwinAdditionQuestionPool,
+    twoDigitTwinSubtraction: createTwoDigitTwinSubtractionQuestionPool,
     threeDigitJump: createThreeDigitJumpQuestionPool,
+    threeDigitJumpSubtraction: createThreeDigitJumpSubtractionQuestionPool,
+    threeDigitJumpMultiplication: createThreeDigitJumpMultiplicationQuestionPool,
+    threeDigitJumpDivision: createThreeDigitJumpDivisionQuestionPool,
     power: createPowerQuestionPool,
   };
   const fallbackFactory = fallbackFactories[config.mode];
@@ -2506,12 +2575,24 @@ function createQuestionComms(question) {
     return `Stage 4 ミックス航路 ${state.questionIndex}/${getQuestionTotal()}。二桁と一桁を組み替えて、${operation}を二桁に着地させよう。`;
   }
 
-  if (state.mode === "twoDigitTwin") {
-    return `Stage 6 ツイン航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、${operation}を二桁に着地させよう。`;
+  if (state.mode === "twoDigitTwinAddition") {
+    return `Stage 5-1 たし算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしの繰り上げたし算を見ていこう。`;
   }
 
-  if (state.mode === "threeDigitJump") {
-    return `Stage 7 三桁ジャンプ ${state.questionIndex}/${getQuestionTotal()}。${operation}で、二桁と三桁の境目を飛びこえよう。`;
+  if (state.mode === "twoDigitTwinSubtraction") {
+    return `Stage 5-2 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしの繰り下げひき算を見ていこう。`;
+  }
+
+  if (state.mode === "threeDigitJumpSubtraction") {
+    return `Stage 6-1 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。一の位で借りながら、三桁から二桁へ戻ろう。`;
+  }
+
+  if (state.mode === "threeDigitJumpMultiplication") {
+    return `Stage 6-2 かけ算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁と一桁をかけて三桁へジャンプしよう。`;
+  }
+
+  if (state.mode === "threeDigitJumpDivision") {
+    return `Stage 6-3 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。三桁から二桁へきれいに降りよう。`;
   }
 
   if (state.mode === "power") {

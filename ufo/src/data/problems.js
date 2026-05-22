@@ -337,16 +337,34 @@
   }
 
   function createTwoDigitTwinQuestionPool() {
+    return [
+      ...createTwoDigitTwinAdditionQuestionPool(),
+      ...createTwoDigitTwinSubtractionQuestionPool(),
+    ];
+  }
+
+  function createTwoDigitTwinAdditionQuestionPool(stage = stageNames.twoDigitTwinAddition) {
+    return createTwoDigitTwinOperationQuestionPool("addition", stage);
+  }
+
+  function createTwoDigitTwinSubtractionQuestionPool(stage = stageNames.twoDigitTwinSubtraction) {
+    return createTwoDigitTwinOperationQuestionPool("subtraction", stage);
+  }
+
+  function createTwoDigitTwinOperationQuestionPool(operation, stage = stageNames.twoDigitTwin) {
     const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 10; b <= 99; b += 1) {
-        addTwoDigitTwinQuestion(pool, "addition", a, b, a + b, "+");
-        addTwoDigitTwinQuestion(pool, "subtraction", a, b, a - b, "-");
-        addTwoDigitTwinQuestion(pool, "multiplication", a, b, a * b, "×");
+        if (isRoundTen(b) || (operation === "addition" && isRoundTen(a))) {
+          continue;
+        }
 
-        if (a % b === 0) {
-          addTwoDigitTwinQuestion(pool, "division", a, b, a / b, "÷");
+        if (operation === "addition" && a >= b && (a % 10) + (b % 10) >= 10) {
+          addTwoDigitTwinQuestion(pool, "addition", a, b, a + b, "+", stage);
+        }
+        if (operation === "subtraction" && a % 10 < b % 10) {
+          addTwoDigitTwinQuestion(pool, "subtraction", a, b, a - b, "-", stage);
         }
       }
     }
@@ -354,43 +372,58 @@
     return pool;
   }
 
-  function addTwoDigitTwinQuestion(pool, operation, a, b, answer, symbol) {
+  function addTwoDigitTwinQuestion(pool, operation, a, b, answer, symbol, stage = stageNames.twoDigitTwin) {
     if (!Number.isInteger(answer) || answer < 10 || answer > 99) {
       return;
     }
 
-    addDeckQuestion(pool, operation, a, b, answer, symbol, stageNames.twoDigitTwin);
+    addDeckQuestion(pool, operation, a, b, answer, symbol, stage);
   }
 
   function createThreeDigitJumpQuestionPool() {
-    const pool = [];
+    return [
+      ...createThreeDigitJumpSubtractionQuestionPool(),
+      ...createThreeDigitJumpMultiplicationQuestionPool(),
+      ...createThreeDigitJumpDivisionQuestionPool(),
+    ];
+  }
 
-    for (let a = 10; a <= 99; a += 1) {
-      for (let b = 10; b <= 99; b += 1) {
-        const answer = a + b;
-        if (answer >= 100 && answer <= 999) {
-          addDeckQuestion(pool, "addition", a, b, answer, "+", stageNames.threeDigitJump);
-        }
-      }
-    }
+  function createThreeDigitJumpSubtractionQuestionPool(stage = stageNames.threeDigitJumpSubtraction) {
+    const pool = [];
 
     for (let a = 100; a <= 999; a += 1) {
       for (let b = 10; b <= 99; b += 1) {
+        if (b % 10 === 0 || a % 10 >= b % 10) {
+          continue;
+        }
+
         const answer = a - b;
         if (answer >= 10 && answer <= 99) {
-          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.threeDigitJump);
+          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stage);
         }
       }
     }
+
+    return pool;
+  }
+
+  function createThreeDigitJumpMultiplicationQuestionPool(stage = stageNames.threeDigitJumpMultiplication) {
+    const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 1; b <= 9; b += 1) {
         const answer = a * b;
         if (answer >= 100 && answer <= 999) {
-          addDeckQuestion(pool, "multiplication", a, b, answer, "×", stageNames.threeDigitJump);
+          addDeckQuestion(pool, "multiplication", a, b, answer, "×", stage);
         }
       }
     }
+
+    return pool;
+  }
+
+  function createThreeDigitJumpDivisionQuestionPool(stage = stageNames.threeDigitJumpDivision) {
+    const pool = [];
 
     for (let a = 100; a <= 999; a += 1) {
       for (let b = 1; b <= 9; b += 1) {
@@ -400,7 +433,7 @@
 
         const answer = a / b;
         if (answer >= 10 && answer <= 99) {
-          addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.threeDigitJump);
+          addDeckQuestion(pool, "division", a, b, answer, "÷", stage);
         }
       }
     }
@@ -531,7 +564,12 @@
     createTwoDigitMixMultiplicationQuestionPool,
     createTwoDigitMixDivisionQuestionPool,
     createTwoDigitTwinQuestionPool,
+    createTwoDigitTwinAdditionQuestionPool,
+    createTwoDigitTwinSubtractionQuestionPool,
     createThreeDigitJumpQuestionPool,
+    createThreeDigitJumpSubtractionQuestionPool,
+    createThreeDigitJumpMultiplicationQuestionPool,
+    createThreeDigitJumpDivisionQuestionPool,
     createPowerQuestionPool,
   };
 })();
