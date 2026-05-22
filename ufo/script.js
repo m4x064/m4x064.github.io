@@ -37,7 +37,7 @@ const missionNames = stageModule.getMissionNames?.() || {
   adaptive: "10問診断ミッション",
   stageOneAddition: "Stage 1-1 一桁たし算航路",
   stageOneSubtraction: "Stage 1-2 一桁ひき算航路",
-  stageOneMultiplication: "Stage 1-3 一桁かけ算航路",
+  stageOneMultiplication: "Stage 1-3 一桁かけ算・わり算航路",
   stageOneDivision: "Stage 1-4 一桁わり算航路",
   carryAddition: "Stage 2-1 繰り上がりたし算航路",
   borrowSubtraction: "Stage 2-2 繰り下がりひき算航路",
@@ -55,7 +55,6 @@ const stageProgressModes = stageModule.getProgressModes?.() || [
   "stageOneAddition",
   "stageOneSubtraction",
   "stageOneMultiplication",
-  "stageOneDivision",
   "carryAddition",
   "borrowSubtraction",
   "carryMultiplication",
@@ -1126,20 +1125,39 @@ function createStageOneDivisionQuestionPool() {
   return createStageOneOperationQuestionPool("division", "÷", STAGE_ONE_DIVISION_NAME);
 }
 
+function createStageOneMultiplicationDivisionQuestionPool() {
+  return [
+    ...createStageOneMultiplicationQuestionPool(),
+    ...createStageOneOperationQuestionPool("division", "÷", STAGE_ONE_MULTIPLICATION_NAME),
+  ];
+}
+
 function createStageOneOperationQuestionPool(operation, symbol, stage) {
   const pool = [];
 
   for (let a = 0; a <= 9; a += 1) {
     for (let b = 0; b <= 9; b += 1) {
       if (operation === "addition") {
+        if (a === 0 || b === 0) {
+          continue;
+        }
+
         addStageOneQuestion(pool, operation, a, b, a + b, symbol, stage);
       }
 
       if (operation === "subtraction") {
+        if (a === 0 || b === 0 || a - b === 0) {
+          continue;
+        }
+
         addStageOneQuestion(pool, operation, a, b, a - b, symbol, stage);
       }
 
       if (operation === "multiplication") {
+        if (a <= 1 || b <= 1) {
+          continue;
+        }
+
         addStageOneQuestion(pool, operation, a, b, a * b, symbol, stage);
       }
 
@@ -1281,7 +1299,7 @@ function createTwoDigitTwoDigitSubtractionQuestionPool() {
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 10; b <= 99; b += 1) {
       const answer = a - b;
-      if (answer >= 0 && answer <= 9) {
+      if (answer >= 0 && answer <= 9 && Math.floor(a / 10) !== Math.floor(b / 10)) {
         addDeckQuestion(pool, "subtraction", a, b, answer, "-", TWO_DIGIT_TWO_DIGIT_SUBTRACTION_STAGE_NAME);
       }
     }
@@ -1304,7 +1322,7 @@ function createTwoDigitTwoDigitDivisionQuestionPool() {
       }
 
       const answer = a / b;
-      if (answer >= 1 && answer <= 9) {
+      if (answer >= 2 && answer <= 9) {
         addDeckQuestion(pool, "division", a, b, answer, "÷", TWO_DIGIT_TWO_DIGIT_DIVISION_STAGE_NAME);
       }
     }
@@ -1563,7 +1581,8 @@ function createQuestionPoolForStage(config) {
     stageOne: createStageOneQuestionPool,
     stageOneAddition: createStageOneAdditionQuestionPool,
     stageOneSubtraction: createStageOneSubtractionQuestionPool,
-    stageOneMultiplication: createStageOneMultiplicationQuestionPool,
+    stageOneMultiplication: createStageOneMultiplicationDivisionQuestionPool,
+    stageOneMultiplicationDivision: createStageOneMultiplicationDivisionQuestionPool,
     stageOneDivision: createStageOneDivisionQuestionPool,
     carry: createCarryQuestionPool,
     carryAddition: createCarryAdditionQuestionPool,
@@ -1621,7 +1640,6 @@ function createReviewQuestionDeck(mode = "review") {
     "stageOneAddition",
     "stageOneSubtraction",
     "stageOneMultiplication",
-    "stageOneDivision",
     "carryAddition",
     "borrowSubtraction",
     "carryMultiplication",

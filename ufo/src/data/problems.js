@@ -53,20 +53,39 @@
     return createStageOneOperationQuestionPool("division", "÷", stageNames.stageOneDivision);
   }
 
+  function createStageOneMultiplicationDivisionQuestionPool() {
+    return [
+      ...createStageOneMultiplicationQuestionPool(),
+      ...createStageOneOperationQuestionPool("division", "÷", stageNames.stageOneMultiplication),
+    ];
+  }
+
   function createStageOneOperationQuestionPool(operation, symbol, stage) {
     const pool = [];
 
     for (let a = 0; a <= 9; a += 1) {
       for (let b = 0; b <= 9; b += 1) {
         if (operation === "addition") {
+          if (a === 0 || b === 0) {
+            continue;
+          }
+
           addStageOneQuestion(pool, operation, a, b, a + b, symbol, stage);
         }
 
         if (operation === "subtraction") {
+          if (a === 0 || b === 0 || a - b === 0) {
+            continue;
+          }
+
           addStageOneQuestion(pool, operation, a, b, a - b, symbol, stage);
         }
 
         if (operation === "multiplication") {
+          if (a <= 1 || b <= 1) {
+            continue;
+          }
+
           addStageOneQuestion(pool, operation, a, b, a * b, symbol, stage);
         }
 
@@ -176,7 +195,7 @@
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 10; b <= 99; b += 1) {
         const answer = a - b;
-        if (answer >= 0 && answer <= 9) {
+        if (answer >= 0 && answer <= 9 && Math.floor(a / 10) !== Math.floor(b / 10)) {
           addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.twoDigitTwoDigitSubtraction);
         }
       }
@@ -195,7 +214,7 @@
         }
 
         const answer = a / b;
-        if (answer >= 1 && answer <= 9) {
+        if (answer >= 2 && answer <= 9) {
           addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.twoDigitTwoDigitDivision);
         }
       }
@@ -412,6 +431,7 @@
     createStageOneSubtractionQuestionPool,
     createStageOneMultiplicationQuestionPool,
     createStageOneDivisionQuestionPool,
+    createStageOneMultiplicationDivisionQuestionPool,
     createCarryQuestionPool,
     createCarryAdditionQuestionPool,
     createCarryMultiplicationQuestionPool,
