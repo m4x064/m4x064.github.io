@@ -80,16 +80,33 @@
   }
 
   function createCarryQuestionPool() {
+    return [
+      ...createCarryAdditionQuestionPool(),
+      ...createCarryMultiplicationQuestionPool(),
+    ];
+  }
+
+  function createCarryAdditionQuestionPool() {
     const pool = [];
 
     for (let a = 0; a <= 9; a += 1) {
       for (let b = 0; b <= 9; b += 1) {
         if (a + b >= 10) {
-          addDeckQuestion(pool, "addition", a, b, a + b, "+", stageNames.carry);
+          addDeckQuestion(pool, "addition", a, b, a + b, "+", stageNames.carryAddition);
         }
+      }
+    }
 
+    return pool;
+  }
+
+  function createCarryMultiplicationQuestionPool() {
+    const pool = [];
+
+    for (let a = 0; a <= 9; a += 1) {
+      for (let b = 0; b <= 9; b += 1) {
         if (a * b >= 10) {
-          addDeckQuestion(pool, "multiplication", a, b, a * b, "×", stageNames.carry);
+          addDeckQuestion(pool, "multiplication", a, b, a * b, "×", stageNames.carryMultiplication);
         }
       }
     }
@@ -98,16 +115,37 @@
   }
 
   function createTwoDigitOneDigitQuestionPool() {
+    return [
+      ...createBorrowSubtractionQuestionPool(),
+      ...createBorrowDivisionQuestionPool(),
+    ];
+  }
+
+  function createTwoDigitOneDigitSubtractionQuestionPool() {
+    return createBorrowSubtractionQuestionPool();
+  }
+
+  function createTwoDigitOneDigitDivisionQuestionPool() {
+    return createBorrowDivisionQuestionPool();
+  }
+
+  function createBorrowSubtractionQuestionPool() {
     const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 0; b <= 9; b += 1) {
         const answer = a - b;
         if (answer >= 0 && answer <= 9) {
-          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.twoDigitOneDigit);
+          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.borrowSubtraction);
         }
       }
     }
+
+    return pool;
+  }
+
+  function createBorrowDivisionQuestionPool() {
+    const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 1; b <= 9; b += 1) {
@@ -117,7 +155,7 @@
 
         const answer = a / b;
         if (answer >= 0 && answer <= 9) {
-          addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.twoDigitOneDigit);
+          addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.borrowDivision);
         }
       }
     }
@@ -126,16 +164,29 @@
   }
 
   function createTwoDigitTwoDigitQuestionPool() {
+    return [
+      ...createTwoDigitTwoDigitSubtractionQuestionPool(),
+      ...createTwoDigitTwoDigitDivisionQuestionPool(),
+    ];
+  }
+
+  function createTwoDigitTwoDigitSubtractionQuestionPool() {
     const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 10; b <= 99; b += 1) {
         const answer = a - b;
         if (answer >= 0 && answer <= 9) {
-          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.twoDigitTwoDigit);
+          addDeckQuestion(pool, "subtraction", a, b, answer, "-", stageNames.twoDigitTwoDigitSubtraction);
         }
       }
     }
+
+    return pool;
+  }
+
+  function createTwoDigitTwoDigitDivisionQuestionPool() {
+    const pool = [];
 
     for (let a = 10; a <= 99; a += 1) {
       for (let b = 10; b <= 99; b += 1) {
@@ -145,7 +196,7 @@
 
         const answer = a / b;
         if (answer >= 1 && answer <= 9) {
-          addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.twoDigitTwoDigit);
+          addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.twoDigitTwoDigitDivision);
         }
       }
     }
@@ -362,8 +413,16 @@
     createStageOneMultiplicationQuestionPool,
     createStageOneDivisionQuestionPool,
     createCarryQuestionPool,
+    createCarryAdditionQuestionPool,
+    createCarryMultiplicationQuestionPool,
+    createBorrowSubtractionQuestionPool,
+    createBorrowDivisionQuestionPool,
     createTwoDigitOneDigitQuestionPool,
+    createTwoDigitOneDigitSubtractionQuestionPool,
+    createTwoDigitOneDigitDivisionQuestionPool,
     createTwoDigitTwoDigitQuestionPool,
+    createTwoDigitTwoDigitSubtractionQuestionPool,
+    createTwoDigitTwoDigitDivisionQuestionPool,
     createTwoDigitMixQuestionPool,
     createTwoDigitTwinQuestionPool,
     createThreeDigitJumpQuestionPool,

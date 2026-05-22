@@ -10,9 +10,12 @@ const STAGE_ONE_SUBTRACTION_NAME = stageNameConfig.stageOneSubtraction || "Stage
 const STAGE_ONE_MULTIPLICATION_NAME = stageNameConfig.stageOneMultiplication || "Stage 1-3";
 const STAGE_ONE_DIVISION_NAME = stageNameConfig.stageOneDivision || "Stage 1-4";
 const STAGE_ONE_NAME = stageNameConfig.stageOne || "Stage 1";
-const CARRY_STAGE_NAME = stageNameConfig.carry || "Stage 2";
-const TWO_DIGIT_ONE_DIGIT_STAGE_NAME = stageNameConfig.twoDigitOneDigit || "Stage 3";
-const TWO_DIGIT_TWO_DIGIT_STAGE_NAME = stageNameConfig.twoDigitTwoDigit || "Stage 4";
+const CARRY_ADDITION_STAGE_NAME = stageNameConfig.carryAddition || "Stage 2-1";
+const BORROW_SUBTRACTION_STAGE_NAME = stageNameConfig.borrowSubtraction || "Stage 2-2";
+const CARRY_MULTIPLICATION_STAGE_NAME = stageNameConfig.carryMultiplication || "Stage 2-3";
+const BORROW_DIVISION_STAGE_NAME = stageNameConfig.borrowDivision || "Stage 2-4";
+const TWO_DIGIT_TWO_DIGIT_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitTwoDigitSubtraction || "Stage 3";
+const TWO_DIGIT_TWO_DIGIT_DIVISION_STAGE_NAME = stageNameConfig.twoDigitTwoDigitDivision || "Stage 4";
 const TWO_DIGIT_MIX_STAGE_NAME = stageNameConfig.twoDigitMix || "Stage 5";
 const TWO_DIGIT_TWIN_STAGE_NAME = stageNameConfig.twoDigitTwin || "Stage 6";
 const THREE_DIGIT_JUMP_STAGE_NAME = stageNameConfig.threeDigitJump || "Stage 7";
@@ -36,9 +39,12 @@ const missionNames = stageModule.getMissionNames?.() || {
   stageOneSubtraction: "Stage 1-2 一桁ひき算航路",
   stageOneMultiplication: "Stage 1-3 一桁かけ算航路",
   stageOneDivision: "Stage 1-4 一桁わり算航路",
-  carry: "Stage 2 繰り上がりジャンプ航路",
-  twoDigitOneDigit: "Stage 3 二桁スリム航路",
-  twoDigitTwoDigit: "Stage 4 二桁ペア航路",
+  carryAddition: "Stage 2-1 繰り上がりたし算航路",
+  borrowSubtraction: "Stage 2-2 繰り下がりひき算航路",
+  carryMultiplication: "Stage 2-3 繰り上がりかけ算航路",
+  borrowDivision: "Stage 2-4 繰り下がりわり算航路",
+  twoDigitTwoDigitSubtraction: "Stage 3 二桁どうしひき算航路",
+  twoDigitTwoDigitDivision: "Stage 4 二桁どうしわり算航路",
   twoDigitMix: "Stage 5 二桁ミックス航路",
   twoDigitTwin: "Stage 6 二桁ツイン航路",
   threeDigitJump: "Stage 7 三桁ジャンプ航路",
@@ -50,9 +56,12 @@ const stageProgressModes = stageModule.getProgressModes?.() || [
   "stageOneSubtraction",
   "stageOneMultiplication",
   "stageOneDivision",
-  "carry",
-  "twoDigitOneDigit",
-  "twoDigitTwoDigit",
+  "carryAddition",
+  "borrowSubtraction",
+  "carryMultiplication",
+  "borrowDivision",
+  "twoDigitTwoDigitSubtraction",
+  "twoDigitTwoDigitDivision",
   "twoDigitMix",
   "twoDigitTwin",
   "threeDigitJump",
@@ -1148,16 +1157,41 @@ function createCarryQuestionPool() {
     return window.MathFitProblems.createCarryQuestionPool();
   }
 
+  return [
+    ...createCarryAdditionQuestionPool(),
+    ...createCarryMultiplicationQuestionPool(),
+  ];
+}
+
+function createCarryAdditionQuestionPool() {
+  if (window.MathFitProblems?.createCarryAdditionQuestionPool) {
+    return window.MathFitProblems.createCarryAdditionQuestionPool();
+  }
+
   const pool = [];
 
   for (let a = 0; a <= 9; a += 1) {
     for (let b = 0; b <= 9; b += 1) {
       if (a + b >= 10) {
-        addDeckQuestion(pool, "addition", a, b, a + b, "+", CARRY_STAGE_NAME);
+        addDeckQuestion(pool, "addition", a, b, a + b, "+", CARRY_ADDITION_STAGE_NAME);
       }
+    }
+  }
 
+  return pool;
+}
+
+function createCarryMultiplicationQuestionPool() {
+  if (window.MathFitProblems?.createCarryMultiplicationQuestionPool) {
+    return window.MathFitProblems.createCarryMultiplicationQuestionPool();
+  }
+
+  const pool = [];
+
+  for (let a = 0; a <= 9; a += 1) {
+    for (let b = 0; b <= 9; b += 1) {
       if (a * b >= 10) {
-        addDeckQuestion(pool, "multiplication", a, b, a * b, "×", CARRY_STAGE_NAME);
+        addDeckQuestion(pool, "multiplication", a, b, a * b, "×", CARRY_MULTIPLICATION_STAGE_NAME);
       }
     }
   }
@@ -1170,16 +1204,45 @@ function createTwoDigitOneDigitQuestionPool() {
     return window.MathFitProblems.createTwoDigitOneDigitQuestionPool();
   }
 
+  return [
+    ...createBorrowSubtractionQuestionPool(),
+    ...createBorrowDivisionQuestionPool(),
+  ];
+}
+
+function createTwoDigitOneDigitSubtractionQuestionPool() {
+  return createBorrowSubtractionQuestionPool();
+}
+
+function createTwoDigitOneDigitDivisionQuestionPool() {
+  return createBorrowDivisionQuestionPool();
+}
+
+function createBorrowSubtractionQuestionPool() {
+  if (window.MathFitProblems?.createBorrowSubtractionQuestionPool) {
+    return window.MathFitProblems.createBorrowSubtractionQuestionPool();
+  }
+
   const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 0; b <= 9; b += 1) {
       const answer = a - b;
       if (answer >= 0 && answer <= 9) {
-        addDeckQuestion(pool, "subtraction", a, b, answer, "-", TWO_DIGIT_ONE_DIGIT_STAGE_NAME);
+        addDeckQuestion(pool, "subtraction", a, b, answer, "-", BORROW_SUBTRACTION_STAGE_NAME);
       }
     }
   }
+
+  return pool;
+}
+
+function createBorrowDivisionQuestionPool() {
+  if (window.MathFitProblems?.createBorrowDivisionQuestionPool) {
+    return window.MathFitProblems.createBorrowDivisionQuestionPool();
+  }
+
+  const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 1; b <= 9; b += 1) {
@@ -1189,7 +1252,7 @@ function createTwoDigitOneDigitQuestionPool() {
 
       const answer = a / b;
       if (answer >= 0 && answer <= 9) {
-        addDeckQuestion(pool, "division", a, b, answer, "÷", TWO_DIGIT_ONE_DIGIT_STAGE_NAME);
+        addDeckQuestion(pool, "division", a, b, answer, "÷", BORROW_DIVISION_STAGE_NAME);
       }
     }
   }
@@ -1202,16 +1265,37 @@ function createTwoDigitTwoDigitQuestionPool() {
     return window.MathFitProblems.createTwoDigitTwoDigitQuestionPool();
   }
 
+  return [
+    ...createTwoDigitTwoDigitSubtractionQuestionPool(),
+    ...createTwoDigitTwoDigitDivisionQuestionPool(),
+  ];
+}
+
+function createTwoDigitTwoDigitSubtractionQuestionPool() {
+  if (window.MathFitProblems?.createTwoDigitTwoDigitSubtractionQuestionPool) {
+    return window.MathFitProblems.createTwoDigitTwoDigitSubtractionQuestionPool();
+  }
+
   const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 10; b <= 99; b += 1) {
       const answer = a - b;
       if (answer >= 0 && answer <= 9) {
-        addDeckQuestion(pool, "subtraction", a, b, answer, "-", TWO_DIGIT_TWO_DIGIT_STAGE_NAME);
+        addDeckQuestion(pool, "subtraction", a, b, answer, "-", TWO_DIGIT_TWO_DIGIT_SUBTRACTION_STAGE_NAME);
       }
     }
   }
+
+  return pool;
+}
+
+function createTwoDigitTwoDigitDivisionQuestionPool() {
+  if (window.MathFitProblems?.createTwoDigitTwoDigitDivisionQuestionPool) {
+    return window.MathFitProblems.createTwoDigitTwoDigitDivisionQuestionPool();
+  }
+
+  const pool = [];
 
   for (let a = 10; a <= 99; a += 1) {
     for (let b = 10; b <= 99; b += 1) {
@@ -1221,7 +1305,7 @@ function createTwoDigitTwoDigitQuestionPool() {
 
       const answer = a / b;
       if (answer >= 1 && answer <= 9) {
-        addDeckQuestion(pool, "division", a, b, answer, "÷", TWO_DIGIT_TWO_DIGIT_STAGE_NAME);
+        addDeckQuestion(pool, "division", a, b, answer, "÷", TWO_DIGIT_TWO_DIGIT_DIVISION_STAGE_NAME);
       }
     }
   }
@@ -1482,8 +1566,16 @@ function createQuestionPoolForStage(config) {
     stageOneMultiplication: createStageOneMultiplicationQuestionPool,
     stageOneDivision: createStageOneDivisionQuestionPool,
     carry: createCarryQuestionPool,
+    carryAddition: createCarryAdditionQuestionPool,
+    borrowSubtraction: createBorrowSubtractionQuestionPool,
+    carryMultiplication: createCarryMultiplicationQuestionPool,
+    borrowDivision: createBorrowDivisionQuestionPool,
     twoDigitOneDigit: createTwoDigitOneDigitQuestionPool,
+    twoDigitOneDigitSubtraction: createTwoDigitOneDigitSubtractionQuestionPool,
+    twoDigitOneDigitDivision: createTwoDigitOneDigitDivisionQuestionPool,
     twoDigitTwoDigit: createTwoDigitTwoDigitQuestionPool,
+    twoDigitTwoDigitSubtraction: createTwoDigitTwoDigitSubtractionQuestionPool,
+    twoDigitTwoDigitDivision: createTwoDigitTwoDigitDivisionQuestionPool,
     twoDigitMix: createTwoDigitMixQuestionPool,
     twoDigitTwin: createTwoDigitTwinQuestionPool,
     threeDigitJump: createThreeDigitJumpQuestionPool,
@@ -1530,9 +1622,12 @@ function createReviewQuestionDeck(mode = "review") {
     "stageOneSubtraction",
     "stageOneMultiplication",
     "stageOneDivision",
-    "carry",
-    "twoDigitOneDigit",
-    "twoDigitTwoDigit",
+    "carryAddition",
+    "borrowSubtraction",
+    "carryMultiplication",
+    "borrowDivision",
+    "twoDigitTwoDigitSubtraction",
+    "twoDigitTwoDigitDivision",
     "twoDigitMix",
   ];
   const stagePools = sourceModes
@@ -2238,16 +2333,28 @@ function createQuestionComms(question) {
     return `Stage 1 スター航路 ${state.questionIndex}/${getQuestionTotal()}。${operation}の小さな星を回収しよう。`;
   }
 
-  if (state.mode === "carry") {
-    return `Stage 2 ジャンプ航路 ${state.questionIndex}/${getQuestionTotal()}。くり上がりと二桁の反応を見ていくよ。`;
+  if (state.mode === "carryAddition") {
+    return `Stage 2-1 たし算航路 ${state.questionIndex}/${getQuestionTotal()}。繰り上がりの反応を見ていくよ。`;
   }
 
-  if (state.mode === "twoDigitOneDigit") {
-    return `Stage 3 スリム航路 ${state.questionIndex}/${getQuestionTotal()}。二桁から一桁へ、${operation}の信号をしぼっていくよ。`;
+  if (state.mode === "borrowSubtraction") {
+    return `Stage 2-2 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。繰り下がりの反応を見ていくよ。`;
   }
 
-  if (state.mode === "twoDigitTwoDigit") {
-    return `Stage 4 ペア航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、${operation}の信号を一桁に着地させよう。`;
+  if (state.mode === "carryMultiplication") {
+    return `Stage 2-3 かけ算航路 ${state.questionIndex}/${getQuestionTotal()}。繰り上がりの反応を見ていくよ。`;
+  }
+
+  if (state.mode === "borrowDivision") {
+    return `Stage 2-4 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。繰り下がりの反応を見ていくよ。`;
+  }
+
+  if (state.mode === "twoDigitTwoDigitSubtraction") {
+    return `Stage 3 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、ひき算の信号を一桁に着地させよう。`;
+  }
+
+  if (state.mode === "twoDigitTwoDigitDivision") {
+    return `Stage 4 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、わり算の信号を一桁に着地させよう。`;
   }
 
   if (state.mode === "twoDigitMix") {
