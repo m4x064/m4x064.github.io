@@ -214,7 +214,7 @@
         }
 
         const answer = a / b;
-        if (answer >= 2 && answer <= 9) {
+        if (answer >= 2 && answer <= 9 && !hasRoundTenOrRepdigit(a, b)) {
           addDeckQuestion(pool, "division", a, b, answer, "÷", stageNames.twoDigitTwoDigitDivision);
         }
       }
@@ -224,34 +224,89 @@
   }
 
   function createTwoDigitMixQuestionPool() {
+    return [
+      ...createTwoDigitMixAdditionQuestionPool(),
+      ...createTwoDigitMixSubtractionQuestionPool(),
+      ...createTwoDigitMixMultiplicationQuestionPool(),
+      ...createTwoDigitMixDivisionQuestionPool(),
+    ];
+  }
+
+  function createTwoDigitMixAdditionQuestionPool() {
+    return createTwoDigitMixOperationQuestionPool("addition");
+  }
+
+  function createTwoDigitMixSubtractionQuestionPool() {
+    return createTwoDigitMixOperationQuestionPool("subtraction");
+  }
+
+  function createTwoDigitMixMultiplicationQuestionPool() {
+    return createTwoDigitMixOperationQuestionPool("multiplication");
+  }
+
+  function createTwoDigitMixDivisionQuestionPool() {
+    return createTwoDigitMixOperationQuestionPool("division");
+  }
+
+  function createTwoDigitMixOperationQuestionPool(operation) {
     const pool = [];
 
     for (let twoDigit = 10; twoDigit <= 99; twoDigit += 1) {
       for (let oneDigit = 0; oneDigit <= 9; oneDigit += 1) {
-        addTwoDigitMixQuestions(pool, twoDigit, oneDigit);
-        addTwoDigitMixQuestions(pool, oneDigit, twoDigit);
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation);
+        addTwoDigitMixQuestions(pool, oneDigit, twoDigit, operation);
       }
     }
 
     return pool;
   }
 
-  function addTwoDigitMixQuestions(pool, a, b) {
-    addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+");
-    addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-");
-    addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×");
+  function hasRoundTenOrRepdigit(a, b) {
+    return isRoundTen(a) || isRoundTen(b) || isRepdigit(a) || isRepdigit(b);
+  }
 
-    if (b !== 0 && a % b === 0) {
-      addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷");
+  function isRoundTen(value) {
+    return value % 10 === 0;
+  }
+
+  function isRepdigit(value) {
+    return Math.floor(value / 10) === value % 10;
+  }
+
+  function addTwoDigitMixQuestions(pool, a, b, targetOperation = null) {
+    if (!targetOperation || targetOperation === "addition") {
+      addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+", getTwoDigitMixStageName("addition"));
+    }
+
+    if (!targetOperation || targetOperation === "subtraction") {
+      addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-", getTwoDigitMixStageName("subtraction"));
+    }
+
+    if (!targetOperation || targetOperation === "multiplication") {
+      addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×", getTwoDigitMixStageName("multiplication"));
+    }
+
+    if ((!targetOperation || targetOperation === "division") && b !== 0 && a % b === 0) {
+      addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷", getTwoDigitMixStageName("division"));
     }
   }
 
-  function addTwoDigitAnswerQuestion(pool, operation, a, b, answer, symbol) {
+  function getTwoDigitMixStageName(operation) {
+    const stageByOperation = {
+      addition: stageNames.twoDigitMixAddition,
+      subtraction: stageNames.twoDigitMixSubtraction,
+      multiplication: stageNames.twoDigitMixMultiplication,
+      division: stageNames.twoDigitMixDivision,
+    };
+    return stageByOperation[operation] || stageNames.twoDigitMixAddition || "Stage 5";
+  }
+
+  function addTwoDigitAnswerQuestion(pool, operation, a, b, answer, symbol, stage = getTwoDigitMixStageName(operation)) {
     if (!Number.isInteger(answer) || answer < 10 || answer > 99) {
       return;
     }
 
-    addDeckQuestion(pool, operation, a, b, answer, symbol, stageNames.twoDigitMix);
+    addDeckQuestion(pool, operation, a, b, answer, symbol, stage);
   }
 
   function createTwoDigitTwinQuestionPool() {
@@ -444,6 +499,10 @@
     createTwoDigitTwoDigitSubtractionQuestionPool,
     createTwoDigitTwoDigitDivisionQuestionPool,
     createTwoDigitMixQuestionPool,
+    createTwoDigitMixAdditionQuestionPool,
+    createTwoDigitMixSubtractionQuestionPool,
+    createTwoDigitMixMultiplicationQuestionPool,
+    createTwoDigitMixDivisionQuestionPool,
     createTwoDigitTwinQuestionPool,
     createThreeDigitJumpQuestionPool,
     createPowerQuestionPool,
