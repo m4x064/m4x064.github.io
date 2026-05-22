@@ -20,21 +20,12 @@
    */
 
   function createStageOneQuestionPool() {
-    const pool = [];
-
-    for (let a = 0; a <= 9; a += 1) {
-      for (let b = 0; b <= 9; b += 1) {
-        addStageOneQuestion(pool, "addition", a, b, a + b, "+", stageNames.stageOne);
-        addStageOneQuestion(pool, "subtraction", a, b, a - b, "-", stageNames.stageOne);
-        addStageOneQuestion(pool, "multiplication", a, b, a * b, "×", stageNames.stageOne);
-
-        if (b !== 0 && a % b === 0) {
-          addStageOneQuestion(pool, "division", a, b, a / b, "÷", stageNames.stageOne);
-        }
-      }
-    }
-
-    return pool;
+    return [
+      ...createStageOneOperationQuestionPool("addition", "+", stageNames.stageOne),
+      ...createStageOneOperationQuestionPool("subtraction", "-", stageNames.stageOne),
+      ...createStageOneOperationQuestionPool("multiplication", "×", stageNames.stageOne),
+      ...createStageOneOperationQuestionPool("division", "÷", stageNames.stageOne),
+    ];
   }
 
   function createStageOneAdditionQuestionPool() {
@@ -89,7 +80,7 @@
           addStageOneQuestion(pool, operation, a, b, a * b, symbol, stage);
         }
 
-        if (operation === "division" && b !== 0 && a % b === 0) {
+        if (operation === "division" && a > 1 && b > 1 && a !== b && a % b === 0) {
           addStageOneQuestion(pool, operation, a, b, a / b, symbol, stage);
         }
       }
@@ -232,29 +223,65 @@
     ];
   }
 
-  function createTwoDigitMixAdditionQuestionPool() {
-    return createTwoDigitMixOperationQuestionPool("addition");
+  function createTwoDigitMixAdditionQuestionPool(stage = stageNames.twoDigitMixAddition) {
+    return createTwoDigitMixOperationQuestionPool("addition", stage);
   }
 
-  function createTwoDigitMixSubtractionQuestionPool() {
-    return createTwoDigitMixOperationQuestionPool("subtraction");
+  function createTwoDigitMixSubtractionQuestionPool(stage = stageNames.twoDigitMixSubtraction) {
+    return createTwoDigitMixOperationQuestionPool("subtraction", stage);
   }
 
-  function createTwoDigitMixMultiplicationQuestionPool() {
-    return createTwoDigitMixOperationQuestionPool("multiplication");
+  function createTwoDigitMixMultiplicationQuestionPool(stage = stageNames.twoDigitMixMultiplication) {
+    return createTwoDigitMixOperationQuestionPool("multiplication", stage);
   }
 
-  function createTwoDigitMixDivisionQuestionPool() {
-    return createTwoDigitMixOperationQuestionPool("division");
+  function createTwoDigitMixDivisionQuestionPool(stage = stageNames.twoDigitMixDivision) {
+    return createTwoDigitMixOperationQuestionPool("division", stage);
   }
 
-  function createTwoDigitMixOperationQuestionPool(operation) {
+  function createTwoDigitMixOperationQuestionPool(operation, stage = getTwoDigitMixStageName(operation)) {
     const pool = [];
 
     for (let twoDigit = 10; twoDigit <= 99; twoDigit += 1) {
       for (let oneDigit = 0; oneDigit <= 9; oneDigit += 1) {
-        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation);
-        addTwoDigitMixQuestions(pool, oneDigit, twoDigit, operation);
+        if (operation === "addition") {
+          if (oneDigit === 0 || (twoDigit % 10) + oneDigit < 10) {
+            continue;
+          }
+
+          addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+          continue;
+        }
+
+        if (operation === "subtraction") {
+          if (oneDigit === 0 || (twoDigit % 10) >= oneDigit) {
+            continue;
+          }
+
+          addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+          continue;
+        }
+
+        if (operation === "multiplication") {
+          if (oneDigit <= 1) {
+            continue;
+          }
+
+          addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+          continue;
+        }
+
+        if (operation === "division") {
+          if (oneDigit <= 1) {
+            continue;
+          }
+
+          addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+          continue;
+        }
+
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+        addTwoDigitMixQuestions(pool, oneDigit, twoDigit, operation, stage);
       }
     }
 
@@ -273,21 +300,21 @@
     return Math.floor(value / 10) === value % 10;
   }
 
-  function addTwoDigitMixQuestions(pool, a, b, targetOperation = null) {
+  function addTwoDigitMixQuestions(pool, a, b, targetOperation = null, stage = getTwoDigitMixStageName(targetOperation)) {
     if (!targetOperation || targetOperation === "addition") {
-      addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+", getTwoDigitMixStageName("addition"));
+      addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+", stage);
     }
 
     if (!targetOperation || targetOperation === "subtraction") {
-      addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-", getTwoDigitMixStageName("subtraction"));
+      addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-", stage);
     }
 
     if (!targetOperation || targetOperation === "multiplication") {
-      addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×", getTwoDigitMixStageName("multiplication"));
+      addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×", stage);
     }
 
     if ((!targetOperation || targetOperation === "division") && b !== 0 && a % b === 0) {
-      addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷", getTwoDigitMixStageName("division"));
+      addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷", stage);
     }
   }
 

@@ -5,21 +5,21 @@ const stageNameConfig = stageModule.stageNames || {};
 const stageConfigs = stageModule.stageConfigs || {};
 const storageApi = window.MathFitStorage || {};
 const storageKeys = storageApi.keys || {};
-const STAGE_ONE_ADDITION_NAME = stageNameConfig.stageOneAddition || "Stage 1-1";
-const STAGE_ONE_SUBTRACTION_NAME = stageNameConfig.stageOneSubtraction || "Stage 1-2";
-const STAGE_ONE_MULTIPLICATION_NAME = stageNameConfig.stageOneMultiplication || "Stage 1-3";
-const STAGE_ONE_DIVISION_NAME = stageNameConfig.stageOneDivision || "Stage 1-4";
 const STAGE_ONE_NAME = stageNameConfig.stageOne || "Stage 1";
+const STAGE_ONE_ADDITION_NAME = stageNameConfig.stageOneAddition || STAGE_ONE_NAME;
+const STAGE_ONE_SUBTRACTION_NAME = stageNameConfig.stageOneSubtraction || STAGE_ONE_NAME;
+const STAGE_ONE_MULTIPLICATION_NAME = stageNameConfig.stageOneMultiplication || STAGE_ONE_NAME;
+const STAGE_ONE_DIVISION_NAME = stageNameConfig.stageOneDivision || STAGE_ONE_NAME;
 const CARRY_ADDITION_STAGE_NAME = stageNameConfig.carryAddition || "Stage 2-1";
 const BORROW_SUBTRACTION_STAGE_NAME = stageNameConfig.borrowSubtraction || "Stage 2-2";
 const CARRY_MULTIPLICATION_STAGE_NAME = stageNameConfig.carryMultiplication || "Stage 2-3";
 const BORROW_DIVISION_STAGE_NAME = stageNameConfig.borrowDivision || "Stage 2-4";
 const TWO_DIGIT_TWO_DIGIT_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitTwoDigitSubtraction || "Stage 3";
-const TWO_DIGIT_TWO_DIGIT_DIVISION_STAGE_NAME = stageNameConfig.twoDigitTwoDigitDivision || "Stage 4";
-const TWO_DIGIT_MIX_ADDITION_STAGE_NAME = stageNameConfig.twoDigitMixAddition || "Stage 5-1";
-const TWO_DIGIT_MIX_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitMixSubtraction || "Stage 5-2";
-const TWO_DIGIT_MIX_MULTIPLICATION_STAGE_NAME = stageNameConfig.twoDigitMixMultiplication || "Stage 5-3";
-const TWO_DIGIT_MIX_DIVISION_STAGE_NAME = stageNameConfig.twoDigitMixDivision || "Stage 5-4";
+const TWO_DIGIT_TWO_DIGIT_DIVISION_STAGE_NAME = stageNameConfig.twoDigitTwoDigitDivision || "Stage 4-1";
+const TWO_DIGIT_MIX_ADDITION_STAGE_NAME = stageNameConfig.twoDigitMixAddition || "Stage 3-1";
+const TWO_DIGIT_MIX_SUBTRACTION_STAGE_NAME = stageNameConfig.twoDigitMixSubtraction || "Stage 3-3";
+const TWO_DIGIT_MIX_MULTIPLICATION_STAGE_NAME = stageNameConfig.twoDigitMixMultiplication || "Stage 4-2";
+const TWO_DIGIT_MIX_DIVISION_STAGE_NAME = stageNameConfig.twoDigitMixDivision || "Stage 4-3";
 const TWO_DIGIT_TWIN_STAGE_NAME = stageNameConfig.twoDigitTwin || "Stage 6";
 const THREE_DIGIT_JUMP_STAGE_NAME = stageNameConfig.threeDigitJump || "Stage 7";
 const POWER_STAGE_NAME = stageNameConfig.power || "Stage 8";
@@ -38,37 +38,32 @@ const operationLabels = {
 const baseSkills = Object.keys(operationLabels);
 const missionNames = stageModule.getMissionNames?.() || {
   adaptive: "10問診断ミッション",
-  stageOneAddition: "Stage 1-1 一桁たし算航路",
-  stageOneSubtraction: "Stage 1-2 一桁ひき算航路",
-  stageOneMultiplication: "Stage 1-3 一桁かけ算・わり算航路",
-  stageOneDivision: "Stage 1-4 一桁わり算航路",
+  stageOne: "Stage 1 一桁スター航路",
   carryAddition: "Stage 2-1 繰り上がりたし算航路",
   borrowSubtraction: "Stage 2-2 繰り下がりひき算航路",
   carryMultiplication: "Stage 2-3 繰り上がりかけ算航路",
   borrowDivision: "Stage 2-4 繰り下がりわり算航路",
-  twoDigitTwoDigitSubtraction: "Stage 3 二桁どうしひき算航路",
-  twoDigitTwoDigitDivision: "Stage 4 二桁どうしわり算航路",
-  twoDigitMixAddition: "Stage 5-1 二桁ミックスたし算航路",
-  twoDigitMixSubtraction: "Stage 5-2 二桁ミックスひき算航路",
-  twoDigitMixMultiplication: "Stage 5-3 二桁ミックスかけ算航路",
-  twoDigitMixDivision: "Stage 5-4 二桁ミックスわり算航路",
+  twoDigitMixAddition: "Stage 3-1 二桁繰り上がりたし算航路",
+  twoDigitTwoDigitSubtraction: "Stage 3-2 二桁どうしひき算航路",
+  twoDigitMixSubtraction: "Stage 3-3 二桁繰り下がりひき算航路",
+  twoDigitTwoDigitDivision: "Stage 4-1 二桁どうしわり算航路",
+  twoDigitMixMultiplication: "Stage 4-2 二桁ミックスかけ算航路",
+  twoDigitMixDivision: "Stage 4-3 二桁ミックスわり算航路",
   twoDigitTwin: "Stage 6 二桁ツイン航路",
   threeDigitJump: "Stage 7 三桁ジャンプ航路",
   power: "Stage 8 同じ数かけ算航路",
-  review: "Test 1 Stage 1-1〜5 復習診断",
+  review: "Test 1 Stage 1〜5 復習診断",
 };
 const stageProgressModes = stageModule.getProgressModes?.() || [
-  "stageOneAddition",
-  "stageOneSubtraction",
-  "stageOneMultiplication",
+  "stageOne",
   "carryAddition",
   "borrowSubtraction",
   "carryMultiplication",
   "borrowDivision",
-  "twoDigitTwoDigitSubtraction",
-  "twoDigitTwoDigitDivision",
   "twoDigitMixAddition",
+  "twoDigitTwoDigitSubtraction",
   "twoDigitMixSubtraction",
+  "twoDigitTwoDigitDivision",
   "twoDigitMixMultiplication",
   "twoDigitMixDivision",
   "twoDigitTwin",
@@ -184,6 +179,8 @@ const elements = {
   watchText: document.querySelector("#watchText"),
   nextStepText: document.querySelector("#nextStepText"),
   resultRewardText: document.querySelector("#resultRewardText"),
+  mistakeListBlock: document.querySelector("#mistakeListBlock"),
+  mistakeList: document.querySelector("#mistakeList"),
   skillList: document.querySelector("#skillList"),
   titleRewardDisplay: document.querySelector("#titleRewardDisplay"),
   bgmToggleButton: document.querySelector("#bgmToggleButton"),
@@ -244,7 +241,7 @@ getPlayableStageConfigs().forEach((config) => {
 });
 elements.operationGuideButton.addEventListener("click", showOperationGuide);
 elements.startResumeButton.addEventListener("click", resumeSavedSession);
-elements.clearSaveButton.addEventListener("click", clearSavedSessionFromStart);
+elements.clearSaveButton?.addEventListener("click", clearSavedSessionFromStart);
 elements.exportSaveButton.addEventListener("click", exportSaveData);
 elements.importSaveButton.addEventListener("click", startImportSaveData);
 elements.importSaveInput.addEventListener("change", importSaveData);
@@ -1111,21 +1108,12 @@ function createStageOneQuestionPool() {
     return window.MathFitProblems.createStageOneQuestionPool();
   }
 
-  const pool = [];
-
-  for (let a = 0; a <= 9; a += 1) {
-    for (let b = 0; b <= 9; b += 1) {
-      addStageOneQuestion(pool, "addition", a, b, a + b, "+");
-      addStageOneQuestion(pool, "subtraction", a, b, a - b, "-");
-      addStageOneQuestion(pool, "multiplication", a, b, a * b, "×");
-
-      if (b !== 0 && a % b === 0) {
-        addStageOneQuestion(pool, "division", a, b, a / b, "÷");
-      }
-    }
-  }
-
-  return pool;
+  return [
+    ...createStageOneOperationQuestionPool("addition", "+", STAGE_ONE_NAME),
+    ...createStageOneOperationQuestionPool("subtraction", "-", STAGE_ONE_NAME),
+    ...createStageOneOperationQuestionPool("multiplication", "×", STAGE_ONE_NAME),
+    ...createStageOneOperationQuestionPool("division", "÷", STAGE_ONE_NAME),
+  ];
 }
 
 function createStageOneAdditionQuestionPool() {
@@ -1363,29 +1351,65 @@ function createTwoDigitMixQuestionPool() {
   ];
 }
 
-function createTwoDigitMixAdditionQuestionPool() {
-  return createTwoDigitMixOperationQuestionPool("addition");
+function createTwoDigitMixAdditionQuestionPool(stage = TWO_DIGIT_MIX_ADDITION_STAGE_NAME) {
+  return createTwoDigitMixOperationQuestionPool("addition", stage);
 }
 
-function createTwoDigitMixSubtractionQuestionPool() {
-  return createTwoDigitMixOperationQuestionPool("subtraction");
+function createTwoDigitMixSubtractionQuestionPool(stage = TWO_DIGIT_MIX_SUBTRACTION_STAGE_NAME) {
+  return createTwoDigitMixOperationQuestionPool("subtraction", stage);
 }
 
-function createTwoDigitMixMultiplicationQuestionPool() {
-  return createTwoDigitMixOperationQuestionPool("multiplication");
+function createTwoDigitMixMultiplicationQuestionPool(stage = TWO_DIGIT_MIX_MULTIPLICATION_STAGE_NAME) {
+  return createTwoDigitMixOperationQuestionPool("multiplication", stage);
 }
 
-function createTwoDigitMixDivisionQuestionPool() {
-  return createTwoDigitMixOperationQuestionPool("division");
+function createTwoDigitMixDivisionQuestionPool(stage = TWO_DIGIT_MIX_DIVISION_STAGE_NAME) {
+  return createTwoDigitMixOperationQuestionPool("division", stage);
 }
 
-function createTwoDigitMixOperationQuestionPool(operation) {
+function createTwoDigitMixOperationQuestionPool(operation, stage = getTwoDigitMixStageName(operation)) {
   const pool = [];
 
   for (let twoDigit = 10; twoDigit <= 99; twoDigit += 1) {
     for (let oneDigit = 0; oneDigit <= 9; oneDigit += 1) {
-      addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation);
-      addTwoDigitMixQuestions(pool, oneDigit, twoDigit, operation);
+      if (operation === "addition") {
+        if (oneDigit === 0 || (twoDigit % 10) + oneDigit < 10) {
+          continue;
+        }
+
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+        continue;
+      }
+
+      if (operation === "subtraction") {
+        if (oneDigit === 0 || (twoDigit % 10) >= oneDigit) {
+          continue;
+        }
+
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+        continue;
+      }
+
+      if (operation === "multiplication") {
+        if (oneDigit <= 1) {
+          continue;
+        }
+
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+        continue;
+      }
+
+      if (operation === "division") {
+        if (oneDigit <= 1) {
+          continue;
+        }
+
+        addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+        continue;
+      }
+
+      addTwoDigitMixQuestions(pool, twoDigit, oneDigit, operation, stage);
+      addTwoDigitMixQuestions(pool, oneDigit, twoDigit, operation, stage);
     }
   }
 
@@ -1404,21 +1428,21 @@ function isRepdigit(value) {
   return Math.floor(value / 10) === value % 10;
 }
 
-function addTwoDigitMixQuestions(pool, a, b, targetOperation = null) {
+function addTwoDigitMixQuestions(pool, a, b, targetOperation = null, stage = getTwoDigitMixStageName(targetOperation)) {
   if (!targetOperation || targetOperation === "addition") {
-    addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+", getTwoDigitMixStageName("addition"));
+    addTwoDigitAnswerQuestion(pool, "addition", a, b, a + b, "+", stage);
   }
 
   if (!targetOperation || targetOperation === "subtraction") {
-    addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-", getTwoDigitMixStageName("subtraction"));
+    addTwoDigitAnswerQuestion(pool, "subtraction", a, b, a - b, "-", stage);
   }
 
   if (!targetOperation || targetOperation === "multiplication") {
-    addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×", getTwoDigitMixStageName("multiplication"));
+    addTwoDigitAnswerQuestion(pool, "multiplication", a, b, a * b, "×", stage);
   }
 
   if ((!targetOperation || targetOperation === "division") && b !== 0 && a % b === 0) {
-    addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷", getTwoDigitMixStageName("division"));
+    addTwoDigitAnswerQuestion(pool, "division", a, b, a / b, "÷", stage);
   }
 }
 
@@ -1715,17 +1739,15 @@ function usesQuestionDeck(mode = state.mode) {
 
 function createReviewQuestionDeck(mode = "review") {
   const sourceModes = getStageConfig(mode)?.reviewSourceModes || [
-    "stageOneAddition",
-    "stageOneSubtraction",
-    "stageOneMultiplication",
+    "stageOne",
     "carryAddition",
     "borrowSubtraction",
     "carryMultiplication",
     "borrowDivision",
-    "twoDigitTwoDigitSubtraction",
-    "twoDigitTwoDigitDivision",
     "twoDigitMixAddition",
+    "twoDigitTwoDigitSubtraction",
     "twoDigitMixSubtraction",
+    "twoDigitTwoDigitDivision",
     "twoDigitMixMultiplication",
     "twoDigitMixDivision",
   ];
@@ -1847,6 +1869,10 @@ function handleAnswer(event) {
 
   state.history.push({
     operation: state.currentQuestion.operation,
+    question: state.currentQuestion.text,
+    answer: state.currentQuestion.answer,
+    userAnswer,
+    rawAnswer,
     correct: isCorrect,
     seconds: elapsedSeconds,
     level: state.level,
@@ -1855,6 +1881,15 @@ function handleAnswer(event) {
   saveStageProgressSnapshot();
   adjustLevel(isCorrect, elapsedSeconds, state.currentQuestion.operation);
   updateStats();
+
+  if (isSilentTestMode()) {
+    elements.feedbackText.textContent = "";
+    elements.feedbackText.className = "feedback";
+    setAnswerRawInput("");
+    nextQuestion();
+    return;
+  }
+
   playAnswerSound(isCorrect);
   showFeedback(isCorrect, elapsedSeconds);
 
@@ -2448,21 +2483,27 @@ function createQuestionComms(question) {
     return `Stage 2-4 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。繰り下がりの反応を見ていくよ。`;
   }
 
+  if (state.mode === "twoDigitMixAddition") {
+    return `Stage 3-1 たし算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁の繰り上がりたし算を見ていこう。`;
+  }
+
   if (state.mode === "twoDigitTwoDigitSubtraction") {
-    return `Stage 3 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、ひき算の信号を一桁に着地させよう。`;
+    return `Stage 3-2 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしのひき算を見ていこう。`;
+  }
+
+  if (state.mode === "twoDigitMixSubtraction") {
+    return `Stage 3-3 ひき算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁の繰り下がりひき算を見ていこう。`;
   }
 
   if (state.mode === "twoDigitTwoDigitDivision") {
-    return `Stage 4 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、わり算の信号を一桁に着地させよう。`;
+    return `Stage 4-1 わり算航路 ${state.questionIndex}/${getQuestionTotal()}。二桁どうしで、わり算の信号を一桁に着地させよう。`;
   }
 
   if (
-    state.mode === "twoDigitMixAddition"
-    || state.mode === "twoDigitMixSubtraction"
-    || state.mode === "twoDigitMixMultiplication"
+    state.mode === "twoDigitMixMultiplication"
     || state.mode === "twoDigitMixDivision"
   ) {
-    return `Stage 5 ミックス航路 ${state.questionIndex}/${getQuestionTotal()}。二桁と一桁を組み替えて、${operation}を二桁に着地させよう。`;
+    return `Stage 4 ミックス航路 ${state.questionIndex}/${getQuestionTotal()}。二桁と一桁を組み替えて、${operation}を二桁に着地させよう。`;
   }
 
   if (state.mode === "twoDigitTwin") {
@@ -2505,6 +2546,10 @@ function createStartComms(mode) {
 
 function isTimeLimitedMode(mode = state.mode) {
   return Boolean(getStageConfig(mode)?.timeLimitSeconds);
+}
+
+function isSilentTestMode(mode = state.mode) {
+  return getStageConfig(mode)?.saveSession === false;
 }
 
 function allowsSessionSave(mode = state.mode) {
@@ -2567,8 +2612,8 @@ function updateStats() {
 
   elements.levelText.textContent = state.level;
   elements.progressText.textContent = `${Math.min(visibleQuestionNumber, getQuestionTotal())} / ${getQuestionTotal()}`;
-  elements.scoreText.textContent = state.score;
-  elements.streakText.textContent = state.streak;
+  elements.scoreText.textContent = isSilentTestMode() ? "-" : state.score;
+  elements.streakText.textContent = isSilentTestMode() ? "-" : state.streak;
 }
 
 function updateTimer() {
@@ -2630,6 +2675,7 @@ function showResults() {
   elements.nextStepText.textContent = createNextStepText(accuracy, weakSkill, watchSkills);
   elements.resultRewardText.textContent = createRewardResultText();
   setPilotMessage(createResultComms(accuracy, weakSkill), "victory");
+  renderMistakeList();
   renderSkillList();
 }
 
@@ -2681,6 +2727,42 @@ function createRewardResultText() {
     totalCorrect: profile.totalCorrect,
     currentReward: getCurrentReward(),
     nextReward: getNextReward(),
+  });
+}
+
+function renderMistakeList() {
+  if (!elements.mistakeListBlock || !elements.mistakeList) {
+    return;
+  }
+
+  const mistakes = state.history.filter((item) => !item.correct);
+  const shouldShow = isSilentTestMode();
+  elements.mistakeListBlock.hidden = !shouldShow;
+  elements.mistakeList.innerHTML = "";
+
+  if (!shouldShow) {
+    return;
+  }
+
+  if (mistakes.length === 0) {
+    const listItem = document.createElement("li");
+    const message = document.createElement("strong");
+    message.textContent = "間違いなし";
+    listItem.append(message);
+    elements.mistakeList.append(listItem);
+    return;
+  }
+
+  mistakes.forEach((item, index) => {
+    const listItem = document.createElement("li");
+    const question = document.createElement("strong");
+    const answer = document.createElement("span");
+    const userAnswerText = item.rawAnswer || String(item.userAnswer ?? "");
+
+    question.textContent = `${index + 1}. ${item.question}`;
+    answer.textContent = `答え ${item.answer} / 入力 ${userAnswerText}`;
+    listItem.append(question, answer);
+    elements.mistakeList.append(listItem);
   });
 }
 

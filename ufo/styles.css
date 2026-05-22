@@ -381,6 +381,20 @@ h3 {
   border: 1px solid rgba(87, 223, 192, 0.28);
 }
 
+.stage-ability-test-button {
+  background:
+    linear-gradient(90deg, rgba(255, 213, 104, 0.96), rgba(49, 190, 166, 0.96));
+  border: 1px solid rgba(255, 244, 196, 0.7);
+  color: #102033;
+  box-shadow: 0 12px 28px rgba(49, 190, 166, 0.24);
+}
+
+.stage-ability-test-button:hover,
+.stage-ability-test-button:focus-visible {
+  background:
+    linear-gradient(90deg, rgba(255, 225, 126, 0.98), rgba(38, 174, 153, 0.98));
+}
+
 .stage-progress-button {
   position: relative;
   isolation: isolate;
@@ -891,14 +905,16 @@ body.touch-input .number-pad {
   margin: 22px 0;
 }
 
-.skill-list {
+.skill-list,
+.mistake-list {
   display: grid;
   gap: 10px;
   padding: 0;
   list-style: none;
 }
 
-.skill-list li {
+.skill-list li,
+.mistake-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -910,6 +926,16 @@ body.touch-input .number-pad {
   border-radius: 8px;
 }
 
+.mistake-list li {
+  align-items: flex-start;
+}
+
+.mistake-list strong,
+.mistake-list span {
+  display: block;
+}
+
+.mistake-list span,
 .skill-list span {
   color: var(--muted);
   font-weight: 700;
