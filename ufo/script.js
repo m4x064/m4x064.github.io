@@ -200,6 +200,39 @@ const elements = {
   bgmVolumeText: document.querySelector("#bgmVolumeText"),
 };
 
+const stageButtonGroups = [
+  {
+    title: "診断",
+    modes: ["adaptive"],
+  },
+  {
+    title: "Stage 1・2 基礎航路",
+    modes: ["stageOne", "carryAddition", "borrowSubtraction", "carryMultiplication", "borrowDivision"],
+  },
+  {
+    title: "Stage 3 実力テスト",
+    modes: ["twoDigitMixAddition", "twoDigitTwoDigitSubtraction", "twoDigitMixSubtraction"],
+  },
+  {
+    title: "Stage 4〜6 発展航路",
+    modes: [
+      "twoDigitTwoDigitDivision",
+      "twoDigitMixMultiplication",
+      "twoDigitMixDivision",
+      "twoDigitTwinAddition",
+      "twoDigitTwinSubtraction",
+      "threeDigitJumpSubtraction",
+      "threeDigitJumpMultiplication",
+      "threeDigitJumpDivision",
+      "power",
+    ],
+  },
+  {
+    title: "テスト・ナビ",
+    modes: ["review"],
+  },
+];
+
 renderStageButtons();
 
 const stageProgressTargets = stageProgressModes.map((mode) => ({
@@ -400,6 +433,7 @@ function renderProfile() {
 
   elements.growthIcon.src = currentReward.icon;
   elements.growthLevelText.textContent = `YURI Lv ${currentReward.level} / ${currentReward.title}`;
+  elements.levelText.textContent = currentReward.level;
   elements.totalCorrectText.textContent = `\u7d2f\u8a08\u6b63\u89e3 ${formatCorrectCount(profile.totalCorrect)}`;
   elements.growthProgressBar.style.width = `${Math.max(0, Math.min(100, progressValue))}%`;
   elements.nextRewardText.textContent = rewardMessages.createGrowthProgressText({
@@ -1706,19 +1740,40 @@ function renderStageButtons() {
   }
 
   stack.querySelectorAll("[data-stage-mode]").forEach((button) => button.remove());
+  stack.querySelectorAll(".stage-button-group").forEach((group) => group.remove());
 
   const fragment = document.createDocumentFragment();
-  getPlayableStageConfigs().forEach((config) => {
-    const button = document.createElement("button");
-    button.id = config.buttonId;
-    button.type = "button";
-    button.className = config.buttonClass || (config.mode === "adaptive" ? "primary-button" : "secondary-button");
-    button.textContent = config.title;
-    button.dataset.stageMode = config.mode;
-    if (config.description) {
-      button.title = config.description;
+  const configsByMode = new Map(getPlayableStageConfigs().map((config) => [config.mode, config]));
+
+  stageButtonGroups.forEach((group) => {
+    const groupConfigs = group.modes.map((mode) => configsByMode.get(mode)).filter(Boolean);
+    if (groupConfigs.length === 0) {
+      return;
     }
-    fragment.append(button);
+
+    const wrapper = document.createElement("section");
+    const title = document.createElement("h3");
+    const buttons = document.createElement("div");
+
+    wrapper.className = "stage-button-group";
+    title.textContent = group.title;
+    buttons.className = "stage-button-list";
+
+    groupConfigs.forEach((config) => {
+      const button = document.createElement("button");
+      button.id = config.buttonId;
+      button.type = "button";
+      button.className = config.buttonClass || (config.mode === "adaptive" ? "primary-button" : "secondary-button");
+      button.textContent = config.title;
+      button.dataset.stageMode = config.mode;
+      if (config.description) {
+        button.title = config.description;
+      }
+      buttons.append(button);
+    });
+
+    wrapper.append(title, buttons);
+    fragment.append(wrapper);
   });
 
   stack.insertBefore(fragment, elements.operationGuideButton || null);
@@ -2691,7 +2746,6 @@ function setPilotMessage(message, mood = "wave") {
 function updateStats() {
   const visibleQuestionNumber = state.questionIndex === 0 ? 1 : state.questionIndex;
 
-  elements.levelText.textContent = state.level;
   elements.progressText.textContent = `${Math.min(visibleQuestionNumber, getQuestionTotal())} / ${getQuestionTotal()}`;
   elements.scoreText.textContent = isSilentTestMode() ? "-" : state.score;
   elements.streakText.textContent = isSilentTestMode() ? "-" : state.streak;

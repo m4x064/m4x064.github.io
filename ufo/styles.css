@@ -431,11 +431,50 @@ h3 {
   gap: 10px;
 }
 
-.save-data-actions {
-  display: flex;
-  flex-wrap: wrap;
+.stage-button-group {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.stage-button-group h3 {
+  margin: 2px 0 8px;
+  color: #4f6079;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.stage-button-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+
+.save-data-actions {
   margin-top: 12px;
+}
+
+.save-data-panel {
+  width: 100%;
+}
+
+.save-data-panel summary {
+  min-height: 42px;
+  padding: 11px 14px;
+  background: rgba(34, 49, 74, 0.92);
+  border: 1px solid rgba(87, 223, 192, 0.22);
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 850;
+  list-style-position: inside;
+}
+
+.save-data-panel-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .save-data-button {
@@ -1325,6 +1364,10 @@ body.touch-input .number-pad {
 
   #startScreen .button-stack {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #startScreen .stage-button-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1749,6 +1792,11 @@ body.touch-input .number-pad {
   .primary-button,
   .secondary-button {
     width: 100%;
+  }
+
+  .stage-button-list,
+  .save-data-panel-body {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .result-hero {

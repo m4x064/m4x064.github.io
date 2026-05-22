@@ -19,7 +19,7 @@
             <p class="header-subtitle">UFOゆーりの数式ステーション</p>
           </div>
           <div class="level-badge" aria-live="polite">
-            <span>Orbit Lv</span>
+            <span>YURI Lv</span>
             <strong id="levelText">1</strong>
           </div>
           <div class="bgm-control" aria-label="BGMコントロール">
@@ -82,8 +82,13 @@
             <button id="operationGuideButton" class="secondary-button" type="button">四則演算ナビ</button>
           </div>
           <div class="save-data-actions" aria-label="保存データ">
-            <button id="exportSaveButton" class="secondary-button save-data-button" type="button">保存データを書き出す</button>
-            <button id="importSaveButton" class="secondary-button save-data-button" type="button">保存データを読み込む</button>
+            <details class="save-data-panel">
+              <summary>データ管理</summary>
+              <div class="save-data-panel-body">
+                <button id="exportSaveButton" class="secondary-button save-data-button" type="button">保存データを書き出す</button>
+                <button id="importSaveButton" class="secondary-button save-data-button" type="button">保存データを読み込む</button>
+              </div>
+            </details>
             <input id="importSaveInput" type="file" accept="application/json,.json" hidden>
           </div>
         </section>
@@ -227,7 +232,7 @@
               <strong id="accuracyText">0%</strong>
             </div>
             <div>
-              <span>到達レベル</span>
+              <span>今回の航行Lv</span>
               <strong id="finalLevelText">1</strong>
             </div>
             <div>
