@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>コーヒー豆たしざん研究所</title>
+  <style>
+    :root {
+      --bg: #fff8ef;
+      --paper: #fffdf8;
+      --ink: #332317;
+      --muted: #80695a;
+      --line: #ead8c7;
+      --accent: #7b4a2a;
+      --accent2: #c98d55;
+      --soft: #f8eadc;
+      --ok: #5d7f4f;
+      --bad: #a04438;
+      --shadow: 0 18px 45px rgba(84, 50, 24, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: ui-rounded, "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, #fff4e1 0 18%, transparent 32%),
+        radial-gradient(circle at 85% 20%, #ffe9cf 0 14%, transparent 30%),
+        linear-gradient(160deg, #fffaf4, var(--bg));
+      padding: 18px;
+    }
+
+    .app {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      display: grid;
+      gap: 10px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.86);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1.1fr 0.9fr; }
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.9);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--muted);
+      background: #fff9f1;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 620px) {
+      .controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    .counter {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 24px;
+      padding: 14px;
+    }
+
+    .counter-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .counter-name {
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .count-value {
+      font-weight: 900;
+      font-size: 24px;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 16px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 12px 14px;
+      min-height: 44px;
+      box-shadow: 0 8px 18px rgba(80, 44, 22, 0.18);
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:active { transform: translateY(1px) scale(0.99); }
+    button:hover { filter: brightness(1.04); }
+    button.secondary { background: #e8c7a8; color: #4b2d1b; box-shadow: none; }
+    button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); box-shadow: none; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    button:focus-visible,
+    input[type="range"]:focus-visible {
+      outline: 3px solid #6f9c7c;
+      outline-offset: 3px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .visual-wrap {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .trays {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 620px) {
+      .trays { grid-template-columns: 1fr 1fr; }
+    }
+
+    .tray, .total-tray {
+      min-height: 190px;
+      border: 1px dashed #d7b999;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.64), rgba(255, 246, 236, 0.9)),
+        repeating-linear-gradient(45deg, transparent 0 14px, rgba(198, 144, 89, 0.06) 14px 28px);
+      border-radius: 26px;
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tray-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .beans {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
+      min-height: 105px;
+    }
+
+    .bean {
+      width: 34px;
+      height: 46px;
+      border-radius: 55% 45% 52% 48% / 48% 54% 46% 52%;
+      background:
+        radial-gradient(circle at 35% 26%, rgba(255,255,255,0.18), transparent 16%),
+        linear-gradient(135deg, #8b512f 0%, #4d2716 58%, #2d140d 100%);
+      box-shadow:
+        inset 5px 0 10px rgba(255, 215, 175, 0.12),
+        inset -5px 0 11px rgba(0, 0, 0, 0.22),
+        0 8px 12px rgba(64, 31, 13, 0.14);
+      position: relative;
+      transform: rotate(var(--rot));
+      animation: bean-pop 0.24s ease both;
+    }
+
+    .bean::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 6px;
+      width: 5px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 221, 185, 0.24);
+      transform: rotate(8deg);
+      box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.18);
+    }
+
+    .bean.small {
+      width: 27px;
+      height: 37px;
+    }
+
+    @keyframes bean-pop {
+      from { opacity: 0; transform: translateY(8px) scale(0.88) rotate(var(--rot)); }
+      to { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rot)); }
+    }
+
+    .merge-zone {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .equation-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff9f1;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .equation {
+      font-weight: 900;
+      font-size: clamp(26px, 6vw, 48px);
+      color: var(--accent);
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+    }
+
+    .explain {
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 0;
+      text-align: center;
+    }
+
+    .total-tray {
+      min-height: 220px;
+      border-style: solid;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px;
+      background: #fffaf4;
+      line-height: 1.65;
+    }
+
+    .step strong { color: var(--accent); }
+
+    .challenge {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .answer-row button {
+      min-width: 0;
+      padding-inline: 8px;
+    }
+
+    .feedback {
+      min-height: 54px;
+      border-radius: 18px;
+      padding: 12px;
+      background: #fff9f1;
+      border: 1px solid var(--line);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .feedback.ok { color: var(--ok); background: #f0f8ec; border-color: #cfe3c6; }
+    .feedback.bad { color: var(--bad); background: #fff0ee; border-color: #efc8c2; }
+
+    .theorem {
+      margin-top: 16px;
+      border: 1px solid #d7b999;
+      background: linear-gradient(180deg, #fffaf4, #fff3e5);
+      border-radius: 28px;
+      padding: 18px;
+    }
+
+    .theorem h2 { margin: 0 0 8px; }
+    .theorem p { margin: 0; line-height: 1.8; color: var(--muted); }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      margin: 16px 0 0;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>コーヒー豆たしざん研究所</h1>
+      <p class="lead">ふたつの山にあるコーヒー豆を、1こずつ数えてから合わせる。たしざんは、ばらばらの「1の個数」をまとめて数えること。</p>
+    </header>
+
+    <section class="grid" aria-label="コーヒー豆たしざんアプリ">
+      <div class="panel">
+        <h2 class="section-title">豆をならべる <span class="badge">0から10まで</span></h2>
+
+        <div class="controls">
+          <div class="counter">
+            <div class="counter-head">
+              <span class="counter-name">左の山</span>
+              <span class="count-value" id="leftValue">3</span>
+            </div>
+            <div class="buttons">
+              <button class="secondary" id="leftMinus" aria-label="左の山を1つ減らす">−</button>
+              <input id="leftRange" type="range" min="0" max="10" value="3" aria-label="左の山の豆の数" />
+              <button class="secondary" id="leftPlus" aria-label="左の山を1つ増やす">＋</button>
+            </div>
+          </div>
+
+          <div class="counter">
+            <div class="counter-head">
+              <span class="counter-name">右の山</span>
+              <span class="count-value" id="rightValue">2</span>
+            </div>
+            <div class="buttons">
+              <button class="secondary" id="rightMinus" aria-label="右の山を1つ減らす">−</button>
+              <input id="rightRange" type="range" min="0" max="10" value="2" aria-label="右の山の豆の数" />
+              <button class="secondary" id="rightPlus" aria-label="右の山を1つ増やす">＋</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-wrap">
+          <div class="trays">
+            <div class="tray">
+              <div class="tray-label"><span>左の山</span><span id="leftCountText">1 が 3こ</span></div>
+              <div class="beans" id="leftBeans"></div>
+            </div>
+            <div class="tray">
+              <div class="tray-label"><span>右の山</span><span id="rightCountText">1 が 2こ</span></div>
+              <div class="beans" id="rightBeans"></div>
+            </div>
+          </div>
+
+          <div class="equation-card">
+            <div class="equation" id="equation" aria-live="polite">3 + 2 = 5</div>
+            <p class="explain" id="sentence">3この1と、2この1をあわせると、5この1になる。</p>
+            <div class="actions">
+              <button id="mergeButton">あわせて数える</button>
+              <button class="ghost" id="randomButton">おまかせ問題</button>
+              <button class="ghost" id="resetButton">3 + 2 に戻す</button>
+            </div>
+          </div>
+
+          <div class="total-tray">
+            <div class="tray-label"><span>あわせた山</span><span id="totalCountText">まだ合わせてない</span></div>
+            <div class="beans" id="totalBeans"></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h2 class="section-title">理解のながれ <span class="badge">足し算の底</span></h2>
+        <ol class="steps">
+          <li class="step"><strong>1.</strong> 左の山にある豆を、1こずつ数える。</li>
+          <li class="step"><strong>2.</strong> 右の山にある豆も、1こずつ数える。</li>
+          <li class="step"><strong>3.</strong> ふたつの山を重ならないように合わせる。</li>
+          <li class="step"><strong>4.</strong> 全部の豆をもう一度、1こずつ数える。</li>
+          <li class="step"><strong>5.</strong> その全部の個数が、足し算の答えになる。</li>
+        </ol>
+
+        <div class="theorem">
+          <h2>たしざん定理</h2>
+          <p>mこの1と、nこの1をあわせると、m+nこの1になる。たしざんは、1の個数をまとめて数える操作である。</p>
+        </div>
+
+        <div class="theorem challenge" aria-label="チャレンジ問題">
+          <h2>ちいさい問題</h2>
+          <p id="challengeText">左に 3こ、右に 2こ。あわせると何こ？</p>
+          <div class="answer-row" id="answerButtons"></div>
+          <div class="feedback" id="feedback" role="status" aria-live="polite">豆を見て、ぜんぶの1を数えてみよう。</div>
+        </div>
+      </aside>
+    </section>
+
+    <p class="footer-note">単一HTMLで動きます。保存してブラウザで開けば、ネットなしでも使えます。</p>
+  </main>
+
+  <script>
+    const MAX_BEANS = 10;
+    const MAX_TOTAL = MAX_BEANS * 2;
+
+    const state = {
+      left: 3,
+      right: 2,
+      merged: false,
+      challengeKey: '',
+      answerChoices: []
+    };
+
+    const els = {
+      leftValue: document.getElementById('leftValue'),
+      rightValue: document.getElementById('rightValue'),
+      leftRange: document.getElementById('leftRange'),
+      rightRange: document.getElementById('rightRange'),
+      leftBeans: document.getElementById('leftBeans'),
+      rightBeans: document.getElementById('rightBeans'),
+      totalBeans: document.getElementById('totalBeans'),
+      equation: document.getElementById('equation'),
+      sentence: document.getElementById('sentence'),
+      leftCountText: document.getElementById('leftCountText'),
+      rightCountText: document.getElementById('rightCountText'),
+      totalCountText: document.getElementById('totalCountText'),
+      challengeText: document.getElementById('challengeText'),
+      answerButtons: document.getElementById('answerButtons'),
+      feedback: document.getElementById('feedback'),
+      mergeButton: document.getElementById('mergeButton'),
+      randomButton: document.getElementById('randomButton'),
+      resetButton: document.getElementById('resetButton'),
+      leftMinus: document.getElementById('leftMinus'),
+      leftPlus: document.getElementById('leftPlus'),
+      rightMinus: document.getElementById('rightMinus'),
+      rightPlus: document.getElementById('rightPlus')
+    };
+
+    function clamp(n) {
+      return Math.max(0, Math.min(MAX_BEANS, n));
+    }
+
+    function isAnswerValue(n) {
+      return n >= 0 && n <= MAX_TOTAL;
+    }
+
+    function shuffle(values) {
+      const result = [...values];
+      for (let i = result.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    }
+
+    function setFeedback(kind, message) {
+      els.feedback.className = kind ? `feedback ${kind}` : 'feedback';
+      els.feedback.textContent = message;
+    }
+
+    function resetFeedback() {
+      setFeedback('', '豆を見て、ぜんぶの1を数えてみよう。');
+    }
+
+    function bean(index, small = false) {
+      const el = document.createElement('span');
+      el.className = small ? 'bean small' : 'bean';
+      const rot = [-15, 10, -7, 18, -22, 5, 14, -11, 21, -3][index % 10];
+      el.style.setProperty('--rot', `${rot}deg`);
+      el.style.animationDelay = `${Math.min(index * 18, 220)}ms`;
+      el.setAttribute('aria-label', 'コーヒー豆1こ');
+      return el;
+    }
+
+    function renderBeans(target, count, small = false) {
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < count; i += 1) {
+        fragment.appendChild(bean(i, small));
+      }
+      target.replaceChildren(fragment);
+    }
+
+    function makeAnswers(total) {
+      const candidates = [total];
+      const nearbyOffsets = [-2, 2, -1, 1, -3, 3, -4, 4];
+
+      for (const offset of shuffle(nearbyOffsets)) {
+        const next = total + offset;
+        if (isAnswerValue(next) && !candidates.includes(next)) {
+          candidates.push(next);
+        }
+        if (candidates.length === 3) break;
+      }
+
+      for (let next = 0; candidates.length < 3 && next <= MAX_TOTAL; next += 1) {
+        if (!candidates.includes(next)) candidates.push(next);
+      }
+
+      return shuffle(candidates);
+    }
+
+    function getAnswerChoices(total) {
+      const key = `${state.left}:${state.right}`;
+      if (state.challengeKey !== key) {
+        state.challengeKey = key;
+        state.answerChoices = makeAnswers(total);
+      }
+      return state.answerChoices;
+    }
+
+    function renderChallenge() {
+      const total = state.left + state.right;
+      els.challengeText.textContent = `左に ${state.left}こ、右に ${state.right}こ。あわせると何こ？`;
+      const fragment = document.createDocumentFragment();
+
+      getAnswerChoices(total).forEach(value => {
+        const button = document.createElement('button');
+        button.className = 'secondary';
+        button.type = 'button';
+        button.textContent = `${value}こ`;
+        button.setAttribute('aria-label', `${value}こ と答える`);
+        button.addEventListener('click', () => {
+          if (value === total) {
+            setFeedback('ok', `正解。${state.left}この1と${state.right}この1をあわせると、${total}この1になる。`);
+            state.merged = true;
+            render();
+          } else {
+            setFeedback('bad', `もう一回、豆を1こずつ数えよう。全部の1はまだ${value}こではないよ。`);
+          }
+        });
+        fragment.appendChild(button);
+      });
+
+      els.answerButtons.replaceChildren(fragment);
+    }
+
+    function render() {
+      const total = state.left + state.right;
+      els.leftValue.textContent = state.left;
+      els.rightValue.textContent = state.right;
+      els.leftRange.value = state.left;
+      els.rightRange.value = state.right;
+      els.equation.textContent = `${state.left} + ${state.right} = ${total}`;
+      els.sentence.textContent = `${state.left}この1と、${state.right}この1をあわせると、${total}この1になる。`;
+      els.leftCountText.textContent = `1 が ${state.left}こ`;
+      els.rightCountText.textContent = `1 が ${state.right}こ`;
+
+      renderBeans(els.leftBeans, state.left);
+      renderBeans(els.rightBeans, state.right);
+
+      if (state.merged) {
+        els.totalCountText.textContent = `1 が ${total}こ`;
+        renderBeans(els.totalBeans, total, total > 14);
+      } else {
+        els.totalCountText.textContent = 'まだ合わせてない';
+        els.totalBeans.replaceChildren();
+      }
+
+      els.leftMinus.disabled = state.left === 0;
+      els.leftPlus.disabled = state.left === 10;
+      els.rightMinus.disabled = state.right === 0;
+      els.rightPlus.disabled = state.right === 10;
+
+      renderChallenge();
+    }
+
+    function updateSide(side, value) {
+      state[side] = clamp(Number(value));
+      state.merged = false;
+      resetFeedback();
+      render();
+    }
+
+    els.leftRange.addEventListener('input', (e) => updateSide('left', e.target.value));
+    els.rightRange.addEventListener('input', (e) => updateSide('right', e.target.value));
+    els.leftMinus.addEventListener('click', () => updateSide('left', state.left - 1));
+    els.leftPlus.addEventListener('click', () => updateSide('left', state.left + 1));
+    els.rightMinus.addEventListener('click', () => updateSide('right', state.right - 1));
+    els.rightPlus.addEventListener('click', () => updateSide('right', state.right + 1));
+
+    els.mergeButton.addEventListener('click', () => {
+      state.merged = true;
+      setFeedback('ok', `あわせた山には、1が${state.left + state.right}こある。これが答え。`);
+      render();
+    });
+
+    els.randomButton.addEventListener('click', () => {
+      state.left = Math.floor(Math.random() * 8) + 1;
+      state.right = Math.floor(Math.random() * 8) + 1;
+      state.merged = false;
+      resetFeedback();
+      render();
+    });
+
+    els.resetButton.addEventListener('click', () => {
+      state.left = 3;
+      state.right = 2;
+      state.merged = false;
+      resetFeedback();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
