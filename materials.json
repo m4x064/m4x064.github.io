@@ -34,6 +34,29 @@
         ]
       },
       {
+        "title": "Minimal Phrases 1--2452",
+        "badge": "英語",
+        "description": "1--2452番の暗記プリント。英語なし版と英語あり版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "1--2452"
+        ],
+        "links": [
+          {
+            "label": "英語なし",
+            "href": "./pdf/phrases_all_001_2452_english_hidden.pdf",
+            "available": true
+          },
+          {
+            "label": "英語あり",
+            "href": "./pdf/phrases_all_001_2452_english_visible.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
         "title": "Minimal Phrases 1--900",
         "badge": "英語",
         "description": "1--900番の暗記プリント。問題版と解答版。",
