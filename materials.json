@@ -1,5 +1,35 @@
 [
   {
+    "id": "minimal-phrases",
+    "label": "Minimal Phrases",
+    "nav": "Minimal",
+    "items": [
+      {
+        "title": "Minimal Phrases 1--900",
+        "badge": "英語",
+        "description": "1--900番の暗記プリント。問題版と解答版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "1--900"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/phrases_001_900_write.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/phrases_001_900_answer.pdf",
+            "available": true
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "basic",
     "label": "基本教材",
     "nav": "基本",
