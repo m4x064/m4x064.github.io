@@ -5,6 +5,29 @@
     "nav": "Minimal",
     "items": [
       {
+        "title": "Minimal Phrases Selected 250",
+        "badge": "英語",
+        "description": "選抜250問の暗記プリント。問題版と解答版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "Selected 250"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/phrases_selected_original_numbers_write.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/phrases_selected_original_numbers_answer.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
         "title": "Minimal Phrases 1--900",
         "badge": "英語",
         "description": "1--900番の暗記プリント。問題版と解答版。",
