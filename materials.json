@@ -36,12 +36,13 @@
       {
         "title": "Minimal Phrases 1--2452",
         "badge": "英語",
-        "description": "1--2452番の暗記プリント。英語なし版と英語あり版。",
+        "description": "1--2452番の暗記プリント。英語なし版・英語あり版・穴抜き問題版・穴抜き解答版。",
         "tags": [
           "英語",
           "Minimal Phrases",
           "暗記",
-          "1--2452"
+          "1--2452",
+          "穴抜き"
         ],
         "links": [
           {
@@ -52,6 +53,16 @@
           {
             "label": "英語あり",
             "href": "./pdf/phrases_all_001_2452_english_visible.pdf",
+            "available": true
+          },
+          {
+            "label": "穴抜き問題",
+            "href": "./pdf/phrases_all_001_2452_cloze.pdf",
+            "available": true
+          },
+          {
+            "label": "穴抜き解答",
+            "href": "./pdf/phrases_all_001_2452_cloze_answer.pdf",
             "available": true
           }
         ]
