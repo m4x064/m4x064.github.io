@@ -7,12 +7,13 @@
       {
         "title": "Minimal Phrases Selected 250",
         "badge": "英語",
-        "description": "選抜250問の暗記プリント。問題版と解答版。",
+        "description": "選抜250問の暗記プリント。問題版・解答版・テスト版。",
         "tags": [
           "英語",
           "Minimal Phrases",
           "暗記",
-          "Selected 250"
+          "Selected 250",
+          "テスト"
         ],
         "links": [
           {
@@ -23,6 +24,11 @@
           {
             "label": "解答",
             "href": "./pdf/phrases_selected_original_numbers_answer.pdf",
+            "available": true
+          },
+          {
+            "label": "テスト＋解答",
+            "href": "./pdf/phrases_selected_original_numbers_tests.pdf",
             "available": true
           }
         ]
