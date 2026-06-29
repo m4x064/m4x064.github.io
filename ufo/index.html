@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>Math Fit | UFOゆーりの数式ステーション</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" integrity="sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -77,6 +78,7 @@
             </div>
             <p id="nextRewardText" class="next-reward-text">最初のごほうびまであと少し。</p>
             <ul id="rewardList" class="reward-list"></ul>
+            <button id="roomButton" class="secondary-button room-open-button" type="button">ゆーりルーム</button>
           </div>
           <div id="missionButtonStack" class="button-stack" aria-label="今日のミッション">
             <button id="operationGuideButton" class="secondary-button" type="button">四則演算ナビ</button>
@@ -216,6 +218,31 @@
           <button id="guideBackButton" class="secondary-button" type="button">タイトルに戻る</button>
         </section>
 
+        <section id="roomScreen" class="screen">
+          <div class="intro-copy">
+            <p class="eyebrow">YURI ROOM</p>
+            <h2>ゆーりの部屋</h2>
+            <p>ステージ進捗とYURI Lvで、部屋のライトやごほうび家具が増えていきます。</p>
+          </div>
+          <div class="yuri-room-panel" aria-labelledby="roomTitleText">
+            <div class="room-heading">
+              <span>YURI ROOM</span>
+              <strong id="roomTitleText">ちいさな操縦室</strong>
+              <p id="roomDetailText">ステージ進捗とYURI Lvで、ゆーりの部屋が育つよ。</p>
+            </div>
+            <div class="yuri-room-stage" aria-hidden="true">
+              <div class="room-window"></div>
+              <div id="roomItems" class="room-items"></div>
+              <img id="roomYuriAvatar" class="room-yuri-avatar" src="assets/yuri/extra/actions/02_happy_bounce.png" alt="">
+              <img class="room-pet-avatar" src="assets/yuri/extra/pets/03_happy.png" alt="">
+            </div>
+            <ul id="roomBeaconList" class="room-beacon-list" aria-label="航路ライト"></ul>
+          </div>
+          <div class="room-actions">
+            <button id="roomBackButton" class="secondary-button" type="button">タイトルに戻る</button>
+          </div>
+        </section>
+
         <section id="resultScreen" class="screen">
           <div class="result-hero">
             <div>
@@ -284,6 +311,7 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js" integrity="sha384-CwjPRVHTvLiMBFjEoij+QZViMV5rhTOIp7CJzl24JEqpRDA1sJFHVXXLURktbYYp" crossorigin="anonymous"></script>
     <script src="src/storage/progressStorage.js"></script>
     <script src="src/data/stages.js"></script>
     <script src="src/data/problems.js"></script>

@@ -28,6 +28,7 @@ const THREE_DIGIT_JUMP_SUBTRACTION_STAGE_NAME = stageNameConfig.threeDigitJumpSu
 const THREE_DIGIT_JUMP_MULTIPLICATION_STAGE_NAME = stageNameConfig.threeDigitJumpMultiplication || "Stage 6-2";
 const THREE_DIGIT_JUMP_DIVISION_STAGE_NAME = stageNameConfig.threeDigitJumpDivision || "Stage 6-3";
 const POWER_STAGE_NAME = stageNameConfig.power || "Stage 8";
+const PERMUTATION_STAGE_NAME = stageNameConfig.permutation || "Stage 9";
 const REVIEW_STAGE_NAME = stageNameConfig.review || "Test 1";
 
 const operationLabels = {
@@ -38,6 +39,7 @@ const operationLabels = {
   fraction: "分数",
   percent: "割合",
   algebra: "文字式",
+  permutation: "順列",
 };
 
 const baseSkills = Object.keys(operationLabels);
@@ -60,6 +62,7 @@ const missionNames = stageModule.getMissionNames?.() || {
   threeDigitJumpMultiplication: "Stage 6-2 三桁ジャンプかけ算航路",
   threeDigitJumpDivision: "Stage 6-3 三桁ジャンプわり算航路",
   power: "Stage 8 同じ数かけ算航路",
+  permutation: "Stage 9 nPr順列航路",
   review: "Test 1 Stage 1〜5 復習診断",
 };
 const stageProgressModes = stageModule.getProgressModes?.() || [
@@ -80,6 +83,7 @@ const stageProgressModes = stageModule.getProgressModes?.() || [
   "threeDigitJumpMultiplication",
   "threeDigitJumpDivision",
   "power",
+  "permutation",
   "review",
 ];
 const questionPoolsByMode = {};
@@ -134,6 +138,7 @@ const screens = {
   quiz: document.querySelector("#quizScreen"),
   pause: document.querySelector("#pauseScreen"),
   guide: document.querySelector("#guideScreen"),
+  room: document.querySelector("#roomScreen"),
   result: document.querySelector("#resultScreen"),
 };
 const screenBodyClasses = Object.keys(screens).map((name) => `screen-${name}`);
@@ -159,6 +164,7 @@ const elements = {
   clearAnswerButton: document.querySelector("#clearAnswerButton"),
   missionButtonStack: document.querySelector("#missionButtonStack"),
   operationGuideButton: document.querySelector("#operationGuideButton"),
+  roomButton: document.querySelector("#roomButton"),
   resumeCard: document.querySelector("#resumeCard"),
   resumeTitle: document.querySelector("#resumeTitle"),
   resumeDetail: document.querySelector("#resumeDetail"),
@@ -173,9 +179,15 @@ const elements = {
   growthProgressBar: document.querySelector("#growthProgressBar"),
   nextRewardText: document.querySelector("#nextRewardText"),
   rewardList: document.querySelector("#rewardList"),
+  roomTitleText: document.querySelector("#roomTitleText"),
+  roomDetailText: document.querySelector("#roomDetailText"),
+  roomItems: document.querySelector("#roomItems"),
+  roomBeaconList: document.querySelector("#roomBeaconList"),
+  roomYuriAvatar: document.querySelector("#roomYuriAvatar"),
   resumeButton: document.querySelector("#resumeButton"),
   backToTitleButton: document.querySelector("#backToTitleButton"),
   guideBackButton: document.querySelector("#guideBackButton"),
+  roomBackButton: document.querySelector("#roomBackButton"),
   restartButton: document.querySelector("#restartButton"),
   resultBackToTitleButton: document.querySelector("#resultBackToTitleButton"),
   pilotMessage: document.querySelector("#pilotMessage"),
@@ -214,7 +226,7 @@ const stageButtonGroups = [
     modes: ["twoDigitMixAddition", "twoDigitTwoDigitSubtraction", "twoDigitMixSubtraction"],
   },
   {
-    title: "Stage 4〜6 発展航路",
+    title: "Stage 4〜9 発展航路",
     modes: [
       "twoDigitTwoDigitDivision",
       "twoDigitMixMultiplication",
@@ -225,12 +237,69 @@ const stageButtonGroups = [
       "threeDigitJumpMultiplication",
       "threeDigitJumpDivision",
       "power",
+      "permutation",
     ],
   },
   {
     title: "テスト・ナビ",
     modes: ["review"],
   },
+];
+
+const roomStageGroups = [
+  {
+    label: "1",
+    title: "一桁",
+    modes: ["stageOne"],
+  },
+  {
+    label: "2",
+    title: "くり上げ",
+    modes: ["carryAddition", "borrowSubtraction", "carryMultiplication", "borrowDivision"],
+  },
+  {
+    label: "3",
+    title: "実力",
+    modes: ["twoDigitMixAddition", "twoDigitTwoDigitSubtraction", "twoDigitMixSubtraction"],
+  },
+  {
+    label: "4",
+    title: "かけわり",
+    modes: ["twoDigitTwoDigitDivision", "twoDigitMixMultiplication", "twoDigitMixDivision"],
+  },
+  {
+    label: "5",
+    title: "二桁",
+    modes: ["twoDigitTwinAddition", "twoDigitTwinSubtraction"],
+  },
+  {
+    label: "6",
+    title: "三桁",
+    modes: ["threeDigitJumpSubtraction", "threeDigitJumpMultiplication", "threeDigitJumpDivision"],
+  },
+  {
+    label: "8",
+    title: "同じ数",
+    modes: ["power"],
+  },
+  {
+    label: "9",
+    title: "nPr",
+    modes: ["permutation"],
+  },
+];
+
+const roomItemSlots = [
+  { x: 16, y: 70, size: 36, rotate: -8 },
+  { x: 31, y: 78, size: 32, rotate: 7 },
+  { x: 47, y: 68, size: 34, rotate: -4 },
+  { x: 63, y: 77, size: 32, rotate: 9 },
+  { x: 80, y: 67, size: 38, rotate: -10 },
+  { x: 18, y: 36, size: 27, rotate: 8 },
+  { x: 35, y: 29, size: 24, rotate: -8 },
+  { x: 55, y: 31, size: 25, rotate: 9 },
+  { x: 74, y: 34, size: 26, rotate: -7 },
+  { x: 88, y: 46, size: 30, rotate: 10 },
 ];
 
 renderStageButtons();
@@ -284,6 +353,7 @@ getPlayableStageConfigs().forEach((config) => {
   }
 });
 elements.operationGuideButton.addEventListener("click", showOperationGuide);
+elements.roomButton.addEventListener("click", showYuriRoom);
 elements.startResumeButton.addEventListener("click", resumeSavedSession);
 elements.clearSaveButton?.addEventListener("click", clearSavedSessionFromStart);
 elements.exportSaveButton.addEventListener("click", exportSaveData);
@@ -292,6 +362,7 @@ elements.importSaveInput.addEventListener("change", importSaveData);
 elements.resumeButton.addEventListener("click", resumeGame);
 elements.backToTitleButton.addEventListener("click", returnToTitle);
 elements.guideBackButton.addEventListener("click", returnToTitle);
+elements.roomBackButton.addEventListener("click", returnToTitle);
 elements.restartButton.addEventListener("click", () => startGame(state.mode));
 elements.resultBackToTitleButton.addEventListener("click", returnToTitle);
 elements.bgmToggleButton.addEventListener("click", toggleBgm);
@@ -468,6 +539,7 @@ function renderProfile() {
     elements.rewardList.append(item);
   });
   renderTitleRewardDisplay();
+  renderYuriRoom();
 }
 
 function recordCorrectAnswer() {
@@ -519,6 +591,105 @@ function renderTitleRewardDisplay() {
     item.style.setProperty("--reward-delay", `${(index % 6) * -0.42}s`);
     elements.titleRewardDisplay.append(item);
   });
+}
+
+function renderYuriRoom() {
+  if (!elements.roomTitleText || !elements.roomItems || !elements.roomBeaconList) {
+    return;
+  }
+
+  const currentReward = getCurrentReward();
+  const nextReward = getNextReward();
+  const unlockedRewards = growthRewards.filter((reward) => reward.correct <= profile.totalCorrect);
+  const roomName = getYuriRoomName(currentReward.level);
+  const roomStats = getYuriRoomStageStats();
+  const nextText = nextReward
+    ? `次の家具はあと${formatCorrectCount(nextReward.correct - profile.totalCorrect)}問で「${nextReward.item}」。`
+    : "ごほうび家具は全部そろってるよ。";
+
+  elements.roomTitleText.textContent = `${roomName} / YURI Lv ${currentReward.level}`;
+  elements.roomDetailText.textContent = `${roomStats.completed}/${roomStats.total}航路が点灯中。${nextText}`;
+  elements.roomYuriAvatar.src = currentReward.level >= 18
+    ? yuriMoods.victory
+    : currentReward.level >= 8
+      ? yuriMoods.focus
+      : yuriMoods.happy;
+
+  elements.roomItems.innerHTML = "";
+  unlockedRewards.slice(0, roomItemSlots.length).forEach((reward, index) => {
+    const slot = roomItemSlots[index];
+    const item = document.createElement("img");
+
+    item.src = reward.icon;
+    item.alt = "";
+    item.className = "room-item";
+    if (reward.correct >= 10000) {
+      item.classList.add("is-grand");
+    }
+    item.style.setProperty("--room-item-x", `${slot.x}%`);
+    item.style.setProperty("--room-item-y", `${slot.y}%`);
+    item.style.setProperty("--room-item-size", `${slot.size}px`);
+    item.style.setProperty("--room-item-rotate", `${slot.rotate}deg`);
+    item.style.setProperty("--room-item-delay", `${(index % 5) * -0.36}s`);
+    elements.roomItems.append(item);
+  });
+
+  elements.roomBeaconList.innerHTML = "";
+  roomStats.groups.forEach((group) => {
+    const item = document.createElement("li");
+    const label = document.createElement("strong");
+    const value = document.createElement("span");
+
+    item.className = "room-beacon";
+    item.classList.toggle("is-lit", group.percent > 0);
+    item.classList.toggle("is-complete", group.percent >= 100);
+    item.style.setProperty("--beacon-progress", `${group.percent}%`);
+    label.textContent = group.label;
+    value.textContent = `${group.percent}%`;
+    item.title = `${group.title}: ${group.percent}%`;
+    item.append(label, value);
+    elements.roomBeaconList.append(item);
+  });
+}
+
+function getYuriRoomName(level) {
+  if (level >= 22) {
+    return "銀河プリンセスルーム";
+  }
+  if (level >= 16) {
+    return "星間ステーションルーム";
+  }
+  if (level >= 10) {
+    return "きらめき整備ルーム";
+  }
+  if (level >= 5) {
+    return "月明かりコックピット";
+  }
+  return "ちいさな操縦室";
+}
+
+function getYuriRoomStageStats() {
+  const groups = roomStageGroups.map((group) => {
+    const modePercents = group.modes.map((mode) => {
+      const progress = stageProgress[mode] || {};
+      const total = progress.questionTotal || getQuestionTotalForMode(mode);
+      return total > 0 ? Math.min(100, Math.round(((progress.bestAnswered || progress.bestScore || 0) / total) * 100)) : 0;
+    });
+    const percent = modePercents.length > 0
+      ? Math.round(modePercents.reduce((sum, value) => sum + value, 0) / modePercents.length)
+      : 0;
+
+    return {
+      ...group,
+      percent,
+    };
+  });
+
+  return {
+    groups,
+    completed: groups.filter((group) => group.percent >= 100).length,
+    total: groups.length,
+  };
 }
 
 function formatCorrectCount(count) {
@@ -693,6 +864,7 @@ function saveStageProgressSnapshot({ completed = false, questionTotal = getQuest
 
   saveStageProgress();
   renderStageProgress();
+  renderYuriRoom();
 }
 
 function renderStageProgress() {
@@ -1010,7 +1182,7 @@ function resumeSavedSession(mode) {
 
   showScreen("quiz");
   elements.operationText.textContent = operationLabels[state.currentQuestion.operation];
-  elements.questionText.textContent = state.currentQuestion.text;
+  renderQuestionText(state.currentQuestion);
   setAnswerRawInput(savedSession.answerRawValue ?? savedSession.answerValue ?? "");
   elements.answerInput.disabled = state.awaitingNextQuestion;
   setSubmitButton(state.awaitingNextQuestion ? "次へ" : "答える");
@@ -1038,6 +1210,49 @@ function resumeSavedSession(mode) {
   saveSession();
 }
 
+function renderQuestionText(question) {
+  const plainText = String(question?.text || "");
+  elements.questionText.classList.remove("is-katex-rendered");
+  elements.questionText.textContent = plainText;
+  elements.questionText.title = "";
+
+  if (!window.katex || !plainText) {
+    return;
+  }
+
+  try {
+    window.katex.render(createQuestionLatex(plainText), elements.questionText, {
+      displayMode: true,
+      throwOnError: false,
+      strict: "ignore",
+    });
+    elements.questionText.classList.add("is-katex-rendered");
+    elements.questionText.title = plainText;
+  } catch {
+    elements.questionText.classList.remove("is-katex-rendered");
+    elements.questionText.textContent = plainText;
+  }
+}
+
+function createQuestionLatex(text) {
+  const permutationMatch = text.match(/^(\d+)P(\d+)$/);
+  if (permutationMatch) {
+    return `{}_{${permutationMatch[1]}}P_{${permutationMatch[2]}}`;
+  }
+
+  const percentMatch = text.match(/^(\d+)\s+の\s+(\d+)%$/);
+  if (percentMatch) {
+    return `${percentMatch[1]}\\text{ の }${percentMatch[2]}\\%`;
+  }
+
+  return text
+    .replace(/√\(([^)]+)\)/g, "\\sqrt{$1}")
+    .replace(/\b(\d+)\/(\d+)\b/g, "\\frac{$1}{$2}")
+    .replace(/×/g, "\\times")
+    .replace(/÷/g, "\\div")
+    .replace(/%/g, "\\%");
+}
+
 function nextQuestion() {
   clearPendingNextQuestion();
   clearInterval(state.timerId);
@@ -1060,7 +1275,7 @@ function nextQuestion() {
   state.questionIndex += 1;
 
   elements.operationText.textContent = operationLabels[state.currentQuestion.operation];
-  elements.questionText.textContent = state.currentQuestion.text;
+  renderQuestionText(state.currentQuestion);
   setPilotMessage(createQuestionComms(state.currentQuestion), "focus");
   setAnswerRawInput("");
   elements.answerInput.disabled = false;
@@ -1661,6 +1876,37 @@ function createPowerQuestionPool() {
   return pool;
 }
 
+function createPermutationQuestionPool() {
+  if (window.MathFitProblems?.createPermutationQuestionPool) {
+    return window.MathFitProblems.createPermutationQuestionPool();
+  }
+
+  const pool = [];
+
+  for (let n = 3; n <= 10; n += 1) {
+    for (let r = 2; r <= 9; r += 1) {
+      if (n > r) {
+        pool.push({
+          operation: "permutation",
+          answer: permutationCount(n, r),
+          text: `${n}P${r}`,
+          stage: PERMUTATION_STAGE_NAME,
+        });
+      }
+    }
+  }
+
+  return pool;
+}
+
+function permutationCount(n, r) {
+  let answer = 1;
+  for (let value = n; value > n - r; value -= 1) {
+    answer *= value;
+  }
+  return answer;
+}
+
 function addPowerQuestion(pool, base, factorCount) {
   pool.push({
     operation: "multiplication",
@@ -1825,6 +2071,7 @@ function createQuestionPoolForStage(config) {
     threeDigitJumpMultiplication: createThreeDigitJumpMultiplicationQuestionPool,
     threeDigitJumpDivision: createThreeDigitJumpDivisionQuestionPool,
     power: createPowerQuestionPool,
+    permutation: createPermutationQuestionPool,
   };
   const fallbackFactory = fallbackFactories[config.mode];
   return typeof fallbackFactory === "function" ? fallbackFactory() : [];
@@ -2546,6 +2793,18 @@ function showOperationGuide() {
   showScreen("guide");
 }
 
+function showYuriRoom() {
+  clearPendingNextQuestion();
+  clearInterval(state.timerId);
+  state.isPaused = false;
+  state.awaitingNextQuestion = false;
+  state.missionStartedAt = 0;
+  state.timeLimitReached = false;
+  renderYuriRoom();
+  setPilotMessage("ゆーりの部屋を開いたよ。集めたごほうびと航路ライトを見ていこう。", "happy");
+  showScreen("room");
+}
+
 function adjustLevel(isCorrect, elapsedSeconds, operation) {
   const skill = state.skills[operation];
 
@@ -2652,6 +2911,10 @@ function createQuestionComms(question) {
 
   if (state.mode === "power") {
     return `Stage 8 同じ数かけ算 ${state.questionIndex}/${getQuestionTotal()}。同じ数をくり返しかけて、地図を明るくしよう。`;
+  }
+
+  if (state.mode === "permutation") {
+    return `Stage 9 nPr順列航路 ${state.questionIndex}/${getQuestionTotal()}。順番を区別する並べ方を数えよう。`;
   }
 
   if (state.mode === "review") {

@@ -25,6 +25,7 @@
     threeDigitJumpMultiplication: "Stage 6-2 三桁ジャンプかけ算",
     threeDigitJumpDivision: "Stage 6-3 三桁ジャンプわり算",
     power: "Stage 8 同じ数かけ算",
+    permutation: "Stage 9 nPr順列",
     review: "Test 1 Stage 1〜5 復習診断",
   };
 
@@ -47,6 +48,7 @@
     "threeDigitJumpMultiplication",
     "threeDigitJumpDivision",
     "power",
+    "permutation",
     "review",
   ];
 
@@ -291,6 +293,20 @@
       expectedPoolSize: 123,
       poolFactory: "createPowerQuestionPool",
       startDetail: "式は「12 × 12」みたいに出すよ。",
+    },
+    permutation: {
+      mode: "permutation",
+      title: "Stage 9 nPr順列航路",
+      dataName: stageNames.permutation,
+      description: "n=3〜10、r=2〜9、n>r の nPr を求める順列。",
+      buttonId: "permutationStartButton",
+      buttonClass: "secondary-button",
+      usesDeck: true,
+      trackProgress: true,
+      questionTotal: "pool",
+      expectedPoolSize: 36,
+      poolFactory: "createPermutationQuestionPool",
+      startDetail: "式は「5P3」みたいに出すよ。",
     },
     review: {
       mode: "review",

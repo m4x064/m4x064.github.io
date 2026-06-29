@@ -456,6 +456,38 @@
     return pool;
   }
 
+  function createPermutationQuestionPool() {
+    const pool = [];
+
+    for (let n = 3; n <= 10; n += 1) {
+      for (let r = 2; r <= 9; r += 1) {
+        if (n <= r) {
+          continue;
+        }
+
+        pushProblem(pool, {
+          operation: "permutation",
+          answer: permutationCount(n, r),
+          text: `${n}P${r}`,
+          stage: stageNames.permutation,
+          level: 9,
+          tags: ["permutation", "nPr"],
+          viewpoint: "順番を区別して並べ方を見る",
+        });
+      }
+    }
+
+    return pool;
+  }
+
+  function permutationCount(n, r) {
+    let answer = 1;
+    for (let value = n; value > n - r; value -= 1) {
+      answer *= value;
+    }
+    return answer;
+  }
+
   function addPowerQuestion(pool, base, factorCount) {
     pushProblem(pool, {
       operation: "multiplication",
@@ -536,6 +568,7 @@
       subtraction: "差と残りを見る",
       multiplication: "同じまとまりを見る",
       division: "同じ大きさに分ける",
+      permutation: "順番を区別して並べる",
     };
     return viewpoints[operation] || "計算構造を見る";
   }
@@ -571,5 +604,6 @@
     createThreeDigitJumpMultiplicationQuestionPool,
     createThreeDigitJumpDivisionQuestionPool,
     createPowerQuestionPool,
+    createPermutationQuestionPool,
   };
 })();
