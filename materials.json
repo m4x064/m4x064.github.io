@@ -18,12 +18,12 @@
         "links": [
           {
             "label": "問題",
-            "href": "./pdf/phrases_selected_original_numbers_write.pdf",
+            "href": "./pdf/phrases_selected_original_numbers_cloze.pdf",
             "available": true
           },
           {
             "label": "解答",
-            "href": "./pdf/phrases_selected_original_numbers_answer.pdf",
+            "href": "./pdf/phrases_selected_original_numbers_cloze_answer.pdf",
             "available": true
           },
           {
