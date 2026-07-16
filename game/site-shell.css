@@ -1,0 +1,267 @@
+:root {
+  --yuuri-shell-ink: #352a4d;
+  --yuuri-shell-muted: #7a6c91;
+  --yuuri-shell-pink: #ff9ed4;
+  --yuuri-shell-violet: #a895ff;
+  --yuuri-shell-line: rgba(255, 217, 245, 0.78);
+  --yuuri-shell-panel: rgba(255, 249, 255, 0.94);
+  --yuuri-shell-shadow: 0 18px 50px rgba(32, 23, 68, 0.25);
+}
+
+.yuuri-hub-strip,
+.yuuri-world-menu {
+  font-family: "Segoe UI", "Yu Gothic UI", system-ui, sans-serif;
+  color: var(--yuuri-shell-ink);
+}
+
+body[data-yuuri-page="pet"] .app {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+.yuuri-hub-strip {
+  position: relative;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: minmax(185px, 0.72fr) minmax(0, 2.6fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 58px;
+  margin-bottom: 6px;
+  padding: 7px;
+  border: 1px solid var(--yuuri-shell-line);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 232, 255, 0.92)),
+    var(--yuuri-shell-panel);
+  box-shadow: 0 12px 32px rgba(26, 19, 58, 0.18);
+  backdrop-filter: blur(16px);
+}
+
+.yuuri-hub-brand {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 0 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.yuuri-hub-brand small {
+  color: var(--yuuri-shell-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.yuuri-hub-brand strong {
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuuri-hub-links {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(72px, 1fr));
+  gap: 5px;
+  min-width: 0;
+}
+
+.yuuri-hub-link,
+.yuuri-world-link {
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  min-height: 42px;
+  border: 1px solid rgba(170, 144, 222, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--yuuri-shell-ink);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.yuuri-hub-link:hover,
+.yuuri-world-link:hover,
+.yuuri-hub-link:focus-visible,
+.yuuri-world-link:focus-visible {
+  border-color: rgba(255, 132, 204, 0.68);
+  background: white;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.yuuri-hub-link[aria-current="page"],
+.yuuri-world-link[aria-current="page"] {
+  border-color: rgba(255, 126, 198, 0.72);
+  background: linear-gradient(135deg, #fff, #ffe7f6 55%, #eee9ff);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.78);
+}
+
+.yuuri-hub-link strong,
+.yuuri-world-link strong {
+  font-size: 0.76rem;
+  line-height: 1.1;
+}
+
+.yuuri-hub-link small,
+.yuuri-world-link small {
+  color: var(--yuuri-shell-muted);
+  font-size: 0.59rem;
+  line-height: 1.1;
+}
+
+.yuuri-world-menu {
+  position: fixed;
+  z-index: 2147483000;
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+  width: min(330px, calc(100vw - 20px));
+}
+
+.yuuri-world-menu summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 13px;
+  border: 1px solid var(--yuuri-shell-line);
+  border-radius: 999px;
+  background: var(--yuuri-shell-panel);
+  box-shadow: var(--yuuri-shell-shadow);
+  color: var(--yuuri-shell-ink);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 900;
+  list-style: none;
+  backdrop-filter: blur(18px);
+}
+
+.yuuri-world-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.yuuri-world-menu summary::before {
+  content: "♡";
+  color: #ff72bc;
+  font-size: 1rem;
+}
+
+.yuuri-world-menu:not([open]) {
+  width: 44px;
+}
+
+.yuuri-world-menu:not([open]) summary {
+  justify-content: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.yuuri-world-menu:not([open]) summary::before {
+  font-size: 1.12rem;
+}
+
+.yuuri-world-menu[open] summary {
+  border-radius: 13px 13px 8px 8px;
+}
+
+.yuuri-world-panel {
+  display: grid;
+  gap: 8px;
+  margin-top: 7px;
+  padding: 10px;
+  border: 1px solid var(--yuuri-shell-line);
+  border-radius: 14px;
+  background: var(--yuuri-shell-panel);
+  box-shadow: var(--yuuri-shell-shadow);
+  backdrop-filter: blur(20px);
+}
+
+.yuuri-world-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 2px 3px 0;
+}
+
+.yuuri-world-heading strong {
+  font-size: 0.86rem;
+}
+
+.yuuri-world-heading small {
+  color: var(--yuuri-shell-muted);
+  font-size: 0.63rem;
+}
+
+.yuuri-world-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.yuuri-world-link {
+  min-height: 52px;
+  padding: 6px;
+}
+
+@media (max-width: 940px) {
+  .yuuri-hub-strip {
+    grid-template-columns: 1fr;
+    margin-bottom: 10px;
+    padding: 9px;
+  }
+
+  .yuuri-hub-brand {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .yuuri-hub-links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .yuuri-hub-link {
+    flex: 0 0 102px;
+  }
+}
+
+@media (max-width: 560px) {
+  .yuuri-hub-brand small {
+    display: none;
+  }
+
+  .yuuri-hub-link {
+    flex-basis: 94px;
+  }
+
+  .yuuri-world-menu {
+    right: 8px;
+    left: 8px;
+    width: auto;
+  }
+
+  .yuuri-world-menu summary {
+    max-width: calc(100vw - 16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yuuri-hub-link,
+  .yuuri-world-link {
+    transition: none;
+  }
+}
