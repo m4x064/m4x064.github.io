@@ -98,6 +98,48 @@
     "nav": "基本",
     "items": [
       {
+        "title": "基本の不等式",
+        "badge": "1",
+        "description": "三角不等式，コーシー・シュワルツの不等式，相加相乗平均，ネスビットの不等式を確認する基礎プリント。",
+        "tags": [
+          "不等式",
+          "三角不等式",
+          "コーシー・シュワルツ",
+          "相加相乗平均",
+          "ネスビット"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/1-inequality-basic.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/1-inequality-basic-ans.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "基本のくみわけ",
+        "badge": "2",
+        "description": "10人を名前のある組・ない組に分ける数え方を，11問で確認する基礎プリント。",
+        "tags": [
+          "場合の数",
+          "組み分け",
+          "組合せ",
+          "基礎"
+        ],
+        "links": [
+          {
+            "label": "問題＋解答",
+            "href": "./pdf/2-combinations-basic.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
         "title": "絶対値と不等式の基礎",
         "badge": "NEW",
         "description": "三角不等式，逆三角不等式，3実数版，積を含む不等式を扱う基礎プリント。",
