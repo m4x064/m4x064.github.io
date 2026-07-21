@@ -159,6 +159,25 @@
         ]
       },
       {
+        "title": "放物線と直角",
+        "badge": "4",
+        "description": "放物線と直線の2交点が原点で直角をなす条件を用いて，三角形の面積を求めるプリント。",
+        "tags": [
+          "放物線",
+          "直線",
+          "直角",
+          "ベクトル",
+          "面積"
+        ],
+        "links": [
+          {
+            "label": "問題＋解答",
+            "href": "./pdf/4-parabola-line-right-angle.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
         "title": "絶対値と不等式の基礎",
         "badge": "NEW",
         "description": "三角不等式，逆三角不等式，3実数版，積を含む不等式を扱う基礎プリント。",
