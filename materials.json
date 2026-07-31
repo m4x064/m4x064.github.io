@@ -305,11 +305,6 @@
             "label": "接線・中点・面積 解答",
             "href": "./pdf/cubic_tangent_midpoint_area_answer.pdf",
             "available": true
-          },
-          {
-            "label": "接線チェック",
-            "href": "./pdf/tangent_line_check.pdf",
-            "available": true
           }
         ]
       },
@@ -371,11 +366,6 @@
           {
             "label": "成績表",
             "href": "./pdf/hyou.pdf",
-            "available": true
-          },
-          {
-            "label": "教材テンプレートサンプル",
-            "href": "./pdf/worksheet_preset_sample.pdf",
             "available": true
           }
         ]
@@ -458,11 +448,6 @@
         ],
         "links": [
           {
-            "label": "組み分けチェック",
-            "href": "./pdf/combinations_check.pdf",
-            "available": true
-          },
-          {
             "label": "微分・数列チェック",
             "href": "./pdf/differentiation_sequences_check.pdf",
             "available": true
@@ -470,11 +455,6 @@
           {
             "label": "対数法則クイズ",
             "href": "./pdf/logarithm_laws_quiz.pdf",
-            "available": true
-          },
-          {
-            "label": "最大・最小チェック",
-            "href": "./pdf/max_min_check.pdf",
             "available": true
           },
           {
@@ -499,11 +479,6 @@
           {
             "label": "円と台形の対称性",
             "href": "./pdf/circle_trapezoid_geometry.pdf",
-            "available": true
-          },
-          {
-            "label": "正四面体チェック",
-            "href": "./pdf/regular_tetrahedron_check.pdf",
             "available": true
           },
           {
@@ -606,23 +581,8 @@
         ],
         "links": [
           {
-            "label": "共通接線から正七角形へ",
-            "href": "./pdf/common_tangents_heptagon.pdf",
-            "available": true
-          },
-          {
             "label": "三次関数の共通接線 計算",
             "href": "./pdf/cubic_common_tangent_calculation.pdf",
-            "available": true
-          },
-          {
-            "label": "6tan",
-            "href": "./pdf/6tan.pdf",
-            "available": true
-          },
-          {
-            "label": "6tan 2",
-            "href": "./pdf/6tan2.pdf",
             "available": true
           },
           {
@@ -642,13 +602,7 @@
           "不等式",
           "ベクトル"
         ],
-        "links": [
-          {
-            "label": "コーシー・シュワルツと正射影",
-            "href": "./pdf/cauchy_schwarz_projection_check.pdf",
-            "available": true
-          }
-        ]
+        "links": []
       }
     ]
   },
@@ -778,11 +732,6 @@
           {
             "label": "不定積分プリント",
             "href": "./pdf/indefinite_integral_practice.pdf",
-            "available": true
-          },
-          {
-            "label": "計算ミス対策",
-            "href": "./pdf/calculation_mistake_practice.pdf",
             "available": true
           }
         ]
