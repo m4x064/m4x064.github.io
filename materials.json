@@ -227,8 +227,13 @@
         ],
         "links": [
           {
-            "label": "問題＋解答",
-            "href": "./pdf/7-tangent-line.pdf",
+            "label": "7-0",
+            "href": "./pdf/7-0-tangent-line.pdf",
+            "available": true
+          },
+          {
+            "label": "7-1",
+            "href": "./pdf/7-1-tangent-line.pdf",
             "available": true
           }
         ]
