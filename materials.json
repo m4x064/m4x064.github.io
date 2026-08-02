@@ -284,9 +284,9 @@
     ]
   },
   {
-    "id": "minimal-phrases",
-    "label": "Minimal Phrases",
-    "nav": "Minimal",
+    "id": "english",
+    "label": "英語",
+    "nav": "英語",
     "items": [
       {
         "title": "Minimal Phrases Selected 250",
@@ -373,14 +373,7 @@
             "available": true
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "english",
-    "label": "英語語彙",
-    "nav": "英語",
-    "items": [
+      },
       {
         "title": "ジャンル語彙",
         "badge": "語彙",
