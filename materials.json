@@ -1,98 +1,5 @@
 [
   {
-    "id": "minimal-phrases",
-    "label": "Minimal Phrases",
-    "nav": "Minimal",
-    "items": [
-      {
-        "title": "Minimal Phrases Selected 250",
-        "badge": "英語",
-        "description": "選抜250問の暗記プリント。問題版・解答版・テスト版。",
-        "tags": [
-          "英語",
-          "Minimal Phrases",
-          "暗記",
-          "Selected 250",
-          "テスト"
-        ],
-        "links": [
-          {
-            "label": "問題",
-            "href": "./pdf/phrases_selected_original_numbers_cloze.pdf",
-            "available": true
-          },
-          {
-            "label": "解答",
-            "href": "./pdf/phrases_selected_original_numbers_cloze_answer.pdf",
-            "available": true
-          },
-          {
-            "label": "テスト＋解答",
-            "href": "./pdf/phrases_selected_original_numbers_tests.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "Minimal Phrases 1--2452",
-        "badge": "英語",
-        "description": "1--2452番の暗記プリント。英語なし版・英語あり版・穴抜き問題版・穴抜き解答版。",
-        "tags": [
-          "英語",
-          "Minimal Phrases",
-          "暗記",
-          "1--2452",
-          "穴抜き"
-        ],
-        "links": [
-          {
-            "label": "英語なし",
-            "href": "./pdf/phrases_all_001_2452_english_hidden.pdf",
-            "available": true
-          },
-          {
-            "label": "英語あり",
-            "href": "./pdf/phrases_all_001_2452_english_visible.pdf",
-            "available": true
-          },
-          {
-            "label": "穴抜き問題",
-            "href": "./pdf/phrases_all_001_2452_cloze.pdf",
-            "available": true
-          },
-          {
-            "label": "穴抜き解答",
-            "href": "./pdf/phrases_all_001_2452_cloze_answer.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "Minimal Phrases 1--900",
-        "badge": "英語",
-        "description": "1--900番の暗記プリント。問題版と解答版。",
-        "tags": [
-          "英語",
-          "Minimal Phrases",
-          "暗記",
-          "1--900"
-        ],
-        "links": [
-          {
-            "label": "問題",
-            "href": "./pdf/phrases_001_900_write.pdf",
-            "available": true
-          },
-          {
-            "label": "解答",
-            "href": "./pdf/phrases_001_900_answer.pdf",
-            "available": true
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "basic",
     "label": "基本教材",
     "nav": "基本",
@@ -408,6 +315,99 @@
           {
             "label": "成績表",
             "href": "./pdf/hyou.pdf",
+            "available": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "minimal-phrases",
+    "label": "Minimal Phrases",
+    "nav": "Minimal",
+    "items": [
+      {
+        "title": "Minimal Phrases Selected 250",
+        "badge": "英語",
+        "description": "選抜250問の暗記プリント。問題版・解答版・テスト版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "Selected 250",
+          "テスト"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/phrases_selected_original_numbers_cloze.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/phrases_selected_original_numbers_cloze_answer.pdf",
+            "available": true
+          },
+          {
+            "label": "テスト＋解答",
+            "href": "./pdf/phrases_selected_original_numbers_tests.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "Minimal Phrases 1--2452",
+        "badge": "英語",
+        "description": "1--2452番の暗記プリント。英語なし版・英語あり版・穴抜き問題版・穴抜き解答版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "1--2452",
+          "穴抜き"
+        ],
+        "links": [
+          {
+            "label": "英語なし",
+            "href": "./pdf/phrases_all_001_2452_english_hidden.pdf",
+            "available": true
+          },
+          {
+            "label": "英語あり",
+            "href": "./pdf/phrases_all_001_2452_english_visible.pdf",
+            "available": true
+          },
+          {
+            "label": "穴抜き問題",
+            "href": "./pdf/phrases_all_001_2452_cloze.pdf",
+            "available": true
+          },
+          {
+            "label": "穴抜き解答",
+            "href": "./pdf/phrases_all_001_2452_cloze_answer.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "Minimal Phrases 1--900",
+        "badge": "英語",
+        "description": "1--900番の暗記プリント。問題版と解答版。",
+        "tags": [
+          "英語",
+          "Minimal Phrases",
+          "暗記",
+          "1--900"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/phrases_001_900_write.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/phrases_001_900_answer.pdf",
             "available": true
           }
         ]
