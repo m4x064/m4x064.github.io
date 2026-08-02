@@ -202,29 +202,6 @@
         ]
       },
       {
-        "title": "絶対値と不等式の基礎",
-        "badge": "NEW",
-        "description": "三角不等式，逆三角不等式，3実数版，積を含む不等式を扱う基礎プリント。",
-        "tags": [
-          "絶対値",
-          "不等式",
-          "三角不等式",
-          "積の不等式"
-        ],
-        "links": [
-          {
-            "label": "生徒用",
-            "href": "./pdf/absolute-value-inequalities-mono-student.pdf",
-            "available": true
-          },
-          {
-            "label": "講師用",
-            "href": "./pdf/absolute-value-inequalities-mono-teacher.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
         "title": "存在領域・接線",
         "badge": "5/12",
         "description": "存在領域と3次関数の接線，中点，面積をまとめた教材。",
@@ -244,16 +221,6 @@
             "label": "存在領域 解答",
             "href": "./pdf/sonzai_ryouiki_answer.pdf",
             "available": true
-          },
-          {
-            "label": "接線・中点 生徒用",
-            "href": "./pdf/cubic_tangent_midpoint_student.pdf",
-            "available": true
-          },
-          {
-            "label": "接線・中点・面積 解答",
-            "href": "./pdf/cubic_tangent_midpoint_area_answer.pdf",
-            "available": true
           }
         ]
       },
@@ -268,11 +235,6 @@
           "理系まとめ"
         ],
         "links": [
-          {
-            "label": "三角関数・素数列チェック",
-            "href": "./pdf/trigonometry_prime_sequence_check.pdf",
-            "available": true
-          },
           {
             "label": "文系まとめ",
             "href": "./pdf/all.pdf",
@@ -420,29 +382,6 @@
     "nav": "英語",
     "items": [
       {
-        "title": "英語フレーズ",
-        "badge": "表現",
-        "description": "日本語から英語表現を書く練習版と，答え入り版。",
-        "tags": [
-          "英語",
-          "フレーズ",
-          "練習",
-          "解答"
-        ],
-        "links": [
-          {
-            "label": "英語フレーズ 練習",
-            "href": "./pdf/english_phrases_write.pdf",
-            "available": true
-          },
-          {
-            "label": "英語フレーズ 解答",
-            "href": "./pdf/english_phrases_answer.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
         "title": "ジャンル語彙",
         "badge": "語彙",
         "description": "ジャンル別語彙の練習版，答え入り版，元PDF。",
@@ -454,11 +393,6 @@
         ],
         "links": [
           {
-            "label": "ジャンル語彙 練習",
-            "href": "./pdf/genre_vocabulary_write.pdf",
-            "available": true
-          },
-          {
             "label": "ジャンル語彙 解答",
             "href": "./pdf/genre_vocabulary_answer.pdf",
             "available": true
@@ -466,66 +400,6 @@
           {
             "label": "ジャンル語彙 元PDF",
             "href": "./pdf/genre_vocabulary_source.pdf",
-            "available": true
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "check",
-    "label": "確認プリント",
-    "nav": "確認",
-    "items": [
-      {
-        "title": "計算・関数チェック",
-        "badge": "確認",
-        "description": "組み分け，微分・数列，対数，最大最小，漸化式の確認教材。",
-        "tags": [
-          "場合の数",
-          "微分",
-          "数列",
-          "対数",
-          "最大最小"
-        ],
-        "links": [
-          {
-            "label": "微分・数列チェック",
-            "href": "./pdf/differentiation_sequences_check.pdf",
-            "available": true
-          },
-          {
-            "label": "対数法則クイズ",
-            "href": "./pdf/logarithm_laws_quiz.pdf",
-            "available": true
-          },
-          {
-            "label": "数列チェック",
-            "href": "./pdf/recurrence_check.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "図形チェック",
-        "badge": "幾何",
-        "description": "円と台形，正四面体，三角関数の確認教材。",
-        "tags": [
-          "図形",
-          "円",
-          "台形",
-          "正四面体",
-          "三角関数"
-        ],
-        "links": [
-          {
-            "label": "円と台形の対称性",
-            "href": "./pdf/circle_trapezoid_geometry.pdf",
-            "available": true
-          },
-          {
-            "label": "三角関数・素数列チェック",
-            "href": "./pdf/trigonometry_prime_sequence_check.pdf",
             "available": true
           }
         ]
@@ -603,48 +477,6 @@
             "available": true
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "advanced",
-    "label": "発展教材",
-    "nav": "発展",
-    "items": [
-      {
-        "title": "共通接線・6tan",
-        "badge": "接線",
-        "description": "三次関数の共通接線と6tan関連の発展教材。",
-        "tags": [
-          "共通接線",
-          "3次関数",
-          "6tan",
-          "発展"
-        ],
-        "links": [
-          {
-            "label": "三次関数の共通接線 計算",
-            "href": "./pdf/cubic_common_tangent_calculation.pdf",
-            "available": true
-          },
-          {
-            "label": "6tan 計算",
-            "href": "./pdf/6tan_calc.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "不等式・正射影",
-        "badge": "発展",
-        "description": "コーシー・シュワルツと正射影の流れを確認する教材。",
-        "tags": [
-          "コーシー",
-          "正射影",
-          "不等式",
-          "ベクトル"
-        ],
-        "links": []
       }
     ]
   },
@@ -774,24 +606,6 @@
           {
             "label": "不定積分プリント",
             "href": "./pdf/indefinite_integral_practice.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "復元・接線教材",
-        "badge": "復元",
-        "description": "復元した3次関数の接線，中点，面積の教材。",
-        "tags": [
-          "復元",
-          "接線",
-          "中点",
-          "面積"
-        ],
-        "links": [
-          {
-            "label": "復元 接線・中点・面積",
-            "href": "./pdf/recovered_cubic_tangent_midpoint_area.pdf",
             "available": true
           }
         ]
