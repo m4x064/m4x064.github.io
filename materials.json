@@ -184,7 +184,7 @@
       },
       {
         "title": "数列",
-        "badge": "12",
+        "badge": "10",
         "description": "漸化式と部分和で与えられた数列について，数学的帰納法を用いながら一般項を求めるプリント。",
         "tags": [
           "数列",
@@ -196,7 +196,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/12-sequence.pdf",
+            "href": "./pdf/10-sequence.pdf",
             "available": true
           }
         ]
