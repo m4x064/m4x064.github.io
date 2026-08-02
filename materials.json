@@ -223,63 +223,6 @@
             "available": true
           }
         ]
-      },
-      {
-        "title": "三角関数・文理別まとめ",
-        "badge": "4/10",
-        "description": "三角関数，素数列，文系・理系まとめ。",
-        "tags": [
-          "三角関数",
-          "素数列",
-          "文系まとめ",
-          "理系まとめ"
-        ],
-        "links": [
-          {
-            "label": "文系まとめ",
-            "href": "./pdf/all.pdf",
-            "available": true
-          },
-          {
-            "label": "理系まとめ",
-            "href": "./pdf/rikkei_all.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "基本事項レビュー",
-        "badge": "復習",
-        "description": "絶対値，反復試行，平行移動，方程式の用語を確認する教材。",
-        "tags": [
-          "復習",
-          "絶対値",
-          "反復試行",
-          "平行移動"
-        ],
-        "links": [
-          {
-            "label": "基本事項レビュー",
-            "href": "./pdf/basic_review_2025_11.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "成績・テンプレート",
-        "badge": "管理",
-        "description": "成績表と教材作成用の最小サンプル。",
-        "tags": [
-          "成績",
-          "テンプレート"
-        ],
-        "links": [
-          {
-            "label": "成績表",
-            "href": "./pdf/hyou.pdf",
-            "available": true
-          }
-        ]
       }
     ]
   },
@@ -400,80 +343,6 @@
     ]
   },
   {
-    "id": "mock",
-    "label": "模試",
-    "nav": "模試",
-    "items": [
-      {
-        "title": "2025年11月 A",
-        "badge": "模試",
-        "description": "2025年11月Aセットの問題と解答。",
-        "tags": [
-          "模試",
-          "2025-11",
-          "A"
-        ],
-        "links": [
-          {
-            "label": "問題",
-            "href": "./pdf/mock_exam_2025_11_a_questions.pdf",
-            "available": true
-          },
-          {
-            "label": "解答",
-            "href": "./pdf/mock_exam_2025_11_a_answers.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "2025年11月 B",
-        "badge": "模試",
-        "description": "2025年11月Bセットの問題と解答。",
-        "tags": [
-          "模試",
-          "2025-11",
-          "B"
-        ],
-        "links": [
-          {
-            "label": "問題",
-            "href": "./pdf/mock_exam_2025_11_b_questions.pdf",
-            "available": true
-          },
-          {
-            "label": "解答",
-            "href": "./pdf/mock_exam_2025_11_b_answers.pdf",
-            "available": true
-          }
-        ]
-      },
-      {
-        "title": "2026年1月 B",
-        "badge": "模試",
-        "description": "2026年1月Bセットの解答付き構成。",
-        "tags": [
-          "模試",
-          "2026-01",
-          "B",
-          "解答"
-        ],
-        "links": [
-          {
-            "label": "問題＋解答",
-            "href": "./pdf/mock_exam_2026_01_b_worked.pdf",
-            "available": true
-          },
-          {
-            "label": "解答のみ",
-            "href": "./pdf/mock_exam_2026_01_b_answers.pdf",
-            "available": true
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "special",
     "label": "特殊関数",
     "nav": "特殊関数",
@@ -577,9 +446,9 @@
     ]
   },
   {
-    "id": "recovered",
-    "label": "復元教材",
-    "nav": "復元",
+    "id": "other",
+    "label": "その他",
+    "nav": "その他",
     "items": [
       {
         "title": "積分・計算練習",
@@ -599,6 +468,130 @@
           {
             "label": "不定積分プリント",
             "href": "./pdf/indefinite_integral_practice.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "2025年11月 A",
+        "badge": "模試",
+        "description": "2025年11月Aセットの問題と解答。",
+        "tags": [
+          "模試",
+          "2025-11",
+          "A"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/mock_exam_2025_11_a_questions.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/mock_exam_2025_11_a_answers.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "2025年11月 B",
+        "badge": "模試",
+        "description": "2025年11月Bセットの問題と解答。",
+        "tags": [
+          "模試",
+          "2025-11",
+          "B"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/mock_exam_2025_11_b_questions.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/mock_exam_2025_11_b_answers.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "2026年1月 B",
+        "badge": "模試",
+        "description": "2026年1月Bセットの解答付き構成。",
+        "tags": [
+          "模試",
+          "2026-01",
+          "B",
+          "解答"
+        ],
+        "links": [
+          {
+            "label": "問題＋解答",
+            "href": "./pdf/mock_exam_2026_01_b_worked.pdf",
+            "available": true
+          },
+          {
+            "label": "解答のみ",
+            "href": "./pdf/mock_exam_2026_01_b_answers.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "三角関数・文理別まとめ",
+        "badge": "4/10",
+        "description": "三角関数，素数列，文系・理系まとめ。",
+        "tags": [
+          "三角関数",
+          "素数列",
+          "文系まとめ",
+          "理系まとめ"
+        ],
+        "links": [
+          {
+            "label": "文系まとめ",
+            "href": "./pdf/all.pdf",
+            "available": true
+          },
+          {
+            "label": "理系まとめ",
+            "href": "./pdf/rikkei_all.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "基本事項レビュー",
+        "badge": "復習",
+        "description": "絶対値，反復試行，平行移動，方程式の用語を確認する教材。",
+        "tags": [
+          "復習",
+          "絶対値",
+          "反復試行",
+          "平行移動"
+        ],
+        "links": [
+          {
+            "label": "基本事項レビュー",
+            "href": "./pdf/basic_review_2025_11.pdf",
+            "available": true
+          }
+        ]
+      },
+      {
+        "title": "成績・テンプレート",
+        "badge": "管理",
+        "description": "成績表と教材作成用の最小サンプル。",
+        "tags": [
+          "成績",
+          "テンプレート"
+        ],
+        "links": [
+          {
+            "label": "成績表",
+            "href": "./pdf/hyou.pdf",
             "available": true
           }
         ]
