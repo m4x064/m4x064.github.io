@@ -219,29 +219,6 @@
             "available": true
           }
         ]
-      },
-      {
-        "title": "存在領域・接線",
-        "badge": "5/12",
-        "description": "存在領域と3次関数の接線，中点，面積をまとめた教材。",
-        "tags": [
-          "存在領域",
-          "接線",
-          "中点",
-          "面積"
-        ],
-        "links": [
-          {
-            "label": "存在領域 問題",
-            "href": "./pdf/sonzai_ryouiki_problem.pdf",
-            "available": true
-          },
-          {
-            "label": "存在領域 解答",
-            "href": "./pdf/sonzai_ryouiki_answer.pdf",
-            "available": true
-          }
-        ]
       }
     ]
   },
