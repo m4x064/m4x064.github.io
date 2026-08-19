@@ -223,29 +223,5 @@
         ]
       }
     ]
-  },
-  {
-    "id": "other",
-    "label": "その他",
-    "nav": "その他",
-    "items": [
-      {
-        "title": "アンケート",
-        "badge": "MEMO",
-        "description": "学習状況や進路希望を確認するためのアンケート。",
-        "tags": [
-          "アンケート",
-          "学習",
-          "進路"
-        ],
-        "links": [
-          {
-            "label": "アンケート",
-            "href": "./pdf/memomemo.pdf",
-            "available": true
-          }
-        ]
-      }
-    ]
   }
 ]
