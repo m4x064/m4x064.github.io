@@ -262,6 +262,35 @@
     ]
   },
   {
+    "id": "english",
+    "label": "英語",
+    "nav": "英語",
+    "items": [
+      {
+        "title": "ミニマルフレーズ（穴埋め）",
+        "badge": "PHRASES",
+        "description": "元の番号を保った選択版の英語フレーズ穴埋めプリント。問題と解答を掲載。",
+        "tags": [
+          "英語",
+          "フレーズ",
+          "穴埋め"
+        ],
+        "links": [
+          {
+            "label": "問題",
+            "href": "./pdf/phrases-selected-original-numbers-cloze.pdf",
+            "available": true
+          },
+          {
+            "label": "解答",
+            "href": "./pdf/phrases-selected-original-numbers-cloze-answer.pdf",
+            "available": true
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "other",
     "label": "その他",
     "nav": "その他",
