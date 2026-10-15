@@ -260,5 +260,30 @@
         ]
       }
     ]
+  },
+  {
+    "id": "other",
+    "label": "その他",
+    "nav": "その他",
+    "items": [
+      {
+        "title": "受験の計画",
+        "badge": "PLAN",
+        "description": "大阪大学法学部に向けた配点と目標，教材を使う時期と月別進度をまとめた計画。",
+        "tags": [
+          "受験",
+          "学習計画",
+          "大阪大学",
+          "法学部"
+        ],
+        "links": [
+          {
+            "label": "受験の計画",
+            "href": "./pdf/exam-plan.pdf",
+            "available": true
+          }
+        ]
+      }
+    ]
   }
 ]
