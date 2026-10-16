@@ -312,6 +312,23 @@
             "available": true
           }
         ]
+      },
+      {
+        "title": "模試問題集（抜粋）",
+        "badge": "MOCK",
+        "description": "模試から選んだ数学の問題と解答をまとめた問題集。",
+        "tags": [
+          "模試",
+          "数学",
+          "演習"
+        ],
+        "links": [
+          {
+            "label": "問題＋解答",
+            "href": "./pdf/mock-exams-selected-problems.pdf",
+            "available": true
+          }
+        ]
       }
     ]
   }
