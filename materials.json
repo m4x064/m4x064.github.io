@@ -329,6 +329,24 @@
             "available": true
           }
         ]
+      },
+      {
+        "title": "模試問題集（2025-11-B3・2026-1-B1）",
+        "badge": "MOCK",
+        "description": "多項式・方程式の2題と解答をまとめたプリント。",
+        "tags": [
+          "模試",
+          "多項式",
+          "方程式",
+          "解と係数"
+        ],
+        "links": [
+          {
+            "label": "問題＋解答",
+            "href": "./pdf/mock-exams-11B3-1B1.pdf",
+            "available": true
+          }
+        ]
       }
     ]
   }
