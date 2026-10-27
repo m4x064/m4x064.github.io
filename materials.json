@@ -19,12 +19,12 @@
         "links": [
           {
             "label": "問題",
-            "href": "./pdf/1-inequality-basic.pdf",
+            "href": "./pdf/1-不等式_問題.pdf",
             "available": true
           },
           {
             "label": "解答",
-            "href": "./pdf/1-inequality-basic-ans.pdf",
+            "href": "./pdf/1-不等式_解答.pdf",
             "available": true
           }
         ]
@@ -42,7 +42,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/2-combinations-basic.pdf",
+            "href": "./pdf/2-くみわけの基本.pdf",
             "available": true
           }
         ]
@@ -61,7 +61,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/3-dice-parabola.pdf",
+            "href": "./pdf/3-サイコロと放物線.pdf",
             "available": true
           }
         ]
@@ -80,7 +80,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/4-parabola-line-right-angle.pdf",
+            "href": "./pdf/4-放物線と直角.pdf",
             "available": true
           }
         ]
@@ -100,7 +100,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/5-tetra-basic.pdf",
+            "href": "./pdf/5-四面体の基本.pdf",
             "available": true
           }
         ]
@@ -118,7 +118,7 @@
         "links": [
           {
             "label": "問題（途中版）",
-            "href": "./pdf/6-maxmin.pdf",
+            "href": "./pdf/6-最大値と最小値.pdf",
             "available": true
           }
         ]
@@ -137,12 +137,12 @@
         "links": [
           {
             "label": "7-0",
-            "href": "./pdf/7-0-tangent-line.pdf",
+            "href": "./pdf/7-0-接線の方程式2.pdf",
             "available": true
           },
           {
             "label": "7-1",
-            "href": "./pdf/7-1-tangent-line.pdf",
+            "href": "./pdf/7-1-接線の方程式1.pdf",
             "available": true
           }
         ]
@@ -161,7 +161,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/8-quintuple-angle.pdf",
+            "href": "./pdf/8-五倍角の公式.pdf",
             "available": true
           }
         ]
@@ -179,7 +179,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/9-common-tangent-line.pdf",
+            "href": "./pdf/9-共通接線.pdf",
             "available": true
           }
         ]
@@ -198,7 +198,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/10-sequence.pdf",
+            "href": "./pdf/10-数列.pdf",
             "available": true
           }
         ]
@@ -217,7 +217,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/12-lines-cyclic.pdf",
+            "href": "./pdf/12-二直線と同一円周上の点.pdf",
             "available": true
           }
         ]
@@ -236,7 +236,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/14-sequence.pdf",
+            "href": "./pdf/14-数列と漸化式.pdf",
             "available": true
           }
         ]
@@ -254,7 +254,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/logarithm-laws-quiz.pdf",
+            "href": "./pdf/対数法則の確認問題.pdf",
             "available": true
           }
         ]
@@ -278,12 +278,12 @@
         "links": [
           {
             "label": "問題",
-            "href": "./pdf/phrases-selected-original-numbers-cloze.pdf",
+            "href": "./pdf/英語フレーズ抜粋_元番号付き穴埋め.pdf",
             "available": true
           },
           {
             "label": "解答",
-            "href": "./pdf/phrases-selected-original-numbers-cloze-answer.pdf",
+            "href": "./pdf/英語フレーズ抜粋_元番号付き穴埋め解答.pdf",
             "available": true
           }
         ]
@@ -307,7 +307,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/mock-exams-selected-problems.pdf",
+            "href": "./pdf/模試問題集_抜粋.pdf",
             "available": true
           }
         ]
@@ -325,7 +325,7 @@
         "links": [
           {
             "label": "問題＋解答",
-            "href": "./pdf/mock-exams-11B3-1B1.pdf",
+            "href": "./pdf/模試問題_11B3と1B1.pdf",
             "available": true
           }
         ]
