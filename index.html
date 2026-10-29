@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PDF</title>
 <meta name="description" content="数学プリント・模試・確認教材を整理した、的場のPDF教材保管庫。" />
 <meta name="theme-color" content="#070809" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
 <link rel="canonical" href="https://m4x064.github.io/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="PDF" />
@@ -16,22 +16,106 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="180x180" href="apple-touch-icon.png">
 
+<script>
+(() => {
+  let theme = "dark";
+  try {
+    const savedTheme = localStorage.getItem("pdf-shelf-theme");
+    if (savedTheme === "light" || savedTheme === "dark") theme = savedTheme;
+  } catch {}
+  document.documentElement.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#f7f6f2" : "#070809";
+})();
+</script>
+
 <style>
 :root{
+  color-scheme:dark;
   --bg:#070809;
   --panel:#101214;
   --panel-2:#15181b;
   --ink:#f3efe7;
   --muted:#b0aa9f;
   --faint:#8b867f;
-  --line:rgba(224,204,156,.20);
-  --line-strong:rgba(224,204,156,.50);
-  --gold:#e0cc9c;
-  --gold-soft:rgba(224,204,156,.10);
-  --blue:#76d1ff;
-  --blue-soft:rgba(118,209,255,.11);
-  --green:#97e0b8;
+  --gold-rgb:224,204,156;
+  --blue-rgb:118,209,255;
+  --green-rgb:151,224,184;
+  --line:rgba(var(--gold-rgb),.20);
+  --line-strong:rgba(var(--gold-rgb),.50);
+  --gold:rgb(var(--gold-rgb));
+  --gold-soft:rgba(var(--gold-rgb),.10);
+  --blue:rgb(var(--blue-rgb));
+  --blue-soft:rgba(var(--blue-rgb),.11);
+  --green:rgb(var(--green-rgb));
+  --page-blue:rgba(var(--blue-rgb),.08);
+  --page-gold:rgba(var(--gold-rgb),.10);
+  --page-start:#030405;
+  --page-end:#0d0b08;
+  --surface-rgb:255,255,255;
+  --header-rgb:9,10,10;
+  --tools-rgb:10,12,13;
+  --item-rgb:9,10,10;
+  --item-hover-rgb:14,16,18;
+  --top-rgb:8,10,11;
+  --input-bg:#080a0b;
+  --link-bg:#0b0d0e;
+  --meta-ink:#d8d0c2;
+  --stat-ink:#fff7df;
+  --index-ink:rgba(var(--blue-rgb),.76);
+  --blue-ink:#dff4ff;
+  --blue-hover-ink:#f3fbff;
+  --tag-ink:#caefff;
+  --gold-ink:#f3dfac;
+  --gold-hover-ink:#fff2ca;
+  --answer-hover-ink:#fff4d5;
+  --badge-ink:#fff1bf;
+  --green-ink:#ccebd9;
+  --green-hover-ink:#effff6;
   --shadow:0 26px 90px rgba(0,0,0,.48);
+  --tools-shadow:0 12px 34px rgba(0,0,0,.20);
+  --item-shadow:0 18px 44px rgba(0,0,0,.30);
+  --top-shadow:0 14px 36px rgba(0,0,0,.40);
+}
+
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f7f6f2;
+  --panel:#fffefa;
+  --panel-2:#f0efe9;
+  --ink:#242b30;
+  --muted:#4e5860;
+  --faint:#505b63;
+  --gold-rgb:112,79,29;
+  --blue-rgb:25,91,124;
+  --green-rgb:32,94,59;
+  --page-blue:rgba(var(--blue-rgb),.025);
+  --page-gold:rgba(var(--gold-rgb),.035);
+  --page-start:#fcfcfa;
+  --page-end:#efeee8;
+  --surface-rgb:36,43,48;
+  --header-rgb:255,254,250;
+  --tools-rgb:255,254,250;
+  --item-rgb:255,254,250;
+  --item-hover-rgb:255,255,255;
+  --top-rgb:255,254,250;
+  --input-bg:#ffffff;
+  --link-bg:#fffefa;
+  --meta-ink:var(--muted);
+  --stat-ink:#242b30;
+  --index-ink:var(--blue);
+  --blue-ink:var(--blue);
+  --blue-hover-ink:#12425b;
+  --tag-ink:var(--blue);
+  --gold-ink:var(--gold);
+  --gold-hover-ink:#594019;
+  --answer-hover-ink:#594019;
+  --badge-ink:var(--gold);
+  --green-ink:var(--green);
+  --green-hover-ink:#1b4d31;
+  --shadow:0 26px 90px rgba(36,43,48,.09);
+  --tools-shadow:0 12px 34px rgba(36,43,48,.07);
+  --item-shadow:0 18px 44px rgba(36,43,48,.10);
+  --top-shadow:0 14px 36px rgba(36,43,48,.12);
 }
 
 *{
@@ -63,9 +147,9 @@ body{
   min-height:100vh;
   color:var(--ink);
   background:
-    linear-gradient(115deg, rgba(118,209,255,.08), transparent 32%),
-    linear-gradient(245deg, rgba(224,204,156,.10), transparent 30%),
-    linear-gradient(180deg, #030405 0%, var(--bg) 44%, #0d0b08 100%);
+    linear-gradient(115deg, var(--page-blue), transparent 32%),
+    linear-gradient(245deg, var(--page-gold), transparent 30%),
+    linear-gradient(180deg, var(--page-start) 0%, var(--bg) 44%, var(--page-end) 100%);
   font-family:
     "Hiragino Mincho ProN",
     "Yu Mincho",
@@ -83,8 +167,8 @@ body::before{
   z-index:-1;
   pointer-events:none;
   background-image:
-    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.027) 1px, transparent 1px);
+    linear-gradient(rgba(var(--surface-rgb),.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--surface-rgb),.027) 1px, transparent 1px);
   background-size:48px 48px;
   mask-image:linear-gradient(180deg, rgba(0,0,0,.82), transparent 76%);
 }
@@ -100,6 +184,48 @@ a{
   padding:54px 0 72px;
 }
 
+.appearance{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:14px;
+}
+
+.theme-toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:44px;
+  padding:9px 13px;
+  border:1px solid var(--line-strong);
+  border-radius:0;
+  color:var(--ink);
+  background:var(--panel);
+  font:500 12px/1.2 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  letter-spacing:.04em;
+  cursor:pointer;
+}
+
+.theme-toggle:hover{
+  border-color:var(--blue);
+  background:var(--blue-soft);
+}
+
+.theme-toggle svg{
+  width:18px;
+  height:18px;
+  flex:none;
+}
+
+.theme-icon-moon,
+:root[data-theme="light"] .theme-icon-sun{
+  display:none;
+}
+
+:root[data-theme="light"] .theme-icon-moon{
+  display:block;
+}
+
 /* Header */
 
 .header{
@@ -111,8 +237,8 @@ a{
   border:1px solid var(--line-strong);
   border-radius:0;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
-    rgba(9,10,10,.76);
+    linear-gradient(135deg, rgba(var(--surface-rgb),.06), rgba(var(--surface-rgb),.02)),
+    rgba(var(--header-rgb),.76);
   box-shadow:var(--shadow);
   backdrop-filter:blur(18px);
   position:relative;
@@ -140,7 +266,7 @@ a{
   bottom:24px;
   width:156px;
   height:156px;
-  border:1px solid rgba(224,204,156,.20);
+  border:1px solid rgba(var(--gold-rgb),.20);
   transform:rotate(12deg);
   opacity:.55;
 }
@@ -209,8 +335,8 @@ h1{
   min-height:32px;
   padding:5px 12px;
   border:1px solid var(--line);
-  background:rgba(255,255,255,.04);
-  color:#d8d0c2;
+  background:rgba(var(--surface-rgb),.04);
+  color:var(--meta-ink);
   font-size:11px;
   letter-spacing:.12em;
   text-transform:uppercase;
@@ -234,13 +360,13 @@ h1{
   padding:13px 14px;
   border:1px solid var(--line);
   border-radius:0;
-  background:rgba(255,255,255,.035);
+  background:rgba(var(--surface-rgb),.035);
   box-shadow:none;
 }
 
 .stat strong{
   display:block;
-  color:#fff7df;
+  color:var(--stat-ink);
   font-size:25px;
   line-height:1;
   font-weight:500;
@@ -278,9 +404,9 @@ h1{
   align-items:center;
   min-height:32px;
   padding:5px 11px;
-  border:1px solid rgba(118,209,255,.22);
+  border:1px solid rgba(var(--blue-rgb),.22);
   border-radius:0;
-  color:#dff4ff;
+  color:var(--blue-ink);
   background:var(--blue-soft);
   font-size:12px;
   letter-spacing:.06em;
@@ -288,9 +414,9 @@ h1{
 }
 
 .nav a:hover{
-  border-color:rgba(118,209,255,.58);
-  background:rgba(118,209,255,.17);
-  color:#dff4ff;
+  border-color:rgba(var(--blue-rgb),.58);
+  background:rgba(var(--blue-rgb),.17);
+  color:var(--blue-ink);
 }
 
 .tools{
@@ -302,12 +428,12 @@ h1{
   padding:14px;
   border:1px solid var(--line);
   border-radius:0;
-  background:rgba(10,12,13,.90);
+  background:rgba(var(--tools-rgb),.90);
   backdrop-filter:blur(16px);
   position:sticky;
   top:8px;
   z-index:20;
-  box-shadow:0 12px 34px rgba(0,0,0,.20);
+  box-shadow:var(--tools-shadow);
 }
 
 .search-wrap{
@@ -317,9 +443,9 @@ h1{
 .search{
   width:100%;
   min-height:44px;
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid rgba(var(--surface-rgb),.08);
   border-radius:0;
-  background:#080a0b;
+  background:var(--input-bg);
   color:var(--ink);
   padding:0 78px 0 14px;
   font:500 14px/1.2 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
@@ -327,8 +453,8 @@ h1{
 }
 
 .search:focus{
-  border-color:rgba(118,209,255,.56);
-  box-shadow:0 0 0 3px rgba(118,209,255,.11);
+  border-color:rgba(var(--blue-rgb),.56);
+  box-shadow:0 0 0 3px rgba(var(--blue-rgb),.11);
 }
 
 .clear-search{
@@ -340,7 +466,7 @@ h1{
   border:0;
   border-radius:0;
   color:var(--muted);
-  background:rgba(255,255,255,.07);
+  background:rgba(var(--surface-rgb),.07);
   font:500 11px/1 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
   letter-spacing:.08em;
   cursor:pointer;
@@ -349,7 +475,7 @@ h1{
 
 .clear-search:hover{
   color:var(--ink);
-  background:rgba(118,209,255,.12);
+  background:rgba(var(--blue-rgb),.12);
 }
 
 .result-count{
@@ -385,7 +511,7 @@ h1{
 }
 
 .section-index{
-  color:rgba(118,209,255,.76);
+  color:var(--index-ink);
 }
 
 .section-count{
@@ -413,7 +539,7 @@ h1{
   display:block;
   height:1px;
   flex:1;
-  background:linear-gradient(90deg, var(--line-strong), rgba(214,184,112,.04));
+  background:linear-gradient(90deg, var(--line-strong), rgba(var(--gold-rgb),.04));
 }
 
 .menu{
@@ -431,11 +557,11 @@ h1{
   margin-top:10px;
   padding:18px;
   border-bottom:1px solid var(--line);
-  border-left:1px solid rgba(255,255,255,.055);
+  border-left:1px solid rgba(var(--surface-rgb),.055);
   border-radius:0;
   background:
-    linear-gradient(90deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
-    rgba(9,10,10,.50);
+    linear-gradient(90deg, rgba(var(--surface-rgb),.045), rgba(var(--surface-rgb),.015)),
+    rgba(var(--item-rgb),.50);
   box-shadow:none;
   transition:
     transform .16s ease,
@@ -446,16 +572,16 @@ h1{
 
 .item:hover{
   border-bottom-color:var(--line-strong);
-  border-left-color:rgba(118,209,255,.48);
+  border-left-color:rgba(var(--blue-rgb),.48);
   background:
-    linear-gradient(90deg, rgba(118,209,255,.10), rgba(224,204,156,.045) 58%, transparent),
-    rgba(14,16,18,.86);
-  box-shadow:0 18px 44px rgba(0,0,0,.30);
+    linear-gradient(90deg, rgba(var(--blue-rgb),.10), rgba(var(--gold-rgb),.045) 58%, transparent),
+    rgba(var(--item-hover-rgb),.86);
+  box-shadow:var(--item-shadow);
   transform:translateY(-2px);
 }
 
 .num{
-  color:rgba(118,209,255,.76);
+  color:var(--index-ink);
   font-family:
     "Helvetica Neue",
     Arial,
@@ -506,10 +632,10 @@ h1{
   align-items:center;
   min-height:21px;
   padding:2px 8px;
-  border:1px solid rgba(118,209,255,.20);
+  border:1px solid rgba(var(--blue-rgb),.20);
   border-radius:0;
-  background:rgba(118,209,255,.075);
-  color:#caefff;
+  background:rgba(var(--blue-rgb),.075);
+  color:var(--tag-ink);
   font-size:10px;
   letter-spacing:.05em;
 }
@@ -519,10 +645,10 @@ h1{
   align-items:center;
   min-height:22px;
   padding:2px 8px;
-  border:1px solid rgba(214,184,112,.36);
+  border:1px solid rgba(var(--gold-rgb),.36);
   border-radius:0;
-  color:#fff1bf;
-  background:rgba(224,204,156,.09);
+  color:var(--badge-ink);
+  background:rgba(var(--gold-rgb),.09);
   font-family:
     "Helvetica Neue",
     Arial,
@@ -558,10 +684,10 @@ h1{
   justify-content:center;
   min-height:34px;
   padding:7px 11px;
-  border:1px solid rgba(224,204,156,.30);
+  border:1px solid rgba(var(--gold-rgb),.30);
   border-radius:0;
-  background:#0b0d0e;
-  color:#f3dfac;
+  background:var(--link-bg);
+  color:var(--gold-ink);
   font-size:12px;
   letter-spacing:.04em;
   transition:
@@ -571,50 +697,50 @@ h1{
 }
 
 .links a:hover{
-  border-color:rgba(118,209,255,.70);
-  background:rgba(118,209,255,.12);
-  color:#fff2ca;
+  border-color:rgba(var(--blue-rgb),.70);
+  background:rgba(var(--blue-rgb),.12);
+  color:var(--gold-hover-ink);
 }
 
 .links a.link-question{
-  border-color:rgba(118,209,255,.34);
-  background:rgba(118,209,255,.065);
-  color:#dff4ff;
+  border-color:rgba(var(--blue-rgb),.34);
+  background:rgba(var(--blue-rgb),.065);
+  color:var(--blue-ink);
 }
 
 .links a.link-question:hover{
-  border-color:rgba(118,209,255,.74);
-  background:rgba(118,209,255,.14);
-  color:#f3fbff;
+  border-color:rgba(var(--blue-rgb),.74);
+  background:rgba(var(--blue-rgb),.14);
+  color:var(--blue-hover-ink);
 }
 
 .links a.link-answer{
-  border-color:rgba(224,204,156,.38);
-  background:rgba(224,204,156,.065);
-  color:#f3dfac;
+  border-color:rgba(var(--gold-rgb),.38);
+  background:rgba(var(--gold-rgb),.065);
+  color:var(--gold-ink);
 }
 
 .links a.link-answer:hover{
-  border-color:rgba(224,204,156,.72);
-  background:rgba(224,204,156,.14);
-  color:#fff4d5;
+  border-color:rgba(var(--gold-rgb),.72);
+  background:rgba(var(--gold-rgb),.14);
+  color:var(--answer-hover-ink);
 }
 
 .links a.link-teacher{
-  border-color:rgba(151,224,184,.34);
-  background:rgba(151,224,184,.06);
-  color:#ccebd9;
+  border-color:rgba(var(--green-rgb),.34);
+  background:rgba(var(--green-rgb),.06);
+  color:var(--green-ink);
 }
 
 .links a.link-teacher:hover{
-  border-color:rgba(151,224,184,.70);
-  background:rgba(151,224,184,.13);
-  color:#effff6;
+  border-color:rgba(var(--green-rgb),.70);
+  background:rgba(var(--green-rgb),.13);
+  color:var(--green-hover-ink);
 }
 
 .link-unavailable{
-  border-color:rgba(255,255,255,.12);
-  background:rgba(255,255,255,.035);
+  border-color:rgba(var(--surface-rgb),.12);
+  background:rgba(var(--surface-rgb),.035);
   color:var(--faint);
   cursor:not-allowed;
 }
@@ -633,6 +759,7 @@ h1{
 .nav a:focus-visible,
 .links a:focus-visible,
 .clear-search:focus-visible,
+.theme-toggle:focus-visible,
 .back-to-top:focus-visible{
   outline:2px solid var(--blue);
   outline-offset:3px;
@@ -645,7 +772,7 @@ h1{
   border:1px solid var(--line);
   border-radius:0;
   color:var(--muted);
-  background:rgba(255,255,255,.03);
+  background:rgba(var(--surface-rgb),.03);
   font-size:13px;
 }
 
@@ -678,11 +805,11 @@ h1{
   min-width:48px;
   min-height:48px;
   padding:8px 11px;
-  border:1px solid rgba(118,209,255,.42);
+  border:1px solid rgba(var(--blue-rgb),.42);
   border-radius:0;
-  color:#dff4ff;
-  background:rgba(8,10,11,.92);
-  box-shadow:0 14px 36px rgba(0,0,0,.40);
+  color:var(--blue-ink);
+  background:rgba(var(--top-rgb),.92);
+  box-shadow:var(--top-shadow);
   backdrop-filter:blur(14px);
   font:600 10px/1.2 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
   letter-spacing:.08em;
@@ -690,8 +817,8 @@ h1{
 }
 
 .back-to-top:hover{
-  border-color:rgba(118,209,255,.72);
-  background:rgba(118,209,255,.13);
+  border-color:rgba(var(--blue-rgb),.72);
+  background:rgba(var(--blue-rgb),.13);
 }
 
 /* Responsive */
@@ -848,6 +975,19 @@ h1{
 <body>
 <div class="wrap">
 
+  <div class="appearance">
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="ライトモードに切り替える" hidden>
+      <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4L19 5" />
+      </svg>
+      <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.5 13.4A8.5 8.5 0 0 1 10.6 3.5a8.5 8.5 0 1 0 9.9 9.9Z" />
+      </svg>
+      <span id="theme-toggle-label">ライトモード</span>
+    </button>
+  </div>
+
   <header class="header">
     <div>
       <p class="kicker">m4x064 / PDF Shelf</p>
@@ -899,6 +1039,26 @@ h1{
 
 <script type="application/json" id="materials-fallback">[{"id":"basic","label":"基本教材","nav":"基本","items":[{"title":"不等式","badge":"1","description":"三角不等式，コーシー・シュワルツの不等式，相加相乗平均，ネスビットの不等式を確認する基礎プリント。","tags":["途中","不等式","三角不等式","コーシー・シュワルツ","相加相乗平均","ネスビット"],"links":[{"label":"問題","href":"./pdf/1-不等式_問題.pdf","available":true},{"label":"解答","href":"./pdf/1-不等式_解答.pdf","available":true}]},{"title":"くみわけ","badge":"2","description":"10人を名前のある組・ない組に分ける数え方を，11問で確認する基礎プリント。","tags":["場合の数","組み分け","組合せ","基礎"],"links":[{"label":"問題＋解答","href":"./pdf/2-くみわけの基本.pdf","available":true}]},{"title":"サイコロと放物線","badge":"3","description":"サイコロ2回の出目から定まる直線と放物線について，交点でできる三角形の面積が有理数となる確率を求めるプリント。","tags":["確率","サイコロ","放物線","直線","有理数"],"links":[{"label":"問題＋解答","href":"./pdf/3-サイコロと放物線.pdf","available":true}]},{"title":"放物線と直角","badge":"4","description":"放物線と直線の2交点が原点で直角をなす条件を用いて，三角形の面積を求めるプリント。","tags":["放物線","直線","直角","ベクトル","面積"],"links":[{"label":"問題＋解答","href":"./pdf/4-放物線と直角.pdf","available":true}]},{"title":"正四面体","badge":"5","description":"正四面体の計量，頂点上を移るランプの確率，反復切断で生じる正八面体の体積和を扱うプリント。","tags":["途中","正四面体","空間図形","確率","漸化式","数列"],"links":[{"label":"問題＋解答","href":"./pdf/5-四面体の基本.pdf","available":true}]},{"title":"最大値・最小値","badge":"6","description":"さまざまな関数や条件のもとで最大値・最小値を求める制作途中のプリント。","tags":["途中","最大値","最小値","関数"],"links":[{"label":"問題（途中版）","href":"./pdf/6-最大値と最小値.pdf","available":true}]},{"title":"接線の方程式","badge":"7","description":"点を通る直線から、放物線・3次関数に接する直線の方程式へ進むプリント。","tags":["接線","直線","放物線","3次関数","微分"],"links":[{"label":"7-0","href":"./pdf/7-0-接線の方程式2.pdf","available":true},{"label":"7-1","href":"./pdf/7-1-接線の方程式1.pdf","available":true}]},{"title":"五倍角の公式","badge":"8","description":"三倍角の公式と加法定理から五倍角の公式を導き、三角関数の値へつなげるプリント。","tags":["三角関数","五倍角","加法定理","解と係数","証明"],"links":[{"label":"問題＋解答","href":"./pdf/8-五倍角の公式.pdf","available":true}]},{"title":"共通接線","badge":"9","description":"2つの3次関数について，接点での傾きと切片の一致から共通接線をすべて求めるプリント。","tags":["共通接線","3次関数","接線","微分"],"links":[{"label":"問題＋解答","href":"./pdf/9-共通接線.pdf","available":true}]},{"title":"数列","badge":"10","description":"漸化式と部分和で与えられた数列について，数学的帰納法を用いながら一般項を求めるプリント。","tags":["数列","漸化式","一般項","数学的帰納法","部分和"],"links":[{"label":"問題＋解答","href":"./pdf/10-数列.pdf","available":true}]},{"title":"直線と共円","badge":"12","description":"2直線と座標軸との交点から，同一円周上の条件，相似，正三角形へつなげるプリント。","tags":["直線","円","方べき","相似","正三角形"],"links":[{"label":"問題＋解答","href":"./pdf/12-二直線と同一円周上の点.pdf","available":true}]},{"title":"数列と漸化式","badge":"14","description":"確率と漸化式，数列の一般項，常用対数を用いる小数の桁数を扱うプリント。","tags":["数列","漸化式","確率","一般項","常用対数"],"links":[{"label":"問題＋解答","href":"./pdf/14-数列と漸化式.pdf","available":true}]},{"title":"対数法則クイズ","badge":"QUIZ","description":"対数の基本計算と対数法則，底の変換をまとめて確認するクイズ。","tags":["対数","対数法則","底の変換","クイズ"],"links":[{"label":"問題＋解答","href":"./pdf/対数法則の確認問題.pdf","available":true}]}]},{"id":"english","label":"英語","nav":"英語","items":[{"title":"ミニマルフレーズ（穴埋め）","badge":"PHRASES","description":"元の番号を保った選択版の英語フレーズ穴埋めプリント。問題と解答を掲載。","tags":["英語","フレーズ","穴埋め"],"links":[{"label":"問題","href":"./pdf/英語フレーズ抜粋_元番号付き穴埋め.pdf","available":true},{"label":"解答","href":"./pdf/英語フレーズ抜粋_元番号付き穴埋め解答.pdf","available":true}]}]},{"id":"other","label":"その他","nav":"その他","items":[{"title":"模試問題集（抜粋）","badge":"MOCK","description":"模試から選んだ数学の問題と解答をまとめた問題集。","tags":["模試","数学","演習"],"links":[{"label":"問題＋解答","href":"./pdf/模試問題集_抜粋.pdf","available":true}]},{"title":"模試問題集（2025-11-B3・2026-1-B1）","badge":"MOCK","description":"多項式・方程式の2題と解答をまとめたプリント。","tags":["模試","多項式","方程式","解と係数"],"links":[{"label":"問題＋解答","href":"./pdf/模試問題_11B3と1B1.pdf","available":true}]}]}]</script>
 <script>
+const themeToggle = document.getElementById("theme-toggle");
+const themeToggleLabel = document.getElementById("theme-toggle-label");
+const updateThemeToggle = () => {
+  const nextMode = document.documentElement.dataset.theme === "light" ? "ダークモード" : "ライトモード";
+  themeToggleLabel.textContent = nextMode;
+  themeToggle.setAttribute("aria-label", `${nextMode}に切り替える`);
+};
+
+themeToggle.addEventListener("click", () => {
+  const theme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  document.documentElement.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#f7f6f2" : "#070809";
+  try {
+    localStorage.setItem("pdf-shelf-theme", theme);
+  } catch {}
+  updateThemeToggle();
+});
+updateThemeToggle();
+themeToggle.hidden = false;
+
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
   "&": "&amp;",
   "<": "&lt;",
