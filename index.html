@@ -420,79 +420,18 @@ h1{
   color:var(--blue-ink);
 }
 
-.tools{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:14px;
-  align-items:center;
-  margin:0;
-  padding:14px;
-  border:1px solid var(--line);
-  border-radius:0;
-  background:rgba(var(--tools-rgb),.90);
-  backdrop-filter:blur(16px);
-  position:sticky;
-  top:8px;
-  z-index:20;
-  box-shadow:var(--tools-shadow);
-}
 
-.search-wrap{
-  position:relative;
-}
 
-.search{
-  width:100%;
-  min-height:44px;
-  border:1px solid rgba(var(--surface-rgb),.08);
-  border-radius:0;
-  background:var(--input-bg);
-  color:var(--ink);
-  padding:0 78px 0 14px;
-  font:500 14px/1.2 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
-  outline:none;
-}
 
-.search:focus{
-  border-color:rgba(var(--blue-rgb),.56);
-  box-shadow:0 0 0 3px rgba(var(--blue-rgb),.11);
-}
 
-.clear-search{
-  position:absolute;
-  right:6px;
-  top:50%;
-  min-height:32px;
-  padding:4px 10px;
-  border:0;
-  border-radius:0;
-  color:var(--muted);
-  background:rgba(var(--surface-rgb),.07);
-  font:500 11px/1 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
-  letter-spacing:.08em;
-  cursor:pointer;
-  transform:translateY(-50%);
-}
 
-.clear-search:hover{
-  color:var(--ink);
-  background:rgba(var(--blue-rgb),.12);
-}
 
-.result-count{
-  color:var(--muted);
-  font-family:"Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
-  font-size:11px;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
 
 /* Section */
 
 .section{
   padding:24px 0 4px;
-  scroll-margin-top:86px;
+  scroll-margin-top:24px;
 }
 
 .section-head{
@@ -757,23 +696,12 @@ h1{
 
 .nav a:focus-visible,
 .links a:focus-visible,
-.clear-search:focus-visible,
 .theme-toggle:focus-visible,
 .back-to-top:focus-visible{
   outline:2px solid var(--blue);
   outline-offset:3px;
 }
 
-.empty{
-  display:none;
-  margin-top:22px;
-  padding:24px;
-  border:1px solid var(--line);
-  border-radius:0;
-  color:var(--muted);
-  background:rgba(var(--surface-rgb),.03);
-  font-size:13px;
-}
 
 /* Footer */
 
@@ -836,17 +764,7 @@ h1{
     max-width:620px;
   }
 
-  .tools{
-    grid-template-columns:minmax(0, 1fr) auto;
-    gap:8px;
-  }
 
-  .result-count{
-    padding-right:2px;
-    font-size:10px;
-    letter-spacing:.08em;
-    white-space:nowrap;
-  }
 
   .item{
     grid-template-columns:28px minmax(0, 1fr);
@@ -995,17 +913,7 @@ h1{
     </button>
   </div>
 
-  <div class="tools" role="search">
-    <div class="search-wrap">
-      <label class="sr-only" for="search">教材名・説明・カテゴリを検索</label>
-      <input class="search" id="search" type="search" placeholder="教材を検索" autocomplete="off">
-      <button class="clear-search" id="clear-search" type="button" hidden>クリア</button>
-    </div>
-    <div class="result-count" id="result-count" role="status" aria-live="polite" aria-atomic="true">読み込み中</div>
-  </div>
-
   <main id="archive"></main>
-  <p class="empty" id="empty">該当する教材が見つかりませんでした。</p>
 
   <footer class="footer">
     <span>m4x064.github.io</span>
@@ -1044,14 +952,6 @@ const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
   "'": "&#39;"
 }[ch]));
 
-const normalizeSearch = (value) => String(value ?? "")
-  .normalize("NFKC")
-  .toLocaleLowerCase("ja")
-  .replace(/[‐‑‒–—―−]/g, "-")
-  .replace(/-+/g, "-")
-  .replace(/\s+/g, " ")
-  .trim();
-
 const getLinkKind = (label) => {
   const text = String(label ?? "");
   if (text.includes("講師用")) return "teacher";
@@ -1084,14 +984,9 @@ const createLink = (link) => {
 
 const renderArchive = (sections) => {
   const archive = document.getElementById("archive");
-  const search = document.getElementById("search");
-  const clearSearch = document.getElementById("clear-search");
-  const resultCount = document.getElementById("result-count");
-  const empty = document.getElementById("empty");
   archive.innerHTML = "";
 
   let count = 1;
-  const entries = [];
 
   sections.forEach((section, sectionIndex) => {
     const sectionEl = document.createElement("section");
@@ -1111,15 +1006,6 @@ const renderArchive = (sections) => {
     section.items.forEach((item) => {
       const article = document.createElement("article");
       article.className = "item";
-      article.dataset.search = normalizeSearch([
-        section.label,
-        section.nav,
-        item.title,
-        item.description,
-        item.badge,
-        ...(item.tags || []),
-        ...(item.links || []).map((link) => `${link.label} ${link.href}`)
-      ].join(" "));
 
       const num = document.createElement("div");
       num.className = "num";
@@ -1142,46 +1028,12 @@ const renderArchive = (sections) => {
 
       article.append(num, main, links);
       menu.appendChild(article);
-      entries.push({ article, sectionEl });
     });
 
     sectionEl.append(head, menu);
     archive.appendChild(sectionEl);
   });
 
-  const itemCount = entries.length;
-
-  const updateFilter = () => {
-    const query = normalizeSearch(search.value);
-    const tokens = query.split(" ").filter(Boolean);
-    let visibleCount = 0;
-
-    entries.forEach(({ article }) => {
-      const visible = !tokens.length || tokens.every((token) => article.dataset.search.includes(token));
-      article.hidden = !visible;
-      if (visible) visibleCount += 1;
-    });
-
-    sections.forEach((section) => {
-      const sectionEl = document.getElementById(section.id);
-      const hasVisibleItems = [...sectionEl.querySelectorAll(".item")].some((item) => !item.hidden);
-      sectionEl.hidden = !hasVisibleItems;
-    });
-
-    resultCount.textContent = query
-      ? `${visibleCount} / ${itemCount} 件`
-      : `${itemCount} 件の教材`;
-    empty.style.display = visibleCount ? "none" : "block";
-    clearSearch.hidden = !query;
-  };
-
-  search.addEventListener("input", updateFilter);
-  clearSearch.addEventListener("click", () => {
-    search.value = "";
-    updateFilter();
-    search.focus();
-  });
-  updateFilter();
 };
 
 const backToTop = document.getElementById("back-to-top");
