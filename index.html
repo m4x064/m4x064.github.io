@@ -602,8 +602,8 @@ h1{
   display:flex;
   flex-wrap:wrap;
   justify-content:flex-end;
-  gap:8px;
-  min-width:260px;
+  gap:6px;
+  min-width:0;
   margin-top:0;
   padding-top:0;
   border-top:0;
@@ -620,13 +620,14 @@ h1{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-height:34px;
-  padding:7px 11px;
+  min-height:30px;
+  padding:5px 9px;
   border:1px solid rgba(var(--gold-rgb),.30);
   border-radius:0;
   background:var(--link-bg);
   color:var(--gold-ink);
-  font-size:12px;
+  font-size:11px;
+  line-height:1.4;
   letter-spacing:.04em;
   transition:
     border-color .16s ease,
@@ -864,17 +865,13 @@ h1{
   }
 
   .links{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(145px, 1fr));
-    grid-column:1 / -1;
-    margin-top:6px;
-    width:100%;
+    grid-column:2;
+    margin-top:0;
   }
 
   .links a,
   .link-unavailable{
     width:auto;
-    min-height:44px;
     min-width:0;
     text-align:center;
     line-height:1.35;
