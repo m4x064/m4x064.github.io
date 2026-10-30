@@ -195,8 +195,9 @@ a{
   align-items:center;
   justify-content:center;
   gap:8px;
+  min-width:44px;
   min-height:44px;
-  padding:9px 13px;
+  padding:10px;
   border:1px solid var(--line-strong);
   border-radius:0;
   color:var(--ink);
@@ -424,7 +425,7 @@ h1{
   grid-template-columns:1fr auto;
   gap:14px;
   align-items:center;
-  margin:28px 0 0;
+  margin:0;
   padding:14px;
   border:1px solid var(--line);
   border-radius:0;
@@ -984,37 +985,8 @@ h1{
       <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M20.5 13.4A8.5 8.5 0 0 1 10.6 3.5a8.5 8.5 0 1 0 9.9 9.9Z" />
       </svg>
-      <span id="theme-toggle-label">ライトモード</span>
     </button>
   </div>
-
-  <header class="header">
-    <div>
-      <p class="kicker">m4x064 / PDF Shelf</p>
-      <h1 class="hero-title">PDF</h1>
-
-      <nav class="nav" aria-label="ページ内カテゴリ" id="nav"></nav>
-    </div>
-
-    <div class="hero-side">
-      <p class="lead">
-        数学プリント・模試・確認教材を静かに整理しておくための教材目録。
-        必要なPDFへ、すばやく、迷わずアクセスできます。
-      </p>
-
-      <div class="stats" aria-label="保管庫の概要">
-        <div class="stat"><strong id="stat-sections">0</strong><span>カテゴリ</span></div>
-        <div class="stat"><strong id="stat-items">0</strong><span>教材</span></div>
-        <div class="stat"><strong id="stat-links">0</strong><span>PDF</span></div>
-      </div>
-
-      <div class="meta">
-        <span>Mathematics</span>
-        <span>Handouts</span>
-        <span>Archive</span>
-      </div>
-    </div>
-  </header>
 
   <div class="tools" role="search">
     <div class="search-wrap">
@@ -1040,10 +1012,8 @@ h1{
 <script type="application/json" id="materials-fallback">[{"id":"basic","label":"基本教材","nav":"基本","items":[{"title":"不等式","badge":"1","description":"三角不等式，コーシー・シュワルツの不等式，相加相乗平均，ネスビットの不等式を確認する基礎プリント。","tags":["途中","不等式","三角不等式","コーシー・シュワルツ","相加相乗平均","ネスビット"],"links":[{"label":"問題","href":"./pdf/1-不等式_問題.pdf","available":true},{"label":"解答","href":"./pdf/1-不等式_解答.pdf","available":true}]},{"title":"くみわけ","badge":"2","description":"10人を名前のある組・ない組に分ける数え方を，11問で確認する基礎プリント。","tags":["場合の数","組み分け","組合せ","基礎"],"links":[{"label":"問題＋解答","href":"./pdf/2-くみわけの基本.pdf","available":true}]},{"title":"サイコロと放物線","badge":"3","description":"サイコロ2回の出目から定まる直線と放物線について，交点でできる三角形の面積が有理数となる確率を求めるプリント。","tags":["確率","サイコロ","放物線","直線","有理数"],"links":[{"label":"問題＋解答","href":"./pdf/3-サイコロと放物線.pdf","available":true}]},{"title":"放物線と直角","badge":"4","description":"放物線と直線の2交点が原点で直角をなす条件を用いて，三角形の面積を求めるプリント。","tags":["放物線","直線","直角","ベクトル","面積"],"links":[{"label":"問題＋解答","href":"./pdf/4-放物線と直角.pdf","available":true}]},{"title":"正四面体","badge":"5","description":"正四面体の計量，頂点上を移るランプの確率，反復切断で生じる正八面体の体積和を扱うプリント。","tags":["途中","正四面体","空間図形","確率","漸化式","数列"],"links":[{"label":"問題＋解答","href":"./pdf/5-四面体の基本.pdf","available":true}]},{"title":"最大値・最小値","badge":"6","description":"さまざまな関数や条件のもとで最大値・最小値を求める制作途中のプリント。","tags":["途中","最大値","最小値","関数"],"links":[{"label":"問題（途中版）","href":"./pdf/6-最大値と最小値.pdf","available":true}]},{"title":"接線の方程式","badge":"7","description":"点を通る直線から、放物線・3次関数に接する直線の方程式へ進むプリント。","tags":["接線","直線","放物線","3次関数","微分"],"links":[{"label":"7-0","href":"./pdf/7-0-接線の方程式2.pdf","available":true},{"label":"7-1","href":"./pdf/7-1-接線の方程式1.pdf","available":true}]},{"title":"五倍角の公式","badge":"8","description":"三倍角の公式と加法定理から五倍角の公式を導き、三角関数の値へつなげるプリント。","tags":["三角関数","五倍角","加法定理","解と係数","証明"],"links":[{"label":"問題＋解答","href":"./pdf/8-五倍角の公式.pdf","available":true}]},{"title":"共通接線","badge":"9","description":"2つの3次関数について，接点での傾きと切片の一致から共通接線をすべて求めるプリント。","tags":["共通接線","3次関数","接線","微分"],"links":[{"label":"問題＋解答","href":"./pdf/9-共通接線.pdf","available":true}]},{"title":"数列","badge":"10","description":"漸化式と部分和で与えられた数列について，数学的帰納法を用いながら一般項を求めるプリント。","tags":["数列","漸化式","一般項","数学的帰納法","部分和"],"links":[{"label":"問題＋解答","href":"./pdf/10-数列.pdf","available":true}]},{"title":"直線と共円","badge":"12","description":"2直線と座標軸との交点から，同一円周上の条件，相似，正三角形へつなげるプリント。","tags":["直線","円","方べき","相似","正三角形"],"links":[{"label":"問題＋解答","href":"./pdf/12-二直線と同一円周上の点.pdf","available":true}]},{"title":"数列と漸化式","badge":"14","description":"確率と漸化式，数列の一般項，常用対数を用いる小数の桁数を扱うプリント。","tags":["数列","漸化式","確率","一般項","常用対数"],"links":[{"label":"問題＋解答","href":"./pdf/14-数列と漸化式.pdf","available":true}]},{"title":"対数法則クイズ","badge":"QUIZ","description":"対数の基本計算と対数法則，底の変換をまとめて確認するクイズ。","tags":["対数","対数法則","底の変換","クイズ"],"links":[{"label":"問題＋解答","href":"./pdf/対数法則の確認問題.pdf","available":true}]}]},{"id":"english","label":"英語","nav":"英語","items":[{"title":"ミニマルフレーズ（穴埋め）","badge":"PHRASES","description":"元の番号を保った選択版の英語フレーズ穴埋めプリント。問題と解答を掲載。","tags":["英語","フレーズ","穴埋め"],"links":[{"label":"問題","href":"./pdf/英語フレーズ抜粋_元番号付き穴埋め.pdf","available":true},{"label":"解答","href":"./pdf/英語フレーズ抜粋_元番号付き穴埋め解答.pdf","available":true}]}]},{"id":"other","label":"その他","nav":"その他","items":[{"title":"模試問題集（抜粋）","badge":"MOCK","description":"模試から選んだ数学の問題と解答をまとめた問題集。","tags":["模試","数学","演習"],"links":[{"label":"問題＋解答","href":"./pdf/模試問題集_抜粋.pdf","available":true}]},{"title":"模試問題集（2025-11-B3・2026-1-B1）","badge":"MOCK","description":"多項式・方程式の2題と解答をまとめたプリント。","tags":["模試","多項式","方程式","解と係数"],"links":[{"label":"問題＋解答","href":"./pdf/模試問題_11B3と1B1.pdf","available":true}]}]}]</script>
 <script>
 const themeToggle = document.getElementById("theme-toggle");
-const themeToggleLabel = document.getElementById("theme-toggle-label");
 const updateThemeToggle = () => {
   const nextMode = document.documentElement.dataset.theme === "light" ? "ダークモード" : "ライトモード";
-  themeToggleLabel.textContent = nextMode;
   themeToggle.setAttribute("aria-label", `${nextMode}に切り替える`);
 };
 
@@ -1106,25 +1076,17 @@ const createLink = (link) => {
 };
 
 const renderArchive = (sections) => {
-  const nav = document.getElementById("nav");
   const archive = document.getElementById("archive");
   const search = document.getElementById("search");
   const clearSearch = document.getElementById("clear-search");
   const resultCount = document.getElementById("result-count");
   const empty = document.getElementById("empty");
-  nav.innerHTML = "";
   archive.innerHTML = "";
 
   let count = 1;
-  let linkCount = 0;
   const entries = [];
 
   sections.forEach((section, sectionIndex) => {
-    const navLink = document.createElement("a");
-    navLink.href = `#${section.id}`;
-    navLink.textContent = section.nav || section.label;
-    nav.appendChild(navLink);
-
     const sectionEl = document.createElement("section");
     sectionEl.className = "section";
     sectionEl.id = section.id;
@@ -1140,7 +1102,6 @@ const renderArchive = (sections) => {
     menu.className = "menu";
 
     section.items.forEach((item) => {
-      linkCount += (item.links || []).length;
       const article = document.createElement("article");
       article.className = "item";
       article.dataset.search = normalizeSearch([
@@ -1166,31 +1127,7 @@ const renderArchive = (sections) => {
       title.className = "title";
       title.append(document.createTextNode(item.title || ""));
 
-      if (item.badge) {
-        title.append(document.createTextNode(" "));
-        const badge = document.createElement("span");
-        badge.className = "badge";
-        badge.textContent = item.badge;
-        title.appendChild(badge);
-      }
-
-      const desc = document.createElement("p");
-      desc.className = "desc";
-      desc.textContent = item.description || "";
-
-      main.append(title, desc);
-
-      if (item.tags?.length) {
-        const tags = document.createElement("div");
-        tags.className = "tags";
-        item.tags.forEach((tagLabel) => {
-          const tag = document.createElement("span");
-          tag.className = "tag";
-          tag.textContent = tagLabel;
-          tags.appendChild(tag);
-        });
-        main.appendChild(tags);
-      }
+      main.appendChild(title);
 
       const links = document.createElement("div");
       links.className = "links";
@@ -1206,9 +1143,6 @@ const renderArchive = (sections) => {
   });
 
   const itemCount = entries.length;
-  document.getElementById("stat-sections").textContent = sections.length;
-  document.getElementById("stat-items").textContent = itemCount;
-  document.getElementById("stat-links").textContent = linkCount;
 
   const updateFilter = () => {
     const query = normalizeSearch(search.value);
