@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PDF</title>
 <meta name="description" content="数学プリント・模試・確認教材を整理した、的場のPDF教材保管庫。" />
-<meta name="theme-color" content="#070809" />
+<meta name="theme-color" content="#101318" />
 <meta name="color-scheme" content="dark light" />
 <link rel="canonical" href="https://m4x064.github.io/" />
 <meta property="og:type" content="website" />
@@ -24,97 +24,97 @@
     if (savedTheme === "light" || savedTheme === "dark") theme = savedTheme;
   } catch {}
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#f7f6f2" : "#070809";
+  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#ffffff" : "#101318";
 })();
 </script>
 
 <style>
 :root{
   color-scheme:dark;
-  --bg:#070809;
-  --panel:#101214;
-  --panel-2:#15181b;
-  --ink:#f3efe7;
-  --muted:#b0aa9f;
-  --faint:#8b867f;
-  --gold-rgb:224,204,156;
-  --blue-rgb:118,209,255;
-  --green-rgb:151,224,184;
-  --line:rgba(var(--gold-rgb),.20);
-  --line-strong:rgba(var(--gold-rgb),.50);
+  --bg:#101318;
+  --panel:#171c23;
+  --panel-2:#202834;
+  --ink:#e6eaf0;
+  --muted:#aab3c0;
+  --faint:#9da8b8;
+  --gold-rgb:var(--blue-rgb);
+  --blue-rgb:145,168,199;
+  --green-rgb:var(--blue-rgb);
+  --line:rgba(var(--surface-rgb),.14);
+  --line-strong:rgba(var(--surface-rgb),.28);
   --gold:rgb(var(--gold-rgb));
   --gold-soft:rgba(var(--gold-rgb),.10);
   --blue:rgb(var(--blue-rgb));
   --blue-soft:rgba(var(--blue-rgb),.11);
   --green:rgb(var(--green-rgb));
-  --page-blue:rgba(var(--blue-rgb),.08);
-  --page-gold:rgba(var(--gold-rgb),.10);
-  --page-start:#030405;
-  --page-end:#0d0b08;
+  --page-blue:transparent;
+  --page-gold:transparent;
+  --page-start:#101318;
+  --page-end:#101318;
   --surface-rgb:255,255,255;
-  --header-rgb:9,10,10;
-  --tools-rgb:10,12,13;
-  --item-rgb:9,10,10;
-  --item-hover-rgb:14,16,18;
-  --top-rgb:8,10,11;
-  --input-bg:#080a0b;
-  --link-bg:#0b0d0e;
-  --meta-ink:#d8d0c2;
-  --stat-ink:#fff7df;
-  --index-ink:rgba(var(--blue-rgb),.76);
-  --blue-ink:#dff4ff;
-  --blue-hover-ink:#f3fbff;
-  --tag-ink:#caefff;
-  --gold-ink:#f3dfac;
-  --gold-hover-ink:#fff2ca;
-  --answer-hover-ink:#fff4d5;
-  --badge-ink:#fff1bf;
-  --green-ink:#ccebd9;
-  --green-hover-ink:#effff6;
-  --shadow:0 26px 90px rgba(0,0,0,.48);
+  --header-rgb:23,28,35;
+  --tools-rgb:23,28,35;
+  --item-rgb:23,28,35;
+  --item-hover-rgb:32,40,52;
+  --top-rgb:23,28,35;
+  --input-bg:#101318;
+  --link-bg:transparent;
+  --meta-ink:var(--muted);
+  --stat-ink:var(--ink);
+  --index-ink:var(--muted);
+  --blue-ink:#c0d0e5;
+  --blue-hover-ink:#edf3fc;
+  --tag-ink:#c0d0e5;
+  --gold-ink:var(--blue-ink);
+  --gold-hover-ink:var(--blue-hover-ink);
+  --answer-hover-ink:var(--blue-hover-ink);
+  --badge-ink:var(--blue-ink);
+  --green-ink:var(--blue-ink);
+  --green-hover-ink:var(--blue-hover-ink);
+  --shadow:0 8px 24px rgba(0,0,0,.12);
   --tools-shadow:0 12px 34px rgba(0,0,0,.20);
-  --item-shadow:0 18px 44px rgba(0,0,0,.30);
+  --item-shadow:none;
   --top-shadow:0 14px 36px rgba(0,0,0,.40);
 }
 
 :root[data-theme="light"]{
   color-scheme:light;
-  --bg:#f7f6f2;
-  --panel:#fffefa;
-  --panel-2:#f0efe9;
-  --ink:#242b30;
-  --muted:#4e5860;
-  --faint:#505b63;
-  --gold-rgb:112,79,29;
-  --blue-rgb:25,91,124;
-  --green-rgb:32,94,59;
-  --page-blue:rgba(var(--blue-rgb),.025);
-  --page-gold:rgba(var(--gold-rgb),.035);
-  --page-start:#fcfcfa;
-  --page-end:#efeee8;
-  --surface-rgb:36,43,48;
-  --header-rgb:255,254,250;
-  --tools-rgb:255,254,250;
-  --item-rgb:255,254,250;
-  --item-hover-rgb:255,255,255;
-  --top-rgb:255,254,250;
+  --bg:#ffffff;
+  --panel:#f8fafc;
+  --panel-2:#eff4fa;
+  --ink:#1b2028;
+  --muted:#525e6b;
+  --faint:#5d6876;
+  --gold-rgb:var(--blue-rgb);
+  --blue-rgb:52,93,138;
+  --green-rgb:var(--blue-rgb);
+  --page-blue:transparent;
+  --page-gold:transparent;
+  --page-start:#ffffff;
+  --page-end:#ffffff;
+  --surface-rgb:24,36,54;
+  --header-rgb:248,250,252;
+  --tools-rgb:248,250,252;
+  --item-rgb:248,250,252;
+  --item-hover-rgb:239,244,250;
+  --top-rgb:248,250,252;
   --input-bg:#ffffff;
-  --link-bg:#fffefa;
+  --link-bg:transparent;
   --meta-ink:var(--muted);
-  --stat-ink:#242b30;
-  --index-ink:var(--blue);
+  --stat-ink:var(--ink);
+  --index-ink:var(--muted);
   --blue-ink:var(--blue);
-  --blue-hover-ink:#12425b;
+  --blue-hover-ink:#24476f;
   --tag-ink:var(--blue);
-  --gold-ink:var(--gold);
-  --gold-hover-ink:#594019;
-  --answer-hover-ink:#594019;
-  --badge-ink:var(--gold);
-  --green-ink:var(--green);
-  --green-hover-ink:#1b4d31;
-  --shadow:0 26px 90px rgba(36,43,48,.09);
+  --gold-ink:var(--blue-ink);
+  --gold-hover-ink:var(--blue-hover-ink);
+  --answer-hover-ink:var(--blue-hover-ink);
+  --badge-ink:var(--blue-ink);
+  --green-ink:var(--blue-ink);
+  --green-hover-ink:var(--blue-hover-ink);
+  --shadow:0 8px 24px rgba(24,36,54,.04);
   --tools-shadow:0 12px 34px rgba(36,43,48,.07);
-  --item-shadow:0 18px 44px rgba(36,43,48,.10);
+  --item-shadow:none;
   --top-shadow:0 14px 36px rgba(36,43,48,.12);
 }
 
@@ -146,10 +146,7 @@ body{
   margin:0;
   min-height:100vh;
   color:var(--ink);
-  background:
-    linear-gradient(115deg, var(--page-blue), transparent 32%),
-    linear-gradient(245deg, var(--page-gold), transparent 30%),
-    linear-gradient(180deg, var(--page-start) 0%, var(--bg) 44%, var(--page-end) 100%);
+  background:var(--bg);
   font-family:
     "Hiragino Mincho ProN",
     "Yu Mincho",
@@ -158,19 +155,6 @@ body{
     serif;
   line-height:1.82;
   letter-spacing:.025em;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(var(--surface-rgb),.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--surface-rgb),.027) 1px, transparent 1px);
-  background-size:48px 48px;
-  mask-image:linear-gradient(180deg, rgba(0,0,0,.82), transparent 76%);
 }
 
 a{
@@ -510,9 +494,7 @@ h1{
   border-bottom:1px solid var(--line);
   border-left:1px solid rgba(var(--surface-rgb),.055);
   border-radius:0;
-  background:
-    linear-gradient(90deg, rgba(var(--surface-rgb),.045), rgba(var(--surface-rgb),.015)),
-    rgba(var(--item-rgb),.50);
+  background:var(--panel);
   box-shadow:none;
   transition:
     transform .16s ease,
@@ -524,11 +506,9 @@ h1{
 .item:hover{
   border-bottom-color:var(--line-strong);
   border-left-color:rgba(var(--blue-rgb),.48);
-  background:
-    linear-gradient(90deg, rgba(var(--blue-rgb),.10), rgba(var(--gold-rgb),.045) 58%, transparent),
-    rgba(var(--item-hover-rgb),.86);
+  background:var(--panel-2);
   box-shadow:var(--item-shadow);
-  transform:translateY(-2px);
+  transform:none;
 }
 
 .num{
@@ -944,7 +924,7 @@ const updateThemeToggle = () => {
 themeToggle.addEventListener("click", () => {
   const theme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#f7f6f2" : "#070809";
+  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#ffffff" : "#101318";
   try {
     localStorage.setItem("pdf-shelf-theme", theme);
   } catch {}
