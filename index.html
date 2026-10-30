@@ -491,15 +491,15 @@ h1{
 /* Section */
 
 .section{
-  padding:36px 0 4px;
+  padding:24px 0 4px;
   scroll-margin-top:86px;
 }
 
 .section-head{
   display:flex;
   align-items:center;
-  gap:16px;
-  margin-bottom:12px;
+  gap:10px;
+  margin-bottom:8px;
 }
 
 .section-index,
@@ -530,7 +530,7 @@ h1{
     sans-serif;
   font-size:12px;
   font-weight:500;
-  letter-spacing:.18em;
+  letter-spacing:.08em;
   text-transform:uppercase;
   white-space:nowrap;
 }
@@ -551,12 +551,12 @@ h1{
 
 .item{
   display:grid;
-  grid-template-columns:72px 1fr auto;
-  gap:22px;
+  grid-template-columns:32px minmax(0, 1fr) auto;
+  gap:16px;
   align-items:center;
-  min-height:94px;
-  margin-top:10px;
-  padding:18px;
+  min-height:76px;
+  margin-top:8px;
+  padding:14px 16px;
   border-bottom:1px solid var(--line);
   border-left:1px solid rgba(var(--surface-rgb),.055);
   border-radius:0;
@@ -589,8 +589,8 @@ h1{
     "Hiragino Sans",
     "Yu Gothic",
     sans-serif;
-  font-size:12px;
-  letter-spacing:.20em;
+  font-size:11px;
+  letter-spacing:.08em;
 }
 
 .main{
@@ -598,15 +598,13 @@ h1{
 }
 
 .title{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:10px;
   margin:0;
-  font-size:22px;
-  line-height:1.35;
+  font-family:"Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size:16px;
+  line-height:1.65;
   font-weight:500;
-  letter-spacing:.04em;
+  letter-spacing:.015em;
+  overflow-wrap:anywhere;
 }
 
 .desc{
@@ -851,8 +849,8 @@ h1{
   }
 
   .item{
-    grid-template-columns:64px 1fr;
-    gap:14px;
+    grid-template-columns:28px minmax(0, 1fr);
+    gap:12px;
   }
 
   .links{
@@ -931,17 +929,26 @@ h1{
   }
 
   .item{
-    grid-template-columns:1fr;
-    gap:6px;
+    grid-template-columns:24px minmax(0, 1fr);
+    gap:8px 10px;
+    align-items:start;
     min-height:0;
-    padding:16px;
+    padding:14px;
     border-radius:0;
+  }
+
+  .title{
+    font-size:15px;
+  }
+
+  .num{
+    line-height:24.75px;
   }
 
   .links{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(145px, 1fr));
-    grid-column:auto;
+    grid-column:1 / -1;
     margin-top:6px;
     width:100%;
   }
