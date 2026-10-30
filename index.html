@@ -184,10 +184,21 @@ a{
   padding:54px 0 72px;
 }
 
-.appearance{
+.site-header{
   display:flex;
-  justify-content:flex-end;
-  margin-bottom:14px;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding-bottom:12px;
+  margin-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+
+.site-title{
+  margin:0;
+  color:var(--ink);
+  font:500 20px/1.2 "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  letter-spacing:.06em;
 }
 
 .theme-toggle{
@@ -898,7 +909,8 @@ h1{
 <body>
 <div class="wrap">
 
-  <div class="appearance">
+  <header class="site-header">
+    <h1 class="site-title">PDF</h1>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="ライトモードに切り替える" hidden>
       <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
         <circle cx="12" cy="12" r="4" />
@@ -908,7 +920,7 @@ h1{
         <path d="M20.5 13.4A8.5 8.5 0 0 1 10.6 3.5a8.5 8.5 0 1 0 9.9 9.9Z" />
       </svg>
     </button>
-  </div>
+  </header>
 
   <main id="archive"></main>
 
